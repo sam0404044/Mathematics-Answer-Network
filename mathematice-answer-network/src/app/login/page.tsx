@@ -9,7 +9,7 @@ export default function Login() {
 
     return (
         <>
-            <main className='relative flex flex-col items-center bg-[var(--backgroundColor)] w-full h-full pt-10'>
+            <main className='relative flex flex-col items-center bg-[var(--backgroundColor)] w-screen h-screen pt-10'>
                 {/* 關閉按鈕 */}
                 <button className='absolute top-5 right-5'>
                     <Link href={'/'}>
@@ -23,7 +23,7 @@ export default function Login() {
                     alt='LoginImg'
                     width={372}
                     height={283}
-                    className=' w-[372px] h-auto'
+                    className='  px-5'
                 ></Image>
 
                 {/* 標題 */}
@@ -59,7 +59,7 @@ export default function Login() {
                         />
                     </div>
                     {/* 記住我、忘記密碼? */}
-                    <div className='flex items-center justify-between text-sm'>
+                    <div className='flex items-center justify-between text-sm px-2'>
                         <label className='flex items-center space-x-2'>
                             <input
                                 type='checkbox'
@@ -98,8 +98,8 @@ export default function Login() {
                 </div>
 
                 {/* footer */}
-                <footer className='w-full bg-[var(--footerColor)] '>
-                    <p className='text-center text-[var(--footerText)] py-2 text-sm'>
+                <footer className='w-full bg-[var(--footerColor)] absolute bottom-0 py-3'>
+                    <p className='text-center text-[var(--footerText)]  text-sm'>
                         © 2025 ATC learning All rights reserved.
                     </p>
                 </footer>
