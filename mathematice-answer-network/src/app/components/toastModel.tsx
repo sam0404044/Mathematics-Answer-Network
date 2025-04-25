@@ -19,15 +19,15 @@ export default function Notice({ show, onClose, message }) {
                 >
                     <motion.div
                         key='modal'
-                        className='bg-transparent rounded-xl w-[372px] overflow-hidden'
+                        className='bg-transparent rounded-xl w-full overflow-hidden mx-5'
                         initial={{ y: 0, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 0, opacity: 0 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        {/* header */}
-                        <div className='bg-[var(--secondColor)] w-full h-10 flex justify-end rounded-t-xl overflow-hidden'>
+                        {/* header、叉按鈕 */}
+                        <div className='bg-[var(--secondColor)] w-full h-10 flex justify-end rounded-t-xl overflow-hidden px-2'>
                             <button className='m-1' onClick={onClose}>
                                 <Image src='/img/close.svg' width={20} height={20} alt='close' />
                             </button>
