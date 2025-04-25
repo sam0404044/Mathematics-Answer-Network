@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-// import { motion } from 'framer-motion';
 import Alert from '../components/toastModel';
 // import Buttons from '../components/loginButton';
 export default function Login() {
@@ -40,6 +39,7 @@ export default function Login() {
                         >
                             Email:
                         </label>
+
                         <input
                             type='text'
                             className='w-full  focus:ring-2 focus:ring-[var(--secondColor)] border border-[var(--secondColor)] rounded-lg focus:outline-none py-1 px-1'
@@ -86,9 +86,7 @@ export default function Login() {
                         <Image src='/img/google.svg' alt='Google' width={20} height={20} />
                         <span>Continue with Google</span>
                     </button>
-                    {/* <Buttons /> */}
                 </form>
-
                 {/* 註冊? */}
                 <div className='flex items-center justify-between my-5 w-[372px]'>
                     <label htmlFor='' className='text-[var(--accountColor)]'>

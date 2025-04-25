@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Notice({ show, onClose, message }) {
+    console.log(motion);
     return (
         <AnimatePresence initial={false}>
             {show && (
