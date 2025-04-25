@@ -19,7 +19,7 @@ export default function Notice({ show, onClose, message }) {
                 >
                     <motion.div
                         key='modal'
-                        className='bg-transparent rounded-xl w-full overflow-hidden mx-5'
+                        className='bg-transparent rounded-xl w-full overflow-hidden mx-5 max-w-[372px]'
                         initial={{ y: 0, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 0, opacity: 0 }}
