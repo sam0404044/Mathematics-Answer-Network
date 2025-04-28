@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Notice from '../components/toastModel';
 import Footer from '../components/Footer';
+
 // import Buttons from '../components/loginButton';
 export default function Login() {
     const [showModal, setShowModal] = useState(false);
