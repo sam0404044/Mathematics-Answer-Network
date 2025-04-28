@@ -1,67 +1,67 @@
 .hero {
-  position: relative;
-  display: flex;
-  margin-bottom: 2rem;
-  min-height: 26rem;
-  justify-content: center;
-  align-items: center;
-  /* background-color: bisque; */
+    position: relative;
+    display: flex;
+    margin-bottom: 20px;
+    min-height: 260px;
+    justify-content: center;
+    align-items: center;
+    /* background-color: bisque; */
 }
 
 .triangle-left {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 0 solid;
-  border-right: 20rem solid transparent;
-  border-bottom: 20rem solid #868e96;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 0 solid;
+    border-right: 200px solid transparent;
+    border-bottom: 200px solid #868e96;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
 }
 .triangle-right {
-  position: absolute;
-  right: 0;
-  width: 0;
-  height: 0;
-  border-left: 22rem solid transparent;
-  border-right: 0rem solid;
-  border-bottom: 26rem solid #3b3535;
-  bottom: 0;
-  z-index: 3;
+    position: absolute;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-left: 220px solid transparent;
+    border-right: 0px solid;
+    border-bottom: 260px solid #3b3535;
+    bottom: 0;
+    z-index: 3;
 }
 .circle {
-  width: 25rem;
-  height: 25rem;
-  background-color: #878787;
-  border-radius: 50%;
-  z-index: 2;
+    width: 250px;
+    height: 250px;
+    background-color: #878787;
+    border-radius: 50%;
+    z-index: 2;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .triangle-left,
 .circle,
 .triangle-right {
-  opacity: 0;
-  animation: fadeIn 1s ease forwards;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
 }
 
 .triangle-left {
-  animation-delay: 5s;
+    animation-delay: 0s;
 }
 
 .triangle-right {
-  animation-delay: 5.5s;
+    animation-delay: 0.5s;
 }
 
 .circle {
-  animation-delay: 6s;
+    animation-delay: 1s;
 }
