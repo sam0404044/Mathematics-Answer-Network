@@ -22,6 +22,7 @@
     background-color: black;
     color: white;
     justify-content: center;
+    text-wrap-mode: nowrap;
   }
   div.time_area{
     padding: 10px;
@@ -39,6 +40,9 @@
     font-weight: bold;
     background-color: #868E96;
     color: #3B3535;
+  }
+  img.close_img{
+    width: 30px;
   }
   div.topic{
     padding-left: 10px;

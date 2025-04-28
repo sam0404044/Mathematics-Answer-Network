@@ -114,6 +114,7 @@ class quiz extends Component {
             }
             }}>
             <Image
+            className='close_img'
               src={"./hsiao/img/close.svg"}
               width={30}
               height={30}

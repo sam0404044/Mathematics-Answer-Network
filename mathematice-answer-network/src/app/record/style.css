@@ -48,8 +48,10 @@ div.tree_status_img_area{
 img.tree_status_tree{
     z-index: 2;
     transform: translateY(60px);
+    width: 285px;
 }
 img.tree_status_flower_pot{
+    width: 240px;
     z-index: 1;
 }
 div.wrong_answer_record_area{
