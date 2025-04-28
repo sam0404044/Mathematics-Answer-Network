@@ -1,0 +1,13 @@
+.icon {
+  width: 5rem;
+  height: 5rem;
+  fill: var(--logo);
+  cursor: pointer;
+}
+
+.active {
+  width: 5rem;
+  height: 5rem;
+  fill: var(--logo-active);
+  cursor: pointer;
+}

@@ -1,0 +1,17 @@
+.icon {
+  width: 5rem;
+  height: 5rem;
+  stroke: var(--logo);
+  stroke-width: 2rem;
+  stroke-linecap: round;
+  cursor: pointer;
+}
+
+.active {
+  width: 5rem;
+  height: 5rem;
+  stroke: var(--logo-active);
+  stroke-width: 2rem;
+  stroke-linecap: round;
+  cursor: pointer;
+}

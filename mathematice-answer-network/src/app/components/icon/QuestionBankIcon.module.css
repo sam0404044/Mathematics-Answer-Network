@@ -1,0 +1,9 @@
+.icon {
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  max-width: 2.5rem;
+  max-height: 2.5rem;
+  stroke: var(--icon);
+  stroke-width: 1rem;
+  cursor: pointer;
+}
