@@ -1,0 +1,19 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    min-height: 70px;
+    position: sticky;
+    top: 0;
+    background-color: var(--background);
+    z-index: 999;
+}
+.navbarcomponent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.active {
+    background-color: var(--bar-background);
+}

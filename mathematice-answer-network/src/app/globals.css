@@ -11,32 +11,20 @@
     --footerText: #b8b8b8;
     --formColor: #f8f9fa;
     --googleLoginColor: #e9ecef;
-}
-
-@theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        /* --background: #0a0a0a; */
-        /* --foreground: #ededed; */
-        --backgroundColor: #868e96;
-        --secondColor: #3c4248;
-        --iconColorDark: #242424;
-        --subtitleColor: #9aa0a7;
-        --headerColor: #3b3535;
-        --accountColor: #646b71;
-        --footerColor: #000000;
-        --footerText: #b8b8b8;
-    }
-}
-
-body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
+    --logo: #868e96;
+    --logo-active: #fff;
+    --icon: #fff;
+    --footer-background: #000;
+    --footer-text: #b8b8b8;
+    --background-btn: #3c4248;
+    --text-btn: #ffffff;
+    --background: #f8f9fa;
+    --header-text: #3b3535;
+    --paragraph-text: #514b4b;
+    --bar-background: #3b3535;
+    --bar-overlay: rgba(0, 0, 0, 0.8);
+    --menu-background: #3c4248;
+    --icon-hover: #afafaf;
+    --animatiom-background: #f8f9fa;
+    --animatiom-object: #3b3535;
 }

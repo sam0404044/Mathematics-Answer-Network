@@ -2,14 +2,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import Alert from '../components/toastModel';
+import Notice from '../components/toastModel';
+import Footer from '../components/Footer';
+
 // import Buttons from '../components/loginButton';
 export default function Login() {
     const [showModal, setShowModal] = useState(false);
 
     return (
         <>
-            <main className='relative flex flex-col items-center bg-[var(--backgroundColor)] w-screen h-screen pt-10 px-[40px]'>
+            <main className='relative flex flex-col items-center bg-[var(--backgroundColor)]  pt-10 px-[40px]'>
                 {/* 關閉按鈕 */}
                 <button className='absolute top-5 right-5'>
                     <Link href={'/'}>
@@ -21,11 +23,11 @@ export default function Login() {
                 <Image src={'/img/LoginImg.svg'} alt='LoginImg' width={372} height={283}></Image>
 
                 {/* 標題 */}
-                <h1 className='text-2xl text-center font-bold py-5'>Wellcome to ATC!</h1>
+                <h1 className='text-5xl text-center font-bold py-5'>Wellcome to ATC!</h1>
 
                 {/* 登入表單 */}
                 <div className='w-full max-w-[372px] mx-auto'>
-                    <form className='bg-[var(--formColor)] rounded-xl w-full space-y-4 p-5 shadow-lg'>
+                    <form className='bg-[var(--formColor)] rounded-xl w-full  space-y-4 p-5'>
                         {/* email */}
                         <div>
                             <label
@@ -99,16 +101,17 @@ export default function Login() {
                 </div>
 
                 {/* footer */}
-                <footer className='w-full bg-[var(--footerColor)] absolute bottom-0 py-3'>
-                    <p className='text-center text-[var(--footerText)]  text-sm'>
-                        © 2025 ATC learning All rights reserved.
-                    </p>
-                </footer>
+                {/* <footer className="w-full bg-[var(--footerColor)] absolute bottom-0 py-3">
+          <p className="text-center text-[var(--footerText)]  text-sm">
+            © 2025 ATC learning All rights reserved.
+          </p>
+        </footer> */}
 
                 {/* 彈窗 */}
                 {/* 有條件渲染的彈窗 */}
-                <Alert show={showModal} onClose={() => setShowModal(false)} message={'登入失敗'} />
+                <Notice show={showModal} onClose={() => setShowModal(false)} message={'登入失敗'} />
             </main>
+            <Footer />
         </>
     );
 }
