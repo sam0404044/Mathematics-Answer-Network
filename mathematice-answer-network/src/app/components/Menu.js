@@ -14,17 +14,20 @@ export default function Menu({ onIsActive }) {
             <QuestionBankIcon />
             <button className={styles.btn}>Question Bank</button>
           </Link>
-          <Link href="" className={styles.link}>
+          <Link href="/PricingPlan" className={styles.link}>
             <PlanIcon />
             <button className={styles.btn}>My Plan</button>
           </Link>
-          <Link href="" className={styles.link}>
+          <Link href="/record" className={styles.link}>
             <StudyGuidesIcon />
             <button className={styles.btn}>Study Guides</button>
           </Link>
         </div>
       </div>
-      <div className={styles.overlay} onClick={() => onIsActive((isActive) => !isActive)}></div>
+      <div
+        className={styles.overlay}
+        onClick={() => onIsActive((isActive) => !isActive)}
+      ></div>
     </>
   );
 }
