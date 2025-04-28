@@ -1,10 +1,22 @@
 @keyframes slide_to_right {
-  0%   {width: 0%;}
-  100% {width: 100%;}
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
 }
+
 @keyframes slide_to_left {
-  0%   {width: 100%;}
-  100%{width: 0%;display: none;}
+  0% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0%;
+    display: none;
+  }
 }
 
 
@@ -25,17 +37,18 @@ div.question_overlay_menu {
   /* Sit on top */
   left: 0;
   top: 0;
-  
+
   /* Black w/opacity */
   overflow-x: hidden;
   /* Disable horizontal scroll */
   /* transition: 0.5s; */
   /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
 }
-div.question_overlay_menu_open{
+
+div.question_overlay_menu_open {
   /* width: 100%; */
-  background-color: rgb(0, 0, 0); 
-  
+  background-color: rgb(0, 0, 0);
+
   background-color: rgba(0, 0, 0, 0.9);
   z-index: 1;
 
@@ -43,12 +56,14 @@ div.question_overlay_menu_open{
   animation-duration: 1s; */
 
 }
-div.question_overlay_menu_close{
+
+div.question_overlay_menu_close {
 
   /* animation: slide_to_left;
   animation-duration: 1s; */
-  
+
 }
+
 /* Position the content inside the overlay */
 div.question_overlay_menu_content {
   position: relative;
@@ -64,12 +79,14 @@ div.question_overlay_menu_content {
   flex-wrap: wrap;
   /* 30px top margin to avoid conflict with the close button on smaller screens */
 }
-div.question_overlay_menu_content_open{
+
+div.question_overlay_menu_content_open {
   display: block;
 
   color: white;
 }
-div.question_overlay_menu_content_close{
+
+div.question_overlay_menu_content_close {
   display: none;
 
 }
@@ -77,7 +94,7 @@ div.question_overlay_menu_content_close{
 
 
 /* Position the close button (top right corner) */
-button.question_overlay_menu_button{
+button.question_overlay_menu_button {
   position: relative;
   top: 60px;
   /* right: -5px; */
@@ -89,7 +106,8 @@ button.question_overlay_menu_button{
   height: 50px;
 
 }
-button.menu_content_button{
+
+button.menu_content_button {
   background-color: #868E96;
   color: white;
 
@@ -99,6 +117,7 @@ button.menu_content_button{
   width: 50px;
   font-size: 32px;
 }
+
 div.title_area {
   display: flex;
   padding-left: 20px;
@@ -129,321 +148,177 @@ div.time_area {
   display: flex;
   justify-content: center;
   align-items: center;
-
-@keyframes slide_to_right {
-  0%   {width: 0%;}
-  100% {width: 100%;}
-}
-@keyframes slide_to_left {
-  0%   {width: 100%;}
-  100%{width: 0%;display: none;}
-}
-
-
-div.main {
-  background-color: #E9ECEF;
-}
-
-/* The Overlay (background) */
-div.question_overlay_menu {
-  /* Height & width depends on how you want to reveal the overlay (see JS below) */
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: fit-content;
-  position: fixed;
-  /* Stay in place */
-  /* z-index: -1; */
-  /* Sit on top */
-  left: 0;
-  top: 0;
-  
-  /* Black w/opacity */
-  overflow-x: hidden;
-  /* Disable horizontal scroll */
-  /* transition: 0.5s; */
-  /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
-}
-div.question_overlay_menu_open{
-  /* width: 100%; */
-  background-color: rgb(0, 0, 0); 
-  
-  background-color: rgba(0, 0, 0, 0.9);
-  z-index: 1;
-
-  /* animation: slide_to_right;
-  animation-duration: 1s; */
-
-}
-div.question_overlay_menu_close{
-
-  /* animation: slide_to_left;
-  animation-duration: 1s; */
-  
-}
-/* Position the content inside the overlay */
-div.question_overlay_menu_content {
-  position: relative;
-  display: flex;
-  /* 25% from the top */
-  width: 100%;
-  /* 100% width */
-  text-align: center;
-  /* Centered text/links */
-  padding: 30px;
-  width: 80%;
-  overflow: hidden;
-  flex-wrap: wrap;
-  /* 30px top margin to avoid conflict with the close button on smaller screens */
-}
-div.question_overlay_menu_content_open{
-  display: block;
-
-  color: white;
-}
-div.question_overlay_menu_content_close{
-  display: none;
-
-}
-
-
-
-/* Position the close button (top right corner) */
-button.question_overlay_menu_button{
-  position: relative;
-  top: 60px;
-  /* right: -5px; */
-  font-size: 16px;
-  color: red;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
-  width: 50px;
-  height: 50px;
-
-}
-button.menu_content_button{
-  background-color: #868E96;
-  color: white;
-
-  border-radius: 5px;
-  border: none;
-  margin: 5px;
-  width: 50px;
-  font-size: 32px;
-}
-div.title_area {
-  display: flex;
-  padding-left: 20px;
-  padding-right: 20px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-div.title_word_area {
-  /* width: 130px; */
-  display: flex;
-
-  justify-content: center;
-}
-
-span.title_word {
-  display: flex;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: black;
-  color: white;
-  justify-content: center;
-  text-wrap-mode: nowrap;
-}
-
-div.time_area {
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-  div.main{
-    background-color: #E9ECEF;
-  }
-  div.title_area{
-    display: flex;
-    padding-left: 20px;
-    padding-right: 20px;
-    justify-content: space-between;
-    align-items: center;
-  }
-  div.title_word_area{
-    /* width: 130px; */
-    display: flex;
-    
-    justify-content: center;
-  }
-  span.title_word{
-    display: flex;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: black;
-    color: white;
-    justify-content: center;
-  }
-  div.time_area{
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
 }
 
 span.time_count_text {
   text-align: center;
 
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    background-color: #868E96;
-    color: #3B3535;
-  }
-  div.topic{
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 20px;
-  }
-  div.topic_bar{
-    height: 30px;
-    background-color: #868E96;
-    border-top-left-radius:20px;
-    border-top-right-radius:20px;
-  }
-  div.topic_word{
-    background-color: white;
-    overflow-block: scroll;
-    height: 134px;
-  }
-  div.topic_word::-webkit-scrollbar{
-    display: none;
-  }
-  div.options_area{
-    max-height: 400px;
-    min-height: 350px;
-    display: flex;
-    flex-direction: column;
-    width:auto;
-    padding: 20px;
-    align-items: center;
-    overflow-block: scroll;
-  }
-  div.options_area::-webkit-scrollbar{
-    display: none;
-  }
-  div.option_area{
-    width:100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 30px;
-  }
-  button.option{
-    width:100%;
-    display: flex;
-    height: min-content;
-    border-radius: 20px;
-    padding: 0;
-    overflow: hidden;
-  }
-  div.option_letter{
-    width: 15.6%;
-    font-size: 32px;
-    height: auto;
-    align-items: center;
-    justify-items: center;
-    align-content: center;
-  }
-  div.option_letter_choosed{
-    background-color:#339AF0;
-  }
-  div.option_letter_not_choosed{
-    background-color:#868E96;
-    
-  }
-  div.option_word_area{
-    display: flex;
-    width: 84.4%;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-  }
-  div.option_word_area_choosed{
-    background-color: #A5D8FF;
-  }
-  div.option_word_area_not_choosed{
-
-div.option_word_area_not_choosed {
-  background-color: #F8F9FA;
-}
-
-span.option_word {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-div.source {
-  display: flex;
-  height: fit-content;
-  justify-content: center;
-  margin: 20px;
-}
-
-h3.source_text {
-  margin: 0;
-}
-
-div.switch_button_area {
-  display: flex;
-  justify-content: center;
-}
-
-button.switch_button {
-  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
   font-size: 24px;
-  border-radius: 15px;
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  font-weight: bold;
+  background-color: #868E96;
+  color: #3B3535;
 }
 
-button.edge {
-  background-color: gray;
+img.close_img {
+  width: 30px;
 }
 
-button.notInEdge {
-  background-color: #3C4248;
+div.topic {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 20px;
 }
 
-button.submit {
-  background-color: #04AA6D;
+div.topic_bar {
+  height: 30px;
+  background-color: #868E96;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
-div.progress_bar {
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+div.topic_word {
   background-color: white;
-  height: 10px;
-  border-radius: 30px;
-  overflow: hidden;
+  overflow-block: scroll;
+  height: 134px;
+}
+
+div.topic_word::-webkit-scrollbar {
+  display: none;
+}
+
+div.options_area {
+  max-height: 400px;
+  min-height: 350px;
   display: flex;
-  flex-wrap: nowrap;
+  flex-direction: column;
+  width: auto;
+  padding: 20px;
+  align-items: center;
+  overflow-block: scroll;
 }
 
-div.progress_bar_has_selected {
-  flex-grow: 1;
-  background-color: #878787;
+div.options_area::-webkit-scrollbar {
+  display: none;
 }
 
-div.progress_bar_not_selected {
-  flex-grow: 1;
-  background-color: white;
+div.option_area {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 30px;
 }
+
+button.option {
+  width: 100%;
+  display: flex;
+  height: min-content;
+  border-radius: 20px;
+  padding: 0;
+  overflow: hidden;
+}
+
+div.option_letter {
+  width: 15.6%;
+  font-size: 32px;
+  height: auto;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+}
+
+div.option_letter_choosed {
+  background-color: #339AF0;
+}
+
+div.option_letter_not_choosed {
+  background-color: #868E96;
+
+}
+
+div.option_word_area {
+  display: flex;
+  width: 84.4%;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+div.option_word_area_choosed {
+  background-color: #A5D8FF;
+}
+
+div.option_word_area_not_choosed {}
+
+  div.option_word_area_not_choosed {
+    background-color: #F8F9FA;
+  }
+
+  span.option_word {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  div.source {
+    display: flex;
+    height: fit-content;
+    justify-content: center;
+    margin: 20px;
+  }
+
+  h3.source_text {
+    margin: 0;
+  }
+
+  div.switch_button_area {
+    display: flex;
+    justify-content: center;
+  }
+
+  button.switch_button {
+    margin: auto;
+    font-size: 24px;
+    border-radius: 15px;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  button.edge {
+    background-color: gray;
+  }
+
+  button.notInEdge {
+    background-color: #3C4248;
+  }
+
+  button.submit {
+    background-color: #04AA6D;
+  }
+
+  div.progress_bar {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: white;
+    height: 10px;
+    border-radius: 30px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  div.progress_bar_has_selected {
+    flex-grow: 1;
+    background-color: #878787;
+  }
+
+  div.progress_bar_not_selected {
+    flex-grow: 1;
+    background-color: white;
+  }
