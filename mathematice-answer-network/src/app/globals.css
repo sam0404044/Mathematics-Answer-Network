@@ -28,3 +28,7 @@
     --animatiom-background: #f8f9fa;
     --animatiom-object: #3b3535;
 }
+
+@theme {
+    --font-pricing: Arial, sans-serif;
+}

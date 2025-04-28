@@ -56,7 +56,7 @@ export default function Login() {
                             />
                         </div>
                         {/* 記住我、忘記密碼? */}
-                        <div className='flex items-center justify-between text-sm px-2'>
+                        <div className='flex items-center justify-between text-xs px-2'>
                             <label className='flex items-center space-x-2'>
                                 <input
                                     type='checkbox'
