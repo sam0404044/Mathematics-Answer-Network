@@ -1,3 +1,134 @@
+@keyframes slide_to_right {
+  0%   {width: 0%;}
+  100% {width: 100%;}
+}
+@keyframes slide_to_left {
+  0%   {width: 100%;}
+  100%{width: 0%;display: none;}
+}
+
+
+div.main {
+  background-color: #E9ECEF;
+}
+
+/* The Overlay (background) */
+div.question_overlay_menu {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: fit-content;
+  position: fixed;
+  /* Stay in place */
+  /* z-index: -1; */
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  
+  /* Black w/opacity */
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
+  /* transition: 0.5s; */
+  /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+div.question_overlay_menu_open{
+  /* width: 100%; */
+  background-color: rgb(0, 0, 0); 
+  
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 1;
+
+  /* animation: slide_to_right;
+  animation-duration: 1s; */
+
+}
+div.question_overlay_menu_close{
+
+  /* animation: slide_to_left;
+  animation-duration: 1s; */
+  
+}
+/* Position the content inside the overlay */
+div.question_overlay_menu_content {
+  position: relative;
+  display: flex;
+  /* 25% from the top */
+  width: 100%;
+  /* 100% width */
+  text-align: center;
+  /* Centered text/links */
+  padding: 30px;
+  width: 80%;
+  overflow: hidden;
+  flex-wrap: wrap;
+  /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+div.question_overlay_menu_content_open{
+  display: block;
+
+  color: white;
+}
+div.question_overlay_menu_content_close{
+  display: none;
+
+}
+
+
+
+/* Position the close button (top right corner) */
+button.question_overlay_menu_button{
+  position: relative;
+  top: 60px;
+  /* right: -5px; */
+  font-size: 16px;
+  color: red;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  width: 50px;
+  height: 50px;
+
+}
+button.menu_content_button{
+  background-color: #868E96;
+  color: white;
+
+  border-radius: 5px;
+  border: none;
+  margin: 5px;
+  width: 50px;
+  font-size: 32px;
+}
+div.title_area {
+  display: flex;
+  padding-left: 20px;
+  padding-right: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+div.title_word_area {
+  /* width: 130px; */
+  display: flex;
+
+  justify-content: center;
+}
+
+span.title_word {
+  display: flex;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  justify-content: center;
+  text-wrap-mode: nowrap;
+}
+
+div.time_area {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   div.main{
     background-color: #E9ECEF;
@@ -29,9 +160,10 @@
     justify-content: center;
     align-items: center;
 
-  }
-  span.time_count_text{
-    text-align: center;
+}
+
+span.time_count_text {
+  text-align: center;
 
     padding: 10px;
     border-radius: 10px;
@@ -39,6 +171,9 @@
     font-weight: bold;
     background-color: #868E96;
     color: #3B3535;
+  }
+  img.close_img{
+    width: 30px;
   }
   div.topic{
     padding-left: 10px;
@@ -113,61 +248,73 @@
   }
   div.option_word_area_not_choosed{
 
-  }
-  span.option_word{
-    font-size: 20px;
-    font-weight: bold;
-  }
-  div.source{
-    display: flex;
-    height: fit-content;
-    justify-content: center;
-    margin: 20px;
-  }
-  h3.source_text{
-    margin: 0;
-  }
-  div.switch_button_area{
-    display: flex;
-    justify-content: center;
-  }
-  button.switch_button{
-    margin: auto;
-    font-size: 24px;
-    border-radius: 15px;
-    color: white;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-  button.edge{
-    background-color: gray;
-  }
-  button.notInEdge{
-    background-color: #3C4248;
-  }
-  button.submit{
-    background-color: #04AA6D;
-  }
-  div.progress_bar{
-    margin-top: 40px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    background-color: white;
-    height: 10px;
-    border-radius: 30px;
-    overflow: hidden;
-    display: flex;
-    flex-wrap: nowrap;
-  }
-  div.progress_bar_has_selected{
-    flex-grow: 1;
-    background-color: #878787;
-  }
-  div.progress_bar_not_selected{
-    flex-grow: 1;
-    background-color: white;
-  }
-  
+div.option_word_area_not_choosed {
+  background-color: #F8F9FA;
+}
+
+span.option_word {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+div.source {
+  display: flex;
+  height: fit-content;
+  justify-content: center;
+  margin: 20px;
+}
+
+h3.source_text {
+  margin: 0;
+}
+
+div.switch_button_area {
+  display: flex;
+  justify-content: center;
+}
+
+button.switch_button {
+  margin: auto;
+  font-size: 24px;
+  border-radius: 15px;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+button.edge {
+  background-color: gray;
+}
+
+button.notInEdge {
+  background-color: #3C4248;
+}
+
+button.submit {
+  background-color: #04AA6D;
+}
+
+div.progress_bar {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: white;
+  height: 10px;
+  border-radius: 30px;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+div.progress_bar_has_selected {
+  flex-grow: 1;
+  background-color: #878787;
+}
+
+div.progress_bar_not_selected {
+  flex-grow: 1;
+  background-color: white;
+}

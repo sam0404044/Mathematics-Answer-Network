@@ -29,8 +29,8 @@ class quiz extends Component {
     time_limit: 3600,
     start_time: new Date().toLocaleTimeString(Date.now()),
     timeCount_display: "00:00",
-    status: [false]
-
+    status: [false],
+    question_menu_status: false
   }
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = () => {
@@ -52,9 +52,9 @@ class quiz extends Component {
 
 
   setMyInterval = (event) => {
-    if (this.state.mytimeid){
+    if (this.state.mytimeid) {
       clearInterval(this.state.mytimeid)
-      
+
     }
     this.state.mytimeid = setInterval(() => {
       this.state.time_count += 1
@@ -94,26 +94,54 @@ class quiz extends Component {
     this.setState(newstate);
     console.log(newstate.status)
   }
+  jump_to_question_and_close_tab = (index) =>{
+    let newstate = { ...this.state }
+    newstate.index = index
+    newstate.question_menu_status = newstate.question_menu_status ? false : true
+    this.setState(newstate);
+
+  }
+  switch_question_menu_status = () => {
+    let newstate = { ...this.state }
+    newstate.question_menu_status = newstate.question_menu_status ? false : true
+    this.setState(newstate);
+    console.log(this.state.question_menu_status)
+  }
   render() {
     return (
       <div className='main'>
+        <div className={'question_overlay_menu ' + (this.state.question_menu_status ? " question_overlay_menu_open " : " question_overlay_menu_close ")}>
+          <div className={'question_overlay_menu_content ' + (this.state.question_menu_status ? " question_overlay_menu_content_open " : " question_overlay_menu_content_close ")}>
+            {this.state.quiz.map((x, idx) => {
+              return (
+                <button className='menu_content_button' key={idx} onClick={() => {
+                  this.jump_to_question_and_close_tab(idx)
+                }}>
+                  {idx + 1}
+                </button>
+              )
+            })}
+          </div>
+          <button className='question_overlay_menu_button' onClick={() => this.switch_question_menu_status()}>按鍵</button>
+        </div>
         <div className='title_area'>
           <div className='title_word_area'>
-            <span className='title_word'>Question {this.state.index}</span>
+            <span className='title_word'>Question {this.state.index + 1}</span>
           </div>
           <div className='time_area'>
-          {/* 開始時間: */}
-          {/* <h1>starttime: {this.state.start_time}</h1> */}
-          <span className='time_count_text'>{this.state.timeCount_display}</span>
-        </div>
-          <Link href={"/"} onNavigate={(event) =>{
-            if(confirm("確定要未交卷離開嗎?")){
+            {/* 開始時間: */}
+            {/* <h1>starttime: {this.state.start_time}</h1> */}
+            <span className='time_count_text'>{this.state.timeCount_display}</span>
+          </div>
+          <Link href={"/"} onNavigate={(event) => {
+            if (confirm("確定要未交卷離開嗎?")) {
               clearInterval(this.state.mytimeid)
-            }else{
+            } else {
               event.preventDefault()
             }
-            }}>
+          }}>
             <Image
+              className='close_img'
               src={"./hsiao/img/close.svg"}
               width={30}
               height={30}
@@ -154,7 +182,7 @@ class quiz extends Component {
         <div className='progress_bar'>
           {this.state.status.map((x, idx) => <div key={idx} className={(x === false) ? "progress_bar_not_selected" : "progress_bar_has_selected"}></div>)}
         </div>
-        
+
       </div>
     );
   }
