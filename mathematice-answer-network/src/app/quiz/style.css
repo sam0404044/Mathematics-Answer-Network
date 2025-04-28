@@ -129,7 +129,7 @@ div.time_area {
   display: flex;
   justify-content: center;
   align-items: center;
-
+}
   div.main{
     background-color: #E9ECEF;
   }
@@ -165,88 +165,101 @@ div.time_area {
 span.time_count_text {
   text-align: center;
 
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    background-color: #868E96;
-    color: #3B3535;
-  }
-  img.close_img{
-    width: 30px;
-  }
-  div.topic{
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 20px;
-  }
-  div.topic_bar{
-    height: 30px;
-    background-color: #868E96;
-    border-top-left-radius:20px;
-    border-top-right-radius:20px;
-  }
-  div.topic_word{
-    background-color: white;
-    overflow-block: scroll;
-    height: 134px;
-  }
-  div.topic_word::-webkit-scrollbar{
-    display: none;
-  }
-  div.options_area{
-    max-height: 400px;
-    min-height: 350px;
-    display: flex;
-    flex-direction: column;
-    width:auto;
-    padding: 20px;
-    align-items: center;
-    overflow-block: scroll;
-  }
-  div.options_area::-webkit-scrollbar{
-    display: none;
-  }
-  div.option_area{
-    width:100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 30px;
-  }
-  button.option{
-    width:100%;
-    display: flex;
-    height: min-content;
-    border-radius: 20px;
-    padding: 0;
-    overflow: hidden;
-  }
-  div.option_letter{
-    width: 15.6%;
-    font-size: 32px;
-    height: auto;
-    align-items: center;
-    justify-items: center;
-    align-content: center;
-  }
-  div.option_letter_choosed{
-    background-color:#339AF0;
-  }
-  div.option_letter_not_choosed{
-    background-color:#868E96;
-    
-  }
-  div.option_word_area{
-    display: flex;
-    width: 84.4%;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-  }
-  div.option_word_area_choosed{
-    background-color: #A5D8FF;
-  }
-  div.option_word_area_not_choosed{
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #868E96;
+  color: #3B3535;
+}
+
+img.close_img {
+  width: 30px;
+}
+
+div.topic {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 20px;
+}
+
+div.topic_bar {
+  height: 30px;
+  background-color: #868E96;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+div.topic_word {
+  background-color: white;
+  overflow-block: scroll;
+  height: 134px;
+}
+
+div.topic_word::-webkit-scrollbar {
+  display: none;
+}
+
+div.options_area {
+  max-height: 400px;
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  padding: 20px;
+  align-items: center;
+  overflow-block: scroll;
+}
+
+div.options_area::-webkit-scrollbar {
+  display: none;
+}
+
+div.option_area {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 30px;
+}
+
+button.option {
+  width: 100%;
+  display: flex;
+  height: min-content;
+  border-radius: 20px;
+  padding: 0;
+  overflow: hidden;
+}
+
+div.option_letter {
+  width: 15.6%;
+  font-size: 32px;
+  height: auto;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+}
+
+div.option_letter_choosed {
+  background-color: #339AF0;
+}
+
+div.option_letter_not_choosed {
+  background-color: #868E96;
+
+}
+
+div.option_word_area {
+  display: flex;
+  width: 84.4%;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+div.option_word_area_choosed {
+  background-color: #A5D8FF;
+}
 
 div.option_word_area_not_choosed {
   background-color: #F8F9FA;
