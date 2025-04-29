@@ -1,7 +1,7 @@
 
 .container {
     background-color: var(--backgroundColor);
-    padding: 20px;
+    padding-top: 10px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -13,12 +13,7 @@
     font-size: 40px;
     text-align: center;
     align-items: center;
-    position: relative;
-        
-}
-
-.head img {
-    width: 300px;
+    position: relative;     
 }
 
 

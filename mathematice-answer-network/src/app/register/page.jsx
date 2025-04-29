@@ -31,8 +31,8 @@ export default function register() {
                     <img
                         src='/img/Register_cover.svg'
                         alt='註冊頁面插圖'
-                        width={300}
-                        height={300}
+                        width={372}
+                        height={283}
                     />
                     <h1>註冊頁面</h1>
                 </div>
@@ -40,7 +40,7 @@ export default function register() {
                 <div className={styles.myform}>
                     <form> 
                         {/* onSubmit={handleSubmit} */}
-                    <label>用戶名</label> <br />
+                    <span>用戶名</span> <br />
                     <input 
                         type="text" 
                         name="userName" 
@@ -49,7 +49,7 @@ export default function register() {
                     />
                     {/* {errors.userName && <div style={{ color: "red" }}>{errors.userName}</div>} */}
                     <br />
-                    <label>電子信箱</label> <br />
+                    <span>電子信箱</span> <br />
                     <input 
                         type="email" 
                         name="userEmail" 
@@ -58,7 +58,7 @@ export default function register() {
                     />
                     {/* {errors.userEmail && <div style={{ color: "red" }}>{errors.userEmail}</div>} */}
                     <br />
-                    <label>密碼</label> <br />
+                    <span>密碼</span> <br />
                     <input 
                         type="password" 
                         name="userPwd" 
@@ -67,7 +67,7 @@ export default function register() {
                     />
                     {/* {errors.userPwd && <div style={{ color: "red" }}>{errors.userPwd}</div>} */}
                     <br />
-                    <label>確認密碼</label> <br />
+                    <span>確認密碼</span> <br />
                     <input 
                         type="password" 
                         name="userPwdConfirm" 
@@ -76,7 +76,7 @@ export default function register() {
                     />
                     {/* {errors.userPwdConfirm && <div style={{ color: "red" }}>{errors.userPwdConfirm}</div>} */}
                     <br />
-                    <label>就讀學校（非必填）</label> <br />
+                    <span>就讀學校（非必填）</span> <br />
                     <input 
                         type="text" 
                         name="userSchool" 
@@ -84,7 +84,7 @@ export default function register() {
                         // onChange={handleChange} 
                     />
                      <br />
-                    <label>年級（非必填）</label> <br />
+                    <span>年級（非必填）</span> <br />
                     <select 
                         name="userGrade" 
                         // value={formData.userGrade} 
@@ -96,7 +96,7 @@ export default function register() {
                         <option value="高三">高三</option>
                     </select>
                     <br />
-                    <label>性別（非必填）</label> <br />
+                    <span>性別（非必填）</span> <br />
                     <select 
                         name="userGender" 
                         // value={formData.userGender} 

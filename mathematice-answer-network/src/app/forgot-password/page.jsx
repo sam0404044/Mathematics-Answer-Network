@@ -35,8 +35,8 @@ export default function ForgotPassword() {
                     <img 
                         src='/img/ForgotPwd_cover.svg'
                         alt="忘記密碼頁面"
-                        width={300}
-                        height={300}
+                        width={372}
+                        height={283}
                     />
                     <h1>忘記密碼</h1>       
                 </div>

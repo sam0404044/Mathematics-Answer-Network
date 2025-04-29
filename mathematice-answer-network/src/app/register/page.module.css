@@ -17,10 +17,6 @@
         
 }
 
-.head img {
-    width: 300px;
-}
-
 
 .myform {
     background-color: var(--background);
@@ -42,6 +38,10 @@
     width: 100%;
     height: 25px;
     margin: 5px 0px 5px 0px;
+}
+
+.myform select {
+    text-align: center;
 }
 
 .mybtn {

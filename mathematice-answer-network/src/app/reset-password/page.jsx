@@ -35,8 +35,8 @@ export default function ResetPassword() {
                     <img 
                         src='/img/ResetPwd_cover.svg'
                         alt='重設密碼頁面' 
-                        width={300}
-                        height={300}
+                        width={372}
+                        height={283}
                     />
                     <h1>重新設定密碼</h1>       
                 </div>
