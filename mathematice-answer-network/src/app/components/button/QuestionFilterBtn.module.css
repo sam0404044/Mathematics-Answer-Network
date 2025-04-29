@@ -1,0 +1,14 @@
+.btn {
+  background-color: var(--background-btn);
+  color: var(--text-btn);
+  text-align: center;
+  max-width: 215px;
+  min-height: 50px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 24px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 20px 0;
+  height: max-content;
+}

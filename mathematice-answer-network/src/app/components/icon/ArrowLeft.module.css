@@ -1,0 +1,11 @@
+.icon {
+  width: 45px;
+  height: 45px;
+  stroke: var(--text-btn);
+  stroke-width: 30px;
+  cursor: pointer;
+}
+
+.active {
+  stroke: var(--logo-active);
+}

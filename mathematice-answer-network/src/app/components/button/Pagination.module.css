@@ -1,0 +1,39 @@
+.btn {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--menu-background);
+  border-radius: 45px;
+}
+
+.disactive {
+  background-color: var(--pagiantion-disactive);
+}
+
+.btn-page {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--pagiantion-background);
+  border-radius: 35px;
+  color: var(--text-btn);
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.page-current {
+  color: var(--pagiantion-current);
+}
+
+.pagination {
+  display: flex;
+  gap: 15px;
+  margin: 20px auto;
+  justify-content: center;
+  align-items: center;
+}
