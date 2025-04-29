@@ -5,9 +5,23 @@ import { useState } from 'react';
 import Notice from '../components/toastModel';
 import Footer from '../components/Footer';
 
-// import Buttons from '../components/loginButton';
 export default function Login() {
     const [showModal, setShowModal] = useState(false);
+    const [userInfo, setUserInfo] = useState({
+        email: '',
+        password: '',
+        rememberMe: false,
+    });
+
+    // 登入按鈕
+    let login = () => {
+        // console.log(userInfo);
+        fetch('/api/link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userInfo),
+        });
+    };
 
     return (
         <>
@@ -23,7 +37,7 @@ export default function Login() {
                 <Image src={'/img/LoginImg.svg'} alt='LoginImg' width={372} height={283}></Image>
 
                 {/* 標題 */}
-                <h1 className='text-4xl text-center font-bold py-5'>Wellcome to ATC!</h1>
+                <h1 className='text-4xl text-center font-bold py-5'>Wellcome to MWBB!</h1>
 
                 {/* 登入表單 */}
                 <div className='w-full max-w-[372px] mx-auto'>
@@ -34,12 +48,16 @@ export default function Login() {
                                 htmlFor=''
                                 className='block text-sm text-[var(--subtitleColor)] mb-2 font-bold'
                             >
-                                Email:
+                                電子郵件:
                             </label>
 
                             <input
                                 type='text'
                                 className='w-full  focus:ring-2 focus:ring-[var(--secondColor)] border border-[var(--secondColor)] rounded-lg focus:outline-none py-1 px-1'
+                                value={userInfo.email}
+                                onChange={(e) =>
+                                    setUserInfo({ ...userInfo, email: e.target.value })
+                                }
                             />
                         </div>
                         {/* password */}
@@ -48,34 +66,40 @@ export default function Login() {
                                 htmlFor=''
                                 className='block text-sm text-[var(--subtitleColor)] mb-2 font-bold'
                             >
-                                Password:
+                                密碼:
                             </label>
                             <input
                                 type='text'
                                 className='w-full  focus:ring-2 focus:ring-[var(--secondColor)] border border-[var(--secondColor)] rounded-lg focus:outline-none py-1 px-1'
+                                value={userInfo.password}
+                                onChange={(e) =>
+                                    setUserInfo({ ...userInfo, password: e.target.value })
+                                }
                             />
                         </div>
                         {/* 記住我、忘記密碼? */}
-                        <div className='flex items-center justify-between text-xs px-2'>
+                        <div className='flex items-center justify-between text-sm '>
                             <label className='flex items-center space-x-2'>
                                 <input
                                     type='checkbox'
                                     className='w-4 h-4 border-[var(--secondColor)]'
+                                    checked={userInfo.rememberMe}
+                                    onChange={(e) =>
+                                        setUserInfo({ ...userInfo, rememberMe: e.target.checked })
+                                    }
                                 />
-                                <span className='text-[var(--headerColor)] font-bold'>
-                                    Remember me
-                                </span>
+                                <span className='text-[var(--headerColor)] font-bold'>記住我</span>
                             </label>
                             <Link href='#' className='text-[var(--secondColor)]'>
-                                Forgot password?
+                                忘記密碼?
                             </Link>
                         </div>
                         <button
                             className='w-full bg-[var(--secondColor)] text-white py-2 rounded-lg font-bold'
-                            onClick={() => setShowModal(true)}
+                            onClick={login}
                             type='button'
                         >
-                            Log in
+                            登入
                         </button>
                         <button
                             className='w-full bg-[var(--googleLoginColor)] text-[var(--accountColor)] py-2 rounded-lg font-bold flex items-center justify-center space-x-2'
@@ -83,7 +107,7 @@ export default function Login() {
                             type='button'
                         >
                             <Image src='/img/google.svg' alt='Google' width={20} height={20} />
-                            <span>Continue with Google</span>
+                            <span>以Google登入</span>
                         </button>
                     </form>
                 </div>
@@ -92,10 +116,10 @@ export default function Login() {
                 <div className='max-w-[372px] mx-auto w-full'>
                     <div className='flex items-center justify-between my-5'>
                         <label htmlFor='' className='text-[var(--accountColor)]'>
-                            Don't have an acount?
+                            還沒有帳號?
                         </label>
                         <Link href={'#'} className='font-bold text-[var(--secondColor)]'>
-                            Sign Up
+                            註冊
                         </Link>
                     </div>
                 </div>
