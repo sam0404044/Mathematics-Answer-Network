@@ -9,4 +9,6 @@ const pool = mysql.createPool({
     database: process.env.DATABASE_NAME,
 });
 
+// console.log('DB HOST:', process.env.DATABASE_HOST);
+// console.log('DB USER:', process.env.DATABASE_USER);
 export default pool;

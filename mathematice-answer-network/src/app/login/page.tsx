@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 
 export default function Login() {
     const [showModal, setShowModal] = useState(false);
+    const [message, setMessage] = useState('');
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
@@ -14,13 +15,30 @@ export default function Login() {
     });
 
     // 登入按鈕
-    let login = () => {
+    const login = async () => {
         // console.log(userInfo);
-        fetch('/api/link', {
+        // 傳送資料給後端
+        const res = await fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userInfo),
         });
+
+        // 接收後端回傳的資料，!res.ok代表拋出錯誤訊息
+        // res.json(): 取得後端回傳的資料
+        if (!res.ok) {
+            // const err = await res.json();
+            const err = await res.json();
+            console.log(err);
+            setMessage(err.message || '伺服器錯誤');
+            setShowModal(true);
+            console.log(err);
+            return;
+        } else {
+            setMessage('登入成功');
+            setShowModal(true);
+            return;
+        }
     };
 
     return (
@@ -69,7 +87,7 @@ export default function Login() {
                                 密碼:
                             </label>
                             <input
-                                type='text'
+                                type='password'
                                 className='w-full  focus:ring-2 focus:ring-[var(--secondColor)] border border-[var(--secondColor)] rounded-lg focus:outline-none py-1 px-1'
                                 value={userInfo.password}
                                 onChange={(e) =>
@@ -126,7 +144,7 @@ export default function Login() {
 
                 {/* 彈窗 */}
                 {/* 有條件渲染的彈窗 */}
-                <Notice show={showModal} onClose={() => setShowModal(false)} message={'登入失敗'} />
+                <Notice show={showModal} onClose={() => setShowModal(false)} message={message} />
             </main>
             {/* footer */}
             <Footer />
