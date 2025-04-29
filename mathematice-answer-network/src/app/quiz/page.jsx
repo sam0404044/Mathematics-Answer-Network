@@ -30,7 +30,9 @@ class quiz extends Component {
     start_time: new Date().toLocaleTimeString(Date.now()),
     timeCount_display: "00:00",
     status: [false],
-    question_menu_status: false
+    question_menu_status: false,
+    exit_menu_status: false,
+    commit_status: false
   }
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = () => {
@@ -70,7 +72,7 @@ class quiz extends Component {
   add = (event) => {
     if (this.state.index == this.state.quiz.length - 1) {
       console.log("now submit")
-
+      this.commit_quiz_or_not()
       return
     }
     let newstate = { ...this.state }
@@ -105,12 +107,45 @@ class quiz extends Component {
     let newstate = { ...this.state }
     newstate.question_menu_status = newstate.question_menu_status ? false : true
     this.setState(newstate);
-    console.log(this.state.question_menu_status)
+  }
+  show_leave_menu_or_not = () => {
+    let newstate = { ...this.state }
+    newstate.exit_menu_status = newstate.exit_menu_status ? false : true
+    this.setState(newstate);
+    console.log(newstate.exit_menu_status)
+  }
+  commit_quiz_or_not = () => {
+    let newstate = { ...this.state }
+    newstate.commit_status = newstate.commit_status ? false : true
+    newstate.exit_menu_status = newstate.exit_menu_status ? false : true
+    this.setState(newstate);
   }
   render() {
     return (
       <React.Fragment>
         <div className='main'>
+          <div className={'leave_menu ' + ((this.state.exit_menu_status ? "leave_menu_open" : "leave_menu_close"))}>
+            <div className='leave_menu_window'>
+              <div className='leave_menu_bar'>
+
+              </div>
+              <div className='leave_menu_paragraph'>
+                {this.state.commit_status? "確定要交卷嗎?" : "確定要未交卷離開嗎?"}
+              </div>
+              <div className='leave_menu_button_area'>
+                <button className='leave_menu_button'>
+                  {
+                    <Link href={this.state.commit_status ? "/score" : "/"}>{this.state.commit_status ? "確定交卷" : "確定離開"}</Link>
+                  }
+                </button>
+                <button className='leave_menu_button'
+                  onClick={this.state.commit_status ? (() => this.commit_quiz_or_not()) : (() => this.show_leave_menu_or_not())}>
+                  {"取消"}
+                </button>
+              </div>
+            </div>
+
+          </div>
           <div className={'question_overlay_menu ' + (this.state.question_menu_status ? " question_overlay_menu_open " : " question_overlay_menu_close ")}>
             <button className='question_overlay_menu_button' onClick={() => this.switch_question_menu_status()}>
               <div className='question_overlay_menu_button_img'>
@@ -171,18 +206,7 @@ class quiz extends Component {
             <div className='title_word_area'>
               <span className='title_word'>Question {this.state.index + 1}</span>
             </div>
-            <div className='time_area'>
-              {/* 開始時間: */}
-              {/* <h1>starttime: {this.state.start_time}</h1> */}
-              <span className='time_count_text'>{this.state.timeCount_display}</span>
-            </div>
-            <Link href={"/"} onNavigate={(event) => {
-              if (confirm("確定要未交卷離開嗎?")) {
-                clearInterval(this.state.mytimeid)
-              } else {
-                event.preventDefault()
-              }
-            }}>
+            <button className='leave_button' onClick={() => this.show_leave_menu_or_not()}>
               <Image
                 className='close_img'
                 src={"./img/close.svg"}
@@ -190,7 +214,7 @@ class quiz extends Component {
                 height={30}
                 alt='this is close img'
               />
-            </Link>
+            </button>
           </div>
           <div className='topic'>
             <div className='topic_bar'>
@@ -225,6 +249,11 @@ class quiz extends Component {
           <div className='progress_bar'>
             {this.state.status.map((x, idx) => <div key={idx} className={(x === false) ? "progress_bar_not_selected" : "progress_bar_has_selected"}></div>)}
           </div>
+          <div className='time_area'>
+              {/* 開始時間: */}
+              {/* <h1>starttime: {this.state.start_time}</h1> */}
+              <span className='time_count_text'>{this.state.timeCount_display}</span>
+            </div>
         </div>
         <Footer />
       </React.Fragment>
