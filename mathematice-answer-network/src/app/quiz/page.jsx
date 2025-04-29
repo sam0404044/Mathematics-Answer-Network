@@ -112,7 +112,49 @@ class quiz extends Component {
       <React.Fragment>
         <div className='main'>
           <div className={'question_overlay_menu ' + (this.state.question_menu_status ? " question_overlay_menu_open " : " question_overlay_menu_close ")}>
+            <button className='question_overlay_menu_button' onClick={() => this.switch_question_menu_status()}>
+              <div className='question_overlay_menu_button_img'>
+                <span>
+                  {this.state.question_menu_status ? "↓" : "→"}
+                </span>
+              </div>
+            </button>
             <div className={'question_overlay_menu_content ' + (this.state.question_menu_status ? " question_overlay_menu_content_open " : " question_overlay_menu_content_close ")}>
+              {this.state.quiz.map((x, idx) => {
+                return (
+                  <button className='menu_content_button' key={idx} onClick={() => {
+                    this.jump_to_question_and_close_tab(idx)
+                  }}>
+                    <span>{idx + 1}</span>
+                  </button>
+                )
+              })}
+
+              {this.state.quiz.map((x, idx) => {
+                return (
+                  <button className='menu_content_button' key={idx} onClick={() => {
+                    this.jump_to_question_and_close_tab(idx)
+                  }}>
+                    {idx + 1}
+                  </button>
+                )
+              })}{this.state.quiz.map((x, idx) => {
+                return (
+                  <button className='menu_content_button' key={idx} onClick={() => {
+                    this.jump_to_question_and_close_tab(idx)
+                  }}>
+                    {idx + 1}
+                  </button>
+                )
+              })}{this.state.quiz.map((x, idx) => {
+                return (
+                  <button className='menu_content_button' key={idx} onClick={() => {
+                    this.jump_to_question_and_close_tab(idx)
+                  }}>
+                    {idx + 1}
+                  </button>
+                )
+              })}
               {this.state.quiz.map((x, idx) => {
                 return (
                   <button className='menu_content_button' key={idx} onClick={() => {
@@ -122,8 +164,8 @@ class quiz extends Component {
                   </button>
                 )
               })}
+
             </div>
-            <button className='question_overlay_menu_button' onClick={() => this.switch_question_menu_status()}>按鍵</button>
           </div>
           <div className='title_area'>
             <div className='title_word_area'>

@@ -19,103 +19,100 @@
   }
 }
 
-
 div.main {
   background-color: var(--background);
 }
 
-/* The Overlay (background) */
+
 div.question_overlay_menu {
-  /* Height & width depends on how you want to reveal the overlay (see JS below) */
   display: flex;
   flex-direction: row;
   height: 100%;
-  width: fit-content;
-  position: fixed;
-  /* Stay in place */
-  /* z-index: -1; */
-  /* Sit on top */
-  left: 0;
-  top: 0;
 
-  /* Black w/opacity */
-  overflow-x: hidden;
-  /* Disable horizontal scroll */
+  position: fixed;
+
   /* transition: 0.5s; */
-  /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+
 }
 
 div.question_overlay_menu_open {
-  /* width: 100%; */
-  background-color: rgb(0, 0, 0);
-
-  background-color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 1;
-
   /* animation: slide_to_right;
   animation-duration: 1s; */
-
 }
 
 div.question_overlay_menu_close {
 
   /* animation: slide_to_left;
   animation-duration: 1s; */
-
+  width: 0%;
 }
 
 /* Position the content inside the overlay */
 div.question_overlay_menu_content {
   position: relative;
-  display: flex;
-  /* 25% from the top */
+  display: grid;
   width: 100%;
-  /* 100% width */
   text-align: center;
-  /* Centered text/links */
-  padding: 30px;
-  width: 80%;
-  overflow: hidden;
+  padding: 10%;
+  /* padding-top: 10%; */
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-content: flex-start;
+  justify-content: space-evenly;
+  /* justify-items: center; */
   flex-wrap: wrap;
-  /* 30px top margin to avoid conflict with the close button on smaller screens */
+  overflow: scroll;
+  
 }
 
 div.question_overlay_menu_content_open {
-  display: block;
 
-  color: white;
 }
 
 div.question_overlay_menu_content_close {
   display: none;
 
 }
-
-
-
-/* Position the close button (top right corner) */
 button.question_overlay_menu_button {
+  
   position: relative;
   top: 60px;
-  /* right: -5px; */
   font-size: 16px;
-  color: red;
+  color: var(--text-btn);
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
   width: 50px;
   height: 50px;
-
+  text-align: center;
 }
 
+div.question_overlay_menu_button_img{
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 button.menu_content_button {
   background-color: #868E96;
   color: var(--text-btn);
-
+  overflow: hidden;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
   border-radius: 5px;
   border: none;
   margin: 5px;
-  width: 50px;
   font-size: 32px;
+  /* flex-basis: 20%; */
+  max-height: 15%;
+  min-height: 40px;
+  max-width: 100px;
+  min-width: 20%;
+
 }
 
 div.title_area {
