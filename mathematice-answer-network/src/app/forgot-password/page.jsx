@@ -2,10 +2,15 @@
 
 import React, { useState } from "react";
 import Image from 'next/image';
-import styles from "./page.module.css"
+import Link from 'next/link';
+import styles from'./page.module.css'; // 排版
+import Footer from '../components/Footer';
+import Notice from '../components/toastModel';
 
 
-export default function forgotpwd() {
+export default function ForgotPassword() {
+    const [showModal, setShowModal] = useState(false);
+    
 //     const [formData, setFormData] = useState({
 //         userEmail: "",
 //         userCaptcha: "",
@@ -13,13 +18,25 @@ export default function forgotpwd() {
 
     return (
         <>
-            <div className={styles.head}>
+            <div className={styles.container}>
+                {/* 關閉按鈕 */}
+                <button className='absolute top-5 right-5'>
+                    <Link href={'/'}>
+                        <Image 
+                            src='/img/close.svg' 
+                            alt='LoginImg' 
+                            width={30} 
+                            height={30}
+                        />
+                    </Link>
+                </button>
                 {/* 插圖與標題 */}
                 <div className={styles.head}>
-                    <Image 
-                        src={'/image/ForgotPwd_cover.svg'}
+                    <img 
+                        src='/img/ForgotPwd_cover.svg'
                         alt="忘記密碼頁面"
-                        style={{width:300}}
+                        width={300}
+                        height={300}
                     />
                     <h1>忘記密碼</h1>       
                 </div>
@@ -40,18 +57,15 @@ export default function forgotpwd() {
                         <input 
                             type="text" 
                             name="userCaptcha" 
-                            className={ucaptcha}
+                            className={styles.ucaptcha}
                             // value={formData.userCaptcha}
                             // onChange={(e) => setFormData({...formData, userCaptcha: e.target.value})}
                         />
                         <br />
-                        <input 
-                            type="submit" 
-                            className={styles.myconfirmbtn}
-                            value="驗證確認" />
+                        <button type="button" className={styles.myconfirmbtn}>驗證確認</button>
                     </form>
                 </div>
-            </div>
+            </div>           
             {/* 彈窗 */}
             {/* 有條件渲染的彈窗 */}
             <Notice show={showModal} onClose={() => setShowModal(false)} message={'驗證成功'} />                        

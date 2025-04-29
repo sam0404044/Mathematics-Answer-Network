@@ -14,13 +14,12 @@
     text-align: center;
     align-items: center;
     position: relative;
-        
+       
 }
 
 .head img {
     width: 300px;
 }
-
 
 .myform {
     background-color: var(--background);
@@ -54,3 +53,5 @@
     height: 30px;
     margin: 15px 0px 5px 0px;
 }
+
+

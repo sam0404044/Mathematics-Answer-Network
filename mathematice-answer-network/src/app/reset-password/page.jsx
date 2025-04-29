@@ -2,10 +2,15 @@
 
 import React, { useState } from "react";
 import Image from 'next/image';
-import styles from "./page.module.css"
+import Link from 'next/link';
+import styles from'./page.module.css'; // 排版
+import Footer from '../components/Footer';
+import Notice from '../components/toastModel';
 
 
-export default function resetpwd() {
+export default function ResetPassword() {
+    const [showModal, setShowModal] = useState(false);
+    
     // const [formData, setFormData] = useState({
     //     userPwd: "",
     //     userPwdConfirm: "",
@@ -14,12 +19,24 @@ export default function resetpwd() {
     return (
         <>
             <div className={styles.container}>
+                {/* 關閉按鈕 */}
+                <button className='absolute top-5 right-5'>
+                    <Link href={'/'}>
+                        <Image 
+                            src='/img/close.svg' 
+                            alt='LoginImg' 
+                            width={30} 
+                            height={30}
+                        />                    
+                    </Link>
+                </button>
                 {/* 插圖與標題 */}
                 <div className={styles.head}>
-                    <Image 
-                        src={'/image/ResetPwd_cover.svg'} 
+                    <img 
+                        src='/img/ResetPwd_cover.svg'
                         alt='重設密碼頁面' 
                         width={300}
+                        height={300}
                     />
                     <h1>重新設定密碼</h1>       
                 </div>
