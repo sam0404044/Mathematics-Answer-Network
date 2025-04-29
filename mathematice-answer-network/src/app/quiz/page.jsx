@@ -35,7 +35,7 @@ class quiz extends Component {
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = () => {
     this.state.timeCount_display = this.spend_time_toString(this.state.time_limit)
-    fetch('./hsiao/json/question.json')
+    fetch('./json/question.json')
       .then(data => {
         return data.json();
       })
@@ -142,7 +142,7 @@ class quiz extends Component {
           }}>
             <Image
               className='close_img'
-              src={"./hsiao/img/close.svg"}
+              src={"./img/close.svg"}
               width={30}
               height={30}
               alt='this is close img'

@@ -42,19 +42,19 @@ class record extends Component {
         let tree_address
         switch (this.state.tree.tree_status) {
             case 1:
-                tree_address = "./hsiao/img/tree_1.svg"
+                tree_address = "./img/tree_1.svg"
                 break;
             case 2:
-                tree_address = "./hsiao/img/tree_2.svg"
+                tree_address = "./img/tree_2.svg"
                 break;
             case 3:
-                tree_address = "./hsiao/img/tree_3.svg"
+                tree_address = "./img/tree_3.svg"
                 break;
             case 4:
-                tree_address = "./hsiao/img/tree_4.svg"
+                tree_address = "./img/tree_4.svg"
                 break;
             default:
-                tree_address = "./hsiao/img/tree_1.svg"
+                tree_address = "./img/tree_1.svg"
                 break;
 
         }
@@ -84,7 +84,7 @@ class record extends Component {
                         />
                         <Image
                             className='tree_status_flower_pot'
-                            src={"./hsiao/img/flower_pot.svg"}
+                            src={"./img/flower_pot.svg"}
                             width={240}
                             height={240}
                             alt='flower_pot'

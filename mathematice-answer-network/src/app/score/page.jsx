@@ -69,7 +69,7 @@ class score extends Component {
     ]
   }
   componentDidMount = () => {
-    fetch("./hsiao/json/question.json",)
+    fetch("./json/question.json",)
       .then(data => {
         return data.json();
       }).then(data => {
@@ -87,11 +87,11 @@ class score extends Component {
   chooseScoreBackgroundImg = () => {
     let getScore = this.calculateScore()
     if (getScore < 50) {
-      return "./hsiao/img/score_area_background_yellow.svg"
+      return "./img/score_area_background_yellow.svg"
     } else if (50 <= getScore && getScore <= 80) {
-      return "./hsiao/img/score_area_background_green.svg"
+      return "./img/score_area_background_green.svg"
     } else {
-      return "./hsiao/img/score_area_background_blue.svg"
+      return "./img/score_area_background_blue.svg"
     }
   }
   showContent = (index) => {
@@ -122,7 +122,7 @@ class score extends Component {
             <Image
               className='star_img'
               key={idx}
-              src={"./hsiao/img/star.svg"}
+              src={"./img/star.svg"}
               width={star.width}
               height={star.height}
               style={{ left: star.left, top: star.top, animationDelay: star.animation_delay }}
@@ -171,7 +171,7 @@ class score extends Component {
                     <span className={'question_topic_head ' + (this.state.show_status[idx] ? "question_topic_head_choosed" : "question_topic_head_not_choosed")}>
                       <Image
                         className='right_or_false_img'
-                        src={this.state.answer_status[idx] == x.answer ? "./hsiao/img/right.svg" : "./hsiao/img/false.svg"}
+                        src={this.state.answer_status[idx] == x.answer ? "./img/right.svg" : "./img/false.svg"}
                         width={20}
                         height={20}
                         alt='right or false'
