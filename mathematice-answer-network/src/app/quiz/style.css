@@ -21,7 +21,7 @@
 
 
 div.main {
-  background-color: #E9ECEF;
+  background-color: var(--background);
 }
 
 /* The Overlay (background) */
@@ -109,7 +109,7 @@ button.question_overlay_menu_button {
 
 button.menu_content_button {
   background-color: #868E96;
-  color: white;
+  color: var(--text-btn);
 
   border-radius: 5px;
   border: none;
@@ -158,7 +158,7 @@ span.time_count_text {
   border-radius: 10px;
   font-size: 24px;
   font-weight: bold;
-  background-color: #868E96;
+  background-color: var(--backgroundColor);
   color: #3B3535;
 }
 
@@ -174,15 +174,16 @@ div.topic {
 
 div.topic_bar {
   height: 30px;
-  background-color: #868E96;
+  background-color: var(--backgroundColor);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
 
 div.topic_word {
-  background-color: white;
+  background-color: var(--background);
   overflow-block: scroll;
   height: 134px;
+  color: var(--paragraph-text);
 }
 
 div.topic_word::-webkit-scrollbar {
@@ -234,7 +235,7 @@ div.option_letter_choosed {
 }
 
 div.option_letter_not_choosed {
-  background-color: #868E96;
+  background-color: var(--backgroundColor);
 
 }
 
@@ -281,7 +282,7 @@ div.option_word_area_not_choosed {}
     margin: auto;
     font-size: 24px;
     border-radius: 15px;
-    color: white;
+    color: var(--text-btn);
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 10px;
@@ -293,7 +294,7 @@ div.option_word_area_not_choosed {}
   }
 
   button.notInEdge {
-    background-color: #3C4248;
+    background-color: var(--background-btn);
   }
 
   button.submit {

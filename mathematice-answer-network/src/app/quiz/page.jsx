@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import "./style.css"
 import Image from "next/image"
 import Link from "next/link"
-
+import Footer from '../components/Footer';
 class quiz extends Component {
   state = {
     quiz: [{
@@ -94,7 +94,7 @@ class quiz extends Component {
     this.setState(newstate);
     console.log(newstate.status)
   }
-  jump_to_question_and_close_tab = (index) =>{
+  jump_to_question_and_close_tab = (index) => {
     let newstate = { ...this.state }
     newstate.index = index
     newstate.question_menu_status = newstate.question_menu_status ? false : true
@@ -109,81 +109,83 @@ class quiz extends Component {
   }
   render() {
     return (
-      <div className='main'>
-        <div className={'question_overlay_menu ' + (this.state.question_menu_status ? " question_overlay_menu_open " : " question_overlay_menu_close ")}>
-          <div className={'question_overlay_menu_content ' + (this.state.question_menu_status ? " question_overlay_menu_content_open " : " question_overlay_menu_content_close ")}>
-            {this.state.quiz.map((x, idx) => {
-              return (
-                <button className='menu_content_button' key={idx} onClick={() => {
-                  this.jump_to_question_and_close_tab(idx)
-                }}>
-                  {idx + 1}
+      <React.Fragment>
+        <div className='main'>
+          <div className={'question_overlay_menu ' + (this.state.question_menu_status ? " question_overlay_menu_open " : " question_overlay_menu_close ")}>
+            <div className={'question_overlay_menu_content ' + (this.state.question_menu_status ? " question_overlay_menu_content_open " : " question_overlay_menu_content_close ")}>
+              {this.state.quiz.map((x, idx) => {
+                return (
+                  <button className='menu_content_button' key={idx} onClick={() => {
+                    this.jump_to_question_and_close_tab(idx)
+                  }}>
+                    {idx + 1}
+                  </button>
+                )
+              })}
+            </div>
+            <button className='question_overlay_menu_button' onClick={() => this.switch_question_menu_status()}>按鍵</button>
+          </div>
+          <div className='title_area'>
+            <div className='title_word_area'>
+              <span className='title_word'>Question {this.state.index + 1}</span>
+            </div>
+            <div className='time_area'>
+              {/* 開始時間: */}
+              {/* <h1>starttime: {this.state.start_time}</h1> */}
+              <span className='time_count_text'>{this.state.timeCount_display}</span>
+            </div>
+            <Link href={"/"} onNavigate={(event) => {
+              if (confirm("確定要未交卷離開嗎?")) {
+                clearInterval(this.state.mytimeid)
+              } else {
+                event.preventDefault()
+              }
+            }}>
+              <Image
+                className='close_img'
+                src={"./img/close.svg"}
+                width={30}
+                height={30}
+                alt='this is close img'
+              />
+            </Link>
+          </div>
+          <div className='topic'>
+            <div className='topic_bar'>
+
+            </div>
+            <div className='topic_word'>
+              {this.state.quiz[this.state.index].question}
+            </div>
+          </div>
+          <div className='options_area'>
+            {this.state.quiz[this.state.index].options.map((x, idx) =>
+              <div className='option_area' key={idx}>
+                <button className='option' onClick={() => this.choose(idx)}>
+                  <div className={'option_letter ' + (this.state.status[this.state.index] === idx ? " option_letter_choosed " : " option_letter_not_choosed ")}>
+                    {idx + 1}
+                  </div>
+                  <div className={'option_word_area ' + (this.state.status[this.state.index] === idx ? " option_word_area_choosed " : " option_word_area_not_choosed ")}>
+                    <span className='option_word'>
+                      {x}
+                    </span>
+                  </div>
                 </button>
-              )
-            })}
+              </div>)}
           </div>
-          <button className='question_overlay_menu_button' onClick={() => this.switch_question_menu_status()}>按鍵</button>
-        </div>
-        <div className='title_area'>
-          <div className='title_word_area'>
-            <span className='title_word'>Question {this.state.index + 1}</span>
+          <div className='source'>
+            <h3 className='source_text'>Source: this is source</h3>
           </div>
-          <div className='time_area'>
-            {/* 開始時間: */}
-            {/* <h1>starttime: {this.state.start_time}</h1> */}
-            <span className='time_count_text'>{this.state.timeCount_display}</span>
+          <div className='switch_button_area'>
+            <button className={"switch_button " + ((this.state.index == 0) ? "edge" : "notInEdge")} disabled={this.state.index == 0} onClick={this.sub}>Previous</button>
+            <button className={"switch_button " + ((this.state.index == this.state.quiz.length - 1) ? "submit" : "notInEdge")} onClick={this.add}>{this.state.index + 1 == this.state.quiz.length ? "Submit" : "Next"}</button>
           </div>
-          <Link href={"/"} onNavigate={(event) => {
-            if (confirm("確定要未交卷離開嗎?")) {
-              clearInterval(this.state.mytimeid)
-            } else {
-              event.preventDefault()
-            }
-          }}>
-            <Image
-              className='close_img'
-              src={"./img/close.svg"}
-              width={30}
-              height={30}
-              alt='this is close img'
-            />
-          </Link>
-        </div>
-        <div className='topic'>
-          <div className='topic_bar'>
-
-          </div>
-          <div className='topic_word'>
-            {this.state.quiz[this.state.index].question}
+          <div className='progress_bar'>
+            {this.state.status.map((x, idx) => <div key={idx} className={(x === false) ? "progress_bar_not_selected" : "progress_bar_has_selected"}></div>)}
           </div>
         </div>
-        <div className='options_area'>
-          {this.state.quiz[this.state.index].options.map((x, idx) =>
-            <div className='option_area' key={idx}>
-              <button className='option' onClick={() => this.choose(idx)}>
-                <div className={'option_letter ' + (this.state.status[this.state.index] === idx ? " option_letter_choosed " : " option_letter_not_choosed ")}>
-                  {idx + 1}
-                </div>
-                <div className={'option_word_area ' + (this.state.status[this.state.index] === idx ? " option_word_area_choosed " : " option_word_area_not_choosed ")}>
-                  <span className='option_word'>
-                    {x}
-                  </span>
-                </div>
-              </button>
-            </div>)}
-        </div>
-        <div className='source'>
-          <h3 className='source_text'>Source: this is source</h3>
-        </div>
-        <div className='switch_button_area'>
-          <button className={"switch_button " + ((this.state.index == 0) ? "edge" : "notInEdge")} disabled={this.state.index == 0} onClick={this.sub}>Previous</button>
-          <button className={"switch_button " + ((this.state.index == this.state.quiz.length - 1) ? "submit" : "notInEdge")} onClick={this.add}>{this.state.index + 1 == this.state.quiz.length ? "Submit" : "Next"}</button>
-        </div>
-        <div className='progress_bar'>
-          {this.state.status.map((x, idx) => <div key={idx} className={(x === false) ? "progress_bar_not_selected" : "progress_bar_has_selected"}></div>)}
-        </div>
-
-      </div>
+        <Footer />
+      </React.Fragment>
     );
   }
 }

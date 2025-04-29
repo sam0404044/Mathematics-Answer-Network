@@ -65,7 +65,7 @@ span.total_score{
   font-size: 30px;
 }
 div.answer_status{
-  background-color: white;
+  background-color: var(--background);
   border-radius: 15px;
   font-size: 15px;
   padding: 10px;
@@ -76,7 +76,7 @@ span.correct_answer_questions{
 }
 div.question_area {
   margin: 10px;
-  background-color: white;
+  background-color: var(--background);
   border-radius: 20px;
   padding: 10px;
 }
@@ -129,6 +129,7 @@ img.right_or_false_img{
 span.next_img_text{
   margin-left: 10px;
   font-size: 30px;
+
 }
 span.next_img_text_choosed{
   display: block;
@@ -185,7 +186,8 @@ button.solution_link{
   width: fit-content;
   border-radius: 10px;
   border: 1px solid rgba(128, 128, 128, 0.281);
-  background-color: rgba(182, 174, 174, 0.377);
+  background-color: var(--background-btn);
+  color: var(--text-btn);
 }
 div.menu_area{
   height: 412px;
@@ -193,11 +195,11 @@ div.menu_area{
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
+  background-color: var(--background);
   text-align: center;
   margin: 20px;
+  border-radius: 15px;
   
-
 }
 div.time_area{
   width: 100%;
@@ -206,7 +208,8 @@ div.time_area{
   flex-direction: column;
 }
 div.menu_area_link{
-  color: white;
+  
+  color: var(--text-btn);
   width: 50%;
   font-size: 30px;
   padding: 10px;
