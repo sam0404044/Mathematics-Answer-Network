@@ -1,10 +1,9 @@
 import styles from "./QuestionFilterBtn.module.css";
-import Link from "next/link";
 
-export default function QuestionFilterBtn({ children }) {
+export default function QuestionFilterBtn({ isActive, setIsActive, children }) {
   return (
-    <Link href="/" className={styles.btn}>
+    <button className={styles.btn} onClick={() => setIsActive(!isActive)}>
       {children}
-    </Link>
+    </button>
   );
 }
