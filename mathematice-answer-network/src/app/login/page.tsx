@@ -119,14 +119,13 @@ export default function Login() {
                         >
                             登入
                         </button>
-                        <button
+                        <Link
+                            href={'/api/auth/google'}
                             className='w-full bg-[var(--googleLoginColor)] text-[var(--accountColor)] py-2 rounded-lg font-bold flex items-center justify-center space-x-2'
-                            onClick={() => setShowModal(true)}
-                            type='button'
                         >
                             <Image src='/img/google.svg' alt='Google' width={20} height={20} />
                             <span>以Google登入</span>
-                        </button>
+                        </Link>
                     </form>
                 </div>
 
