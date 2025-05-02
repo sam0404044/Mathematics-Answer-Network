@@ -5,7 +5,7 @@ div.main{
     padding: 25px;
 }
 div.area_default{
-    background-color: #F8F9FA;
+    background-color: var(--background);
     margin-top: 25px;
     margin-bottom: 25px;
     border-radius: 15px;
@@ -16,6 +16,8 @@ div.title_area{
     align-items: center;
     justify-content: center;
     padding: 10px;
+    background-color: var(--background);
+    border-radius: 15px;
 }
 span.title_text{
     font-size: 32px;
@@ -108,7 +110,7 @@ a.improve_button:active{
 span.improve_button_text{
     font-size: 24px;
     font-weight: bold;
-    color: white;
+    color: var(--text-btn);
 }
 div.answer_history_area{
     display: flex;
