@@ -1,0 +1,23 @@
+import styles from "./BtnLeft.module.css";
+
+export default function BtnLeft({ isFirstPage, curPage, goToPage }) {
+  return (
+    <button
+      className={`${styles.btn} ${isFirstPage ? styles.disactive : ""} `}
+      onClick={() => {
+        !isFirstPage && goToPage(curPage - 1);
+      }}
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" className={styles.icon} viewBox="0 0 512 512">
+        <path
+          fill="none"
+          // stroke="currentColor"
+          // stroke-linecap="round"
+          // stroke-linejoin="round"
+          // stroke-width="48"
+          d="M244 400L100 256l144-144M120 256h292"
+        />
+      </svg>
+    </button>
+  );
+}

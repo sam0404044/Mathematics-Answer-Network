@@ -1,32 +1,38 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
-    --backgroundColor: #868e96;
-    --secondColor: #3c4248;
-    --iconColorDark: #242424;
-    --subtitleColor: #9aa0a7;
-    --headerColor: #3b3535;
-    --accountColor: #646b71;
-    --footerColor: #000000;
-    --footerText: #b8b8b8;
-    --formColor: #f8f9fa;
-    --googleLoginColor: #e9ecef;
-    --logo: #868e96;
-    --logo-active: #fff;
-    --icon: #fff;
-    --footer-background: #000;
-    --footer-text: #b8b8b8;
-    --background-btn: #3c4248;
-    --text-btn: #ffffff;
-    --background: #f8f9fa;
-    --header-text: #3b3535;
-    --paragraph-text: #514b4b;
-    --bar-background: #3b3535;
-    --bar-overlay: rgba(0, 0, 0, 0.8);
-    --menu-background: #3c4248;
-    --icon-hover: #afafaf;
-    --animatiom-background: #f8f9fa;
-    --animatiom-object: #3b3535;
+  --backgroundColor: #868e96;
+  --secondColor: #3c4248;
+  --iconColorDark: #242424;
+  --subtitleColor: #9aa0a7;
+  --headerColor: #3b3535;
+  --accountColor: #646b71;
+  --footerColor: #000000;
+  --footerText: #b8b8b8;
+  --formColor: #f8f9fa;
+  --googleLoginColor: #e9ecef;
+  --logo: #868e96;
+  --logo-active: #fff;
+  --icon: #fff;
+  --footer-background: #000;
+  --footer-text: #b8b8b8;
+  --background-btn: #3c4248;
+  --text-btn: #ffffff;
+  --background: #f8f9fa;
+  --header-text: #3b3535;
+  --paragraph-text: #514b4b;
+  --bar-background: #3b3535;
+  --bar-overlay: rgba(0, 0, 0, 0.8);
+  --menu-background: #3c4248;
+  --icon-hover: #afafaf;
+  --animatiom-background: #f8f9fa;
+  --animatiom-object: #3b3535;
+  --test-paper-btn: #9aa0a7;
+  --pagiantion-background: #878787;
+  --pagiantion-disactive: #e9ecef;
+  --pagiantion-current: #000;
+  --question-filter: #e9ecef;
+  --question-checkbox: #878787;
 }
 
 @theme {

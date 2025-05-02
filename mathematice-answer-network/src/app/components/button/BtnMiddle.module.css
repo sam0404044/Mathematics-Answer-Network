@@ -1,0 +1,17 @@
+.btn-page {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--pagiantion-background);
+  border-radius: 35px;
+  color: var(--text-btn);
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.page-current {
+  color: var(--pagiantion-current);
+}
