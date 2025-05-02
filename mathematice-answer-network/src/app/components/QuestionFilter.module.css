@@ -1,0 +1,50 @@
+.filter {
+  position: absolute;
+  width: 100vw;
+  height: 280px;
+  background-color: var(--question-filter);
+  z-index: 999;
+}
+
+.overlay {
+  left: 0;
+  top: 280px;
+  height: calc(100vh - 280px);
+  width: 100%;
+  position: fixed;
+  background-color: var(--bar-overlay);
+  z-index: 999;
+}
+
+.checkboxContainer {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn {
+  background-color: var(--background-btn);
+  color: var(--text-btn);
+  width: calc(100vw - 40px);
+  border-radius: 10px;
+  min-height: 40px;
+
+  cursor: pointer;
+  margin: 10px auto 30px auto;
+}
+
+.checkbox {
+  display: flex;
+  gap: 10px;
+  font-weight: 800;
+  align-items: center;
+  min-width: 200px;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--question-checkbox);
+}

@@ -10,7 +10,7 @@ export default function Menu({ onIsActive }) {
       <div className={styles["menu-box"]}>
         <h1 className={styles.h1}>Students</h1>
         <div className={styles.option}>
-          <Link href="" className={styles.link}>
+          <Link href="/question-bank" className={styles.link}>
             <QuestionBankIcon />
             <button className={styles.btn}>Question Bank</button>
           </Link>
@@ -24,10 +24,7 @@ export default function Menu({ onIsActive }) {
           </Link>
         </div>
       </div>
-      <div
-        className={styles.overlay}
-        onClick={() => onIsActive((isActive) => !isActive)}
-      ></div>
+      <div className={styles.overlay} onClick={() => onIsActive((isActive) => !isActive)}></div>
     </>
   );
 }
