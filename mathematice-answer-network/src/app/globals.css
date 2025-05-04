@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --backgroundColor: #868e96;
+  --backgroundColor: #edf2ff;
   --secondColor: #3c4248;
   --iconColorDark: #242424;
   --subtitleColor: #9aa0a7;
@@ -14,27 +14,43 @@
   --logo: #868e96;
   --logo-active: #fff;
   --icon: #fff;
+  --plan-card-background: #fff;
+  --plan-subscribe-btn: #4d67a8;
+  --plan-subscribe-text-btn: #ffffff;
+  --plan-list: #2f9e44;
+  --plan-text-list: #2f9e44;
   --footer-background: #000;
   --footer-text: #b8b8b8;
-  --background-btn: #3c4248;
-  --text-btn: #ffffff;
-  --background: #f8f9fa;
+  --background-btn: #1864ab;
+  --text-btn: #e7f5ff;
+  --answering-background-btn: #fcc419;
+  --answering-text-btn: #00113b;
+  --background: #edf2ff;
   --header-text: #3b3535;
   --paragraph-text: #514b4b;
-  --bar-background: #3b3535;
+  --bar-background: #00091f;
+  --menu-background: #00113b;
   --bar-overlay: rgba(0, 0, 0, 0.8);
-  --menu-background: #3c4248;
   --icon-hover: #afafaf;
-  --animatiom-background: #f8f9fa;
-  --animatiom-object: #3b3535;
-  --test-paper-btn: #9aa0a7;
-  --pagiantion-background: #878787;
-  --pagiantion-disactive: #e9ecef;
-  --pagiantion-current: #000;
+  --animatiom-background: #f0f3fc;
+  --animatiom-object: #1f3499;
+  --sign-up-btn: #4360ac;
+  --sign-up-text-btn: #fff;
+  --log-in-btn: #001b5e;
+  --log-in-text-btn: #fff;
+  --test-paper-btn: #fff;
+  --test-paper-header: #1971c2;
+  --test-paper-text: #339af0;
+  --pagiantion-background: #bac8ff;
+  --pagiantion-disactive: #cbd2ee;
+  --pagiantion-current: #212529;
+  --pagiantion-current-btn: #4c6ef5;
+  --pagiantion-background-btn: #4c6ef5;
+  --question-filter-btn: #4360ac;
   --question-filter: #e9ecef;
-  --question-checkbox: #878787;
+  --question-checkbox: #2b8a3e;
 }
 
 @theme {
-    --font-pricing: Arial, sans-serif;
+  --font-pricing: Arial, sans-serif;
 }

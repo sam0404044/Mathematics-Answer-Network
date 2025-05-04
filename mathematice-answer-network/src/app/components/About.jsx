@@ -3,7 +3,7 @@ import styles from "./About.module.css";
 export default function About() {
   return (
     <article className={styles.about}>
-      <img src="/img/testimage.jpg" className={styles.img} />
+      <img src="/img/hero-img.png" className={styles.img} />
       <h1 className={styles.h1}>About our site</h1>
       <p className={styles.p}>
         Lorem ipsum dolor sit amet consectetur. Neque lectus quam tincidunt ligula nunc. Faucibus risus mi lacus

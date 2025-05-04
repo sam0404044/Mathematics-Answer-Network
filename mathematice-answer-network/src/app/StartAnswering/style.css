@@ -46,13 +46,14 @@ select#question-count {
 }
 
 .unit-button {
-  background-color: #ddd;
+  background-color: var(--pagiantion-background-btn);
   border: none;
   padding: 10px;
   border-radius: 8px;
   text-align: center;
   font-size: 16px;
   cursor: pointer;
+  color: #ffffff;
 }
 
 .checkbox-group label {
@@ -60,7 +61,7 @@ select#question-count {
 }
 
 .start-button {
-  background-color: #007bff;
+  background-color: var(--pagiantion-background-btn);
   color: white;
   border: none;
   padding: 12px 0;
@@ -109,7 +110,7 @@ select#question-count {
 }
 
 .switch input:checked + .slider {
-  background-color: #4caf50;
+  background-color: var(--question-checkbox);
 }
 
 .switch input:checked + .slider:before {

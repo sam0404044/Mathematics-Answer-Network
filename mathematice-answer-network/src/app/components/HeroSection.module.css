@@ -1,67 +1,93 @@
 .hero {
-    position: relative;
-    display: flex;
-    margin-bottom: 20px;
-    min-height: 260px;
-    justify-content: center;
-    align-items: center;
-    /* background-color: bisque; */
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 300px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  animation: flick 2s infinite;
+  opacity: 0;
+}
+
+@keyframes flick {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .triangle-left {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 0 solid;
-    border-right: 200px solid transparent;
-    border-bottom: 200px solid #868e96;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 0 solid;
+  border-right: 200px solid transparent;
+  border-bottom: 200px solid #868e96;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
 }
 .triangle-right {
-    position: absolute;
-    right: 0;
-    width: 0;
-    height: 0;
-    border-left: 220px solid transparent;
-    border-right: 0px solid;
-    border-bottom: 260px solid #3b3535;
-    bottom: 0;
-    z-index: 3;
+  position: absolute;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-left: 220px solid transparent;
+  border-right: 0px solid;
+  border-bottom: 260px solid #3b3535;
+  bottom: 0;
+  z-index: 3;
 }
 .circle {
-    width: 250px;
-    height: 250px;
-    background-color: #878787;
-    border-radius: 50%;
-    z-index: 2;
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background-color: #878787;
+  border-radius: 50%;
+  z-index: 2;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .triangle-left,
 .circle,
 .triangle-right {
-    opacity: 0;
-    animation: fadeIn 1s ease forwards;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
 }
 
 .triangle-left {
-    animation-delay: 0s;
+  animation-delay: 0s;
 }
 
 .triangle-right {
-    animation-delay: 0.5s;
+  animation-delay: 0.5s;
 }
 
 .circle {
-    animation-delay: 1s;
+  animation-delay: 1s;
+}
+
+.img {
+  animation-delay: 1.5s;
 }

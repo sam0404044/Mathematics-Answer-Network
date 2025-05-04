@@ -1,5 +1,5 @@
 .btn {
-  background-color: var(--background-btn);
+  background-color: var(--question-filter-btn);
   color: var(--text-btn);
   text-align: center;
   border-radius: 15px;

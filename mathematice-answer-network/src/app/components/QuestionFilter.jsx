@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./QuestionFilter.module.css";
 
-export default function QuestionFilter({ setIsActive, isActive }) {
+export default function QuestionFilter({ setFilter, filter }) {
   const [checked, setChecked] = useState([]);
   console.log(checked);
   const options = ["Exam Year", "Exam Source", "Grade Level", "Single Choice", "Multiple Select"];
@@ -23,12 +23,12 @@ export default function QuestionFilter({ setIsActive, isActive }) {
               {option}
             </label>
           ))}
-          <button className={styles.btn} onClick={() => setIsActive(!isActive)}>
+          <button className={styles.btn} onClick={() => setFilter(!filter)}>
             Submit
           </button>
         </div>
       </div>
-      <div className={styles.overlay} onClick={() => setIsActive(!isActive)}></div>
+      <div className={styles.overlay} onClick={() => setFilter(!filter)}></div>
     </>
   );
 }

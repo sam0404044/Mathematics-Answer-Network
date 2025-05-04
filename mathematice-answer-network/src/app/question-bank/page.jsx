@@ -5,6 +5,8 @@ import QuestionFilterBtn from "@/app/components/button/QuestionFilterBtn";
 import QuestionFilter from "@/app/components/QuestionFilter";
 import TestPaper from "@/app/components/button/TestPaper";
 import Pagination from "@/app/components/button/Pagination";
+import NavBar from "../components/NavBar";
+import Menu from "../components/Menu";
 
 import { useEffect, useState, useReducer } from "react";
 
@@ -28,6 +30,7 @@ function reducer(state, action) {
 
 export default function QuestionBank() {
   const [isActive, setIsActive] = useState(false);
+  const [filter, setFilter] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
   const { data, curPage, isLoading } = state;
 
@@ -54,9 +57,11 @@ export default function QuestionBank() {
 
   return (
     <div className={styles.container}>
-      {isActive && <QuestionFilter setIsActive={setIsActive} isActive={isActive} />}
+      <NavBar isActive={isActive} onIsActive={setIsActive} />
+      {isActive ? <Menu onIsActive={setIsActive} /> : ""}
+      {filter && <QuestionFilter setFilter={setFilter} filter={filter} />}
       <div className={styles.list}>
-        <QuestionFilterBtn setIsActive={setIsActive} isActive={isActive}>
+        <QuestionFilterBtn setFilter={setFilter} filter={filter}>
           Question Filter
         </QuestionFilterBtn>
         {showCurPage.map((cur) => (
