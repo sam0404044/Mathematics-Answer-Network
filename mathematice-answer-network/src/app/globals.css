@@ -34,3 +34,7 @@
   --question-filter: #e9ecef;
   --question-checkbox: #878787;
 }
+
+@theme {
+    --font-pricing: Arial, sans-serif;
+}
