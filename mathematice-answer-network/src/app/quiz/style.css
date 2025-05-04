@@ -18,15 +18,20 @@
     display: none;
   }
 }
-
+div.page_container{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
 div.main {
-  background-color: var(--background);
-
+  background-color: var(--quiz-background);
+  flex: 1;
 }
 
 div.leave_menu {
 
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--quiz-overlay-menu-background);
 
   width: 100%;
   height: 100%;
@@ -38,12 +43,10 @@ div.leave_menu {
   padding-bottom: 20%;
   padding-left: 20%;
   padding-right: 20%;
-  overflow-block: scroll;
+
 }
 
-div.leave_menu::-webkit-scrollbar {
-  display: none;
-}
+
 
 div.leave_menu_open {
   display: flex;
@@ -59,23 +62,20 @@ div.leave_menu_close {
 div.leave_menu_window {
   position: relative;
   padding-top: 30px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-radius: 15px;
   width: 100%;
   height: 30%;
   min-height: 200px;
   max-height: 400px;
   background-color: var(--background);
-  overflow-block: scroll;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
 }
 
-div.leave_menu_window::-webkit-scrollbar {
-  display: none;
-}
+
 
 div.leave_menu_bar {
   position: absolute;
@@ -86,7 +86,7 @@ div.leave_menu_bar {
 }
 
 div.leave_menu_paragraph {
-  padding: 5%;
+  padding: 10px;
   text-align: center;
 }
 
@@ -98,6 +98,7 @@ div.leave_menu_button_area {
 }
 
 button.leave_menu_button {
+  width: 100%;
   background-color: var(--background-btn);
   margin: auto;
   font-size: 16px;
@@ -123,7 +124,7 @@ div.question_overlay_menu {
 
 div.question_overlay_menu_open {
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--quiz-overlay-menu-background);
   z-index: 1;
   /* animation: slide_to_right;
   animation-duration: 1s; */
@@ -142,7 +143,10 @@ div.question_overlay_menu_content {
   display: grid;
   width: 100%;
   text-align: center;
-  padding: 10%;
+  padding-left: 10%;
+  padding-top: 10%;
+  padding-bottom: 10%;
+
   /* padding-top: 10%; */
   grid-template-columns: 1fr 1fr 1fr 1fr;
   align-content: flex-start;
@@ -166,17 +170,26 @@ div.question_overlay_menu_content_close {
 button.question_overlay_menu_button {
 
   position: relative;
-  top: 60px;
+  margin-top: 30px;
+  margin-right: 30px;
+  margin-left: 10px;
+  
   font-size: 16px;
   color: var(--text-btn);
-  background-color: rgba(0, 0, 0, 0.5);
+  
   z-index: 2;
   width: 50px;
   height: 50px;
   text-align: center;
 }
-
+button.question_overlay_menu_button_open{
+  display: block;
+}
+button.question_overlay_menu_button_close{
+  display: none;
+}
 div.question_overlay_menu_button_img {
+  background-color: var(--quiz-overlay-menu-cross-img-background);
   width: 50px;
   height: 50px;
   display: flex;
@@ -185,7 +198,7 @@ div.question_overlay_menu_button_img {
 }
 
 button.menu_content_button {
-  background-color: #868E96;
+  background-color: var(--backgroundColor);
   color: var(--text-btn);
   overflow: hidden;
   display: flex;
@@ -203,7 +216,12 @@ button.menu_content_button {
   min-width: 20%;
 
 }
-
+button.menu_content_button_has_answer{
+  background-color: var(--quiz-menu-content-button-has-answer)
+}
+button.menu_content_button_not_answer{
+background-color: var(--quiz-menu-content-button-not-answer);
+}
 div.title_area {
   display: flex;
   padding: 20px;
@@ -221,11 +239,13 @@ div.title_word_area {
 }
 
 span.title_word {
+  padding-left: 10px;
+  padding-right: 10px;
   display: flex;
   font-size: 16px;
   font-weight: bold;
-  background-color: black;
-  color: white;
+  background-color: var(--quiz-title-word-background);
+  color: var(--quiz-title-word);
   justify-content: center;
   text-wrap-mode: nowrap;
 }
@@ -246,7 +266,7 @@ span.time_count_text {
   font-size: 24px;
   font-weight: bold;
   background-color: var(--backgroundColor);
-  color: #3B3535;
+  color: var(--headerColor);
 }
 
 img.close_img {
@@ -255,21 +275,26 @@ img.close_img {
 
 div.topic {
   margin: 10px;
+  
 }
 
 div.topic_bar {
   height: 30px;
   background-color: var(--backgroundColor);
+  
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  color: black;
+
 }
 
 div.topic_word {
-  background-color: var(--background);
+  padding: 10px;
+  background-color: var(--quiz-question-topic-background);
   overflow-block: scroll;
   height: 134px;
   color: var(--paragraph-text);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 div.topic_word::-webkit-scrollbar {
@@ -303,7 +328,7 @@ button.option {
   width: 100%;
   display: flex;
   height: min-content;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 0;
   overflow: hidden;
 }
@@ -318,7 +343,7 @@ div.option_letter {
 }
 
 div.option_letter_choosed {
-  background-color: #339AF0;
+  background-color: var(--quiz-option-letter-choosed-background);
 }
 
 div.option_letter_not_choosed {
@@ -335,13 +360,12 @@ div.option_word_area {
 }
 
 div.option_word_area_choosed {
-  background-color: #A5D8FF;
+  background-color: var(--quiz-option-word-area-choosed-background);
 }
 
-div.option_word_area_not_choosed {}
 
 div.option_word_area_not_choosed {
-  background-color: #F8F9FA;
+  background-color: var(--background);
 }
 
 span.option_word {
@@ -363,6 +387,7 @@ h3.source_text {
 div.switch_button_area {
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 button.switch_button {
@@ -377,7 +402,7 @@ button.switch_button {
 }
 
 button.edge {
-  background-color: gray;
+  background-color: var(--quiz-switch-button-edge-background);
 }
 
 button.notInEdge {
@@ -385,15 +410,16 @@ button.notInEdge {
 }
 
 button.submit {
-  background-color: #04AA6D;
+  background-color: var(--quiz-submit-button);
 }
-
+div.progress_bar_area{
+  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 div.progress_bar {
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-  background-color: white;
+
   height: 10px;
   border-radius: 30px;
   overflow: hidden;
@@ -403,10 +429,10 @@ div.progress_bar {
 
 div.progress_bar_has_selected {
   flex-grow: 1;
-  background-color: #878787;
+  background-color: var(--quiz-progress-bar-has-selected);
 }
 
 div.progress_bar_not_selected {
   flex-grow: 1;
-  background-color: white;
+  background-color: var(--quiz-progress-bar-not-selected);
 }

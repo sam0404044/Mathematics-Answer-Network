@@ -66,8 +66,12 @@ class quiz extends Component {
     }
     this.state.mytimeid = setInterval(() => {
       this.state.time_count += 1
+      if (this.state.time_count > this.state.time_limit) {
+        alert("時間到")
+      }
       this.state.timeCount_display = this.spend_time_toString(this.state.time_limit - this.state.time_count)
       this.setState(this.state)
+
     }, 1000)
   }
   spend_time_toString = (time) => {
@@ -157,7 +161,7 @@ class quiz extends Component {
   }
   render() {
     return (
-      <React.Fragment>
+      <div className='page_container'>
         <div className='main'>
           <div className={'leave_menu ' + ((this.state.exit_menu_status ? "leave_menu_open" : "leave_menu_close"))}>
             <div className='leave_menu_window'>
@@ -182,60 +186,29 @@ class quiz extends Component {
 
           </div>
           <div className={'question_overlay_menu ' + (this.state.question_menu_status ? " question_overlay_menu_open " : " question_overlay_menu_close ")}>
-            <button className='question_overlay_menu_button' onClick={() => this.switch_question_menu_status()}>
-              <div className='question_overlay_menu_button_img'>
-                <span>
-                  {this.state.question_menu_status ? "↓" : "→"}
-                </span>
-              </div>
-            </button>
             <div className={'question_overlay_menu_content ' + (this.state.question_menu_status ? " question_overlay_menu_content_open " : " question_overlay_menu_content_close ")}>
               {this.state.quiz.map((x, idx) => {
                 return (
-                  <button className='menu_content_button' key={idx} onClick={() => {
+                  <button className={'menu_content_button ' + (this.state.status[idx].length > 0 ? "menu_content_button_has_answer": "menu_content_button_not_answer")} key={idx} onClick={() => {
                     this.jump_to_question_and_close_tab(idx)
                   }}>
-                    <span>{idx + 1}</span>
+                    <span>{((idx + 1) < 10) ? ("0" + (idx + 1)) : (idx + 1)}</span>
                   </button>
                 )
               })}
-
-              {this.state.quiz.map((x, idx) => {
-                return (
-                  <button className='menu_content_button' key={idx} onClick={() => {
-                    this.jump_to_question_and_close_tab(idx)
-                  }}>
-                    {idx + 1}
-                  </button>
-                )
-              })}{this.state.quiz.map((x, idx) => {
-                return (
-                  <button className='menu_content_button' key={idx} onClick={() => {
-                    this.jump_to_question_and_close_tab(idx)
-                  }}>
-                    {idx + 1}
-                  </button>
-                )
-              })}{this.state.quiz.map((x, idx) => {
-                return (
-                  <button className='menu_content_button' key={idx} onClick={() => {
-                    this.jump_to_question_and_close_tab(idx)
-                  }}>
-                    {idx + 1}
-                  </button>
-                )
-              })}
-              {this.state.quiz.map((x, idx) => {
-                return (
-                  <button className='menu_content_button' key={idx} onClick={() => {
-                    this.jump_to_question_and_close_tab(idx)
-                  }}>
-                    {idx + 1}
-                  </button>
-                )
-              })}
-
             </div>
+            <button  className={'question_overlay_menu_button ' + (this.state.question_menu_status? " question_overlay_menu_button_open " : " question_overlay_menu_button_close ")}  onClick={() => this.switch_question_menu_status()}>
+              <div className='question_overlay_menu_button_img'>
+              {/* <Image
+                className='close_img'
+                src={"./img/close.svg"}
+                width={30}
+                height={30}
+                alt='this is close img'
+              /> */}
+              <span>X</span>
+              </div>
+            </button>
           </div>
           <div className='title_area'>
             <div className='title_word_area'>
@@ -282,8 +255,10 @@ class quiz extends Component {
             <button className={"switch_button " + ((this.state.index == 0) ? "edge" : "notInEdge")} disabled={this.state.index == 0} onClick={this.sub}>Previous</button>
             <button className={"switch_button " + ((this.state.index == this.state.quiz.length - 1) ? "submit" : "notInEdge")} onClick={this.add}>{this.state.index + 1 == this.state.quiz.length ? "Submit" : "Next"}</button>
           </div>
-          <div className='progress_bar'>
-            {this.state.status.map((x, idx) => <div key={idx} className={(x.length === 0) ? "progress_bar_not_selected" : "progress_bar_has_selected"}></div>)}
+          <div className='progress_bar_area' onClick={() => this.switch_question_menu_status()}>
+            <div className='progress_bar' >
+              {this.state.status.map((x, idx) => <div key={idx} className={(x.length === 0) ? "progress_bar_not_selected" : "progress_bar_has_selected"}></div>)}
+            </div>
           </div>
           <div className='time_area'>
             {/* 開始時間: */}
@@ -292,7 +267,7 @@ class quiz extends Component {
           </div>
         </div>
         <Footer />
-      </React.Fragment>
+      </div>
     );
   }
 }
