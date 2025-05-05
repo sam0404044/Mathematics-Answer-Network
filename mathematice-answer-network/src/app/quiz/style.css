@@ -163,6 +163,7 @@ div.leave_menu_button_area {
   flex-direction: column;
   justify-content: space-between;
   min-height: 90px;
+  
 }
 
 button.leave_menu_button {
@@ -173,8 +174,8 @@ button.leave_menu_button {
   font-weight: bold;
   border-radius: 15px;
   color: var(--text-btn);
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   padding-top: 5px;
   padding-bottom: 5px;
 }
@@ -369,6 +370,7 @@ div.topic_bar_dark_mode_off {
   background-color: var(--backgroundColor);
 }
 div.topic_word {
+  font-size: 20px;
   padding: 10px;
   background-color: var(--quiz-question-topic-background);
   overflow-block: scroll;
