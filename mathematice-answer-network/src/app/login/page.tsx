@@ -66,7 +66,7 @@ export default function Login() {
                                     Remember me
                                 </span>
                             </label>
-                            <Link href='#' className='text-[var(--secondColor)]'>
+                            <Link href='/forgot-password' className='text-[var(--secondColor)]'>
                                 Forgot password?
                             </Link>
                         </div>
@@ -94,7 +94,7 @@ export default function Login() {
                         <label htmlFor='' className='text-[var(--accountColor)]'>
                             Don't have an acount?
                         </label>
-                        <Link href={'#'} className='font-bold text-[var(--secondColor)]'>
+                        <Link href={'/register'} className='font-bold text-[var(--secondColor)]'>
                             Sign Up
                         </Link>
                     </div>
