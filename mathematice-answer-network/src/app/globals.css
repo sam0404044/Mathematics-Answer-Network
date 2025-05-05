@@ -37,8 +37,9 @@
   --quiz-background: #e9ecef;
   --quiz-question-topic-background: #F8F9FA;
   --quiz-submit-button:#04AA6D;
-  --quiz-progress-bar-has-selected:#878787;
-  --quiz-progress-bar-not-selected:#fff;
+  --quiz-progress-bar-has-selected:#3C4248;
+  --quiz-progress-bar-not-selected-has-viewed:#878787;
+  --quiz-progress-bar-not-selected-not-viewed:#fff;
   --quiz-option-letter-choosed-background:#339AF0;
   --quiz-option-word-area-choosed-background:#A5D8FF;
   --quiz-overlay-menu-background:rgba(0, 0, 0, 0.7);
@@ -48,6 +49,14 @@
   --quiz-switch-button-edge-background:#808080;
   --quiz-menu-content-button-has-answer:#f32626;
   --quiz-menu-content-button-not-answer:#04AA6D;
+  --quiz-dark-mode-text:#fff;
+  --quiz-main-dark-mode:#242424;
+  --quiz-title-word-dark-mode:#3C4248;
+  --quiz-dark-mode-color-first:#333333;
+  --quiz-dark-mode-color-second:#484848;
+  --quiz-dark-mode-switch-button-on:#2196F3;
+  --quiz-dark-mode-switch-button-off:#ccc;
+  --quiz-dark-mode-switch-button-slider:#fff;
 
   --record-background:#D9D9D9;
   --record-improve-button:#339AF0;
