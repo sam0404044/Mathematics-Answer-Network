@@ -14,8 +14,8 @@ export default function NavBar({ onIsActive, isActive }) {
         ""
       ) : (
         <div className={styles.navbarcomponent}>
-          <SignUpLoginBtn type={"sign-up"}>Sign up</SignUpLoginBtn>
-          <SignUpLoginBtn type={"log-in"}>Log in</SignUpLoginBtn>
+          <SignUpLoginBtn type={"sign-up"}>註冊</SignUpLoginBtn>
+          <SignUpLoginBtn type={"log-in"}>登入</SignUpLoginBtn>
         </div>
       )}
     </nav>

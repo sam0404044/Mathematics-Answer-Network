@@ -4,7 +4,13 @@ import styles from "./QuestionFilter.module.css";
 export default function QuestionFilter({ setFilter, filter }) {
   const [checked, setChecked] = useState([]);
   console.log(checked);
-  const options = ["Exam Year", "Exam Source", "Grade Level", "Single Choice", "Multiple Select"];
+  const options = [
+    "Exam Year",
+    "Exam Source",
+    "Grade Level",
+    "Single Choice",
+    "Multiple Select",
+  ];
   return (
     <>
       <div className={`${styles.filter}`}>
@@ -16,7 +22,9 @@ export default function QuestionFilter({ setFilter, filter }) {
                 checked={checked.includes(option)}
                 onChange={() =>
                   setChecked((checked) =>
-                    checked.includes(option) ? checked.filter((item) => item !== option) : [...checked, option]
+                    checked.includes(option)
+                      ? checked.filter((item) => item !== option)
+                      : [...checked, option]
                   )
                 }
               />
@@ -24,7 +32,7 @@ export default function QuestionFilter({ setFilter, filter }) {
             </label>
           ))}
           <button className={styles.btn} onClick={() => setFilter(!filter)}>
-            Submit
+            確認選項
           </button>
         </div>
       </div>

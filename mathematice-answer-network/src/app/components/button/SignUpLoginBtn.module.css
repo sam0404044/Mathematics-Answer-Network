@@ -1,6 +1,6 @@
 .sign-up {
   background-color: var(--sign-up-btn);
-  color: var(--sign-up-text-btn);
+  color: var(--white);
   text-align: center;
   min-width: 75px;
   min-height: 40px;
@@ -13,7 +13,7 @@
 
 .log-in {
   background-color: var(--log-in-btn);
-  color: var(--log-in-text-btn);
+  color: var(--white);
   text-align: center;
   min-width: 75px;
   min-height: 40px;

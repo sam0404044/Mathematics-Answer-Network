@@ -31,7 +31,7 @@ export default function page() {
           {isActive ? <Menu onIsActive={setIsActive} /> : ""}
           <div className={styles.content}>
             <HeroSection />
-            <StartBtn>Start answering</StartBtn>
+            <StartBtn>開始答題</StartBtn>
             <About />
           </div>
           <Footer />

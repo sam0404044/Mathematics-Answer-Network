@@ -35,7 +35,7 @@
   height: 0;
   border-left: 0 solid;
   border-right: 200px solid transparent;
-  border-bottom: 200px solid #868e96;
+  border-bottom: 200px solid var(--question-filter-btn);
   bottom: 0;
   left: 0;
   z-index: 2;
@@ -47,7 +47,7 @@
   height: 0;
   border-left: 220px solid transparent;
   border-right: 0px solid;
-  border-bottom: 260px solid #3b3535;
+  border-bottom: 260px solid var(--menu-background);
   bottom: 0;
   z-index: 3;
 }
@@ -55,7 +55,7 @@
   position: absolute;
   width: 250px;
   height: 250px;
-  background-color: #878787;
+  background-color: var(--test-paper-header);
   border-radius: 50%;
   z-index: 2;
 }

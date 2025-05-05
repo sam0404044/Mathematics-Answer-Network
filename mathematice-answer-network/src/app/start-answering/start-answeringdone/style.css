@@ -3,13 +3,13 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-image: url("/img/choseTestBackGround.png"); /* public 下的正確路徑 */
+  background-image: url("/img/choseTestBackGround.png"); /* 正確路徑 public/img */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-/* 外層容器 */
+/* 外殼 */
 .question-settings {
   display: flex;
   flex-direction: column;
@@ -18,43 +18,41 @@ body {
   width: calc(100vw - 20px);
   padding: 20px;
   margin: 10px;
-  background-color: #ffffff;
+  background-color: var(--white);
   box-sizing: border-box;
   border-radius: 12px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Loading 元件 */
-.loading-container {
+/* 打勾動畫 */
+.checkmark-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-color: white;
+  background-color: var(--white);
 }
 
-.spinner {
-  width: 60px;
-  height: 60px;
-  border: 6px solid #cce5ff;
-  border-top: 6px solid #3498db;
-  border-radius: 50%;
-  animation: spin 1.2s linear infinite;
-  margin-bottom: 20px;
+.checkmark {
+  width: 100px;
+  height: 100px;
 }
 
-.loading-text {
-  font-size: 18px;
-  color: #1a2b4c;
+.checkmark-path {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: drawCheck 1s ease forwards;
+}
+
+@keyframes drawCheck {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.success-text {
+  margin-top: 20px;
+  font-size: 20px;
   font-weight: bold;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }

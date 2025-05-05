@@ -1,19 +1,20 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    min-height: 70px;
-    position: sticky;
-    top: 0;
-    background-color: var(--background);
-    z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  min-height: 70px;
+  position: sticky;
+  top: 0;
+  background-color: var(--white);
+  box-shadow: 0 2px 3px rgba(198, 198, 198, 0.758);
+  z-index: 999;
 }
 .navbarcomponent {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .active {
-    background-color: var(--bar-background);
+  background-color: var(--bar-background);
 }

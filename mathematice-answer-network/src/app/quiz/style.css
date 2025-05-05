@@ -180,7 +180,7 @@ div.question_overlay_menu_button_img {
 }
 
 button.menu_content_button {
-  background-color: #868e96;
+  background-color: var(--background-btn);
   color: var(--text-btn);
   overflow: hidden;
   display: flex;
@@ -219,7 +219,7 @@ span.title_word {
   font-size: 16px;
   font-weight: bold;
   background-color: black;
-  color: white;
+  color: var(--white);
   justify-content: center;
   text-wrap-mode: nowrap;
 }
@@ -238,8 +238,8 @@ span.time_count_text {
   border-radius: 10px;
   font-size: 24px;
   font-weight: bold;
-  background-color: var(--backgroundColor);
-  color: #3b3535;
+  /* background-color: var(--backgroundColor); */
+  color: var(--subtitle);
 }
 
 img.close_img {
@@ -252,14 +252,14 @@ div.topic {
 
 div.topic_bar {
   height: 30px;
-  background-color: var(--backgroundColor);
+  background-color: var(--bar-background);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  color: black;
+  /* color: yellow; */
 }
 
 div.topic_word {
-  background-color: var(--background);
+  background-color: var(--white);
   overflow-block: scroll;
   height: 134px;
   color: var(--paragraph-text);
@@ -310,11 +310,11 @@ div.option_letter {
 }
 
 div.option_letter_choosed {
-  background-color: #339af0;
+  background-color: var(--test-paper-header);
 }
 
 div.option_letter_not_choosed {
-  background-color: var(--backgroundColor);
+  background-color: var(--pagiantion-disactive);
 }
 
 div.option_word_area {
@@ -326,14 +326,14 @@ div.option_word_area {
 }
 
 div.option_word_area_choosed {
-  background-color: #a5d8ff;
+  background-color: var(--test-paper-text);
 }
 
 div.option_word_area_not_choosed {
 }
 
 div.option_word_area_not_choosed {
-  background-color: #f8f9fa;
+  background-color: var(--white);
 }
 
 span.option_word {
@@ -377,7 +377,7 @@ button.notInEdge {
 }
 
 button.submit {
-  background-color: #04aa6d;
+  background-color: var(--confirm-btn);
 }
 
 div.progress_bar {
@@ -385,7 +385,7 @@ div.progress_bar {
   margin-bottom: 10px;
   margin-left: 10px;
   margin-right: 10px;
-  background-color: white;
+  background-color: var(--white);
   height: 10px;
   border-radius: 30px;
   overflow: hidden;
@@ -395,10 +395,10 @@ div.progress_bar {
 
 div.progress_bar_has_selected {
   flex-grow: 1;
-  background-color: #878787;
+  background-color: var(--ocean-blue);
 }
 
 div.progress_bar_not_selected {
   flex-grow: 1;
-  background-color: white;
+  background-color: var(--white);
 }

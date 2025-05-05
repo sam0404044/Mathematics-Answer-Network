@@ -46,14 +46,14 @@ select#question-count {
 }
 
 .unit-button {
-  background-color: var(--pagiantion-background-btn);
+  background-color: var(--background-btn);
   border: none;
   padding: 10px;
   border-radius: 8px;
   text-align: center;
   font-size: 16px;
   cursor: pointer;
-  color: #ffffff;
+  color: var(--white);
 }
 
 .checkbox-group label {
@@ -61,8 +61,8 @@ select#question-count {
 }
 
 .start-button {
-  background-color: var(--pagiantion-background-btn);
-  color: white;
+  background-color: var(--background-btn);
+  color: var(--white);
   border: none;
   padding: 12px 0;
   border-radius: 10px;
@@ -92,7 +92,7 @@ select#question-count {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: var(--white);
   transition: 0.4s;
   border-radius: 28px;
 }
@@ -104,7 +104,7 @@ select#question-count {
   width: 22px;
   left: 3px;
   top: 3px;
-  background-color: white;
+  background-color: var(--white);
   transition: 0.4s;
   border-radius: 50%;
 }

@@ -51,7 +51,7 @@ export default function QuestionBank() {
   if (isLoading)
     return (
       <div className={styles.loading}>
-        <p className={styles["loading-text"]}>loading...</p>
+        <p className={styles["loading-text"]}>載入中...</p>
       </div>
     );
 
@@ -62,10 +62,14 @@ export default function QuestionBank() {
       {filter && <QuestionFilter setFilter={setFilter} filter={filter} />}
       <div className={styles.list}>
         <QuestionFilterBtn setFilter={setFilter} filter={filter}>
-          Question Filter
+          題庫過濾
         </QuestionFilterBtn>
         {showCurPage.map((cur) => (
-          <TestPaper key={cur.id} title={`Test Paper ${cur.id < 10 ? `0${cur.id}` : cur.id}`} content={cur.body} />
+          <TestPaper
+            key={cur.id}
+            title={`Test Paper ${cur.id < 10 ? `0${cur.id}` : cur.id}`}
+            content={cur.body}
+          />
         ))}
       </div>
       <Pagination curPage={curPage} dispatch={dispatch} totalPage={totalPage} />

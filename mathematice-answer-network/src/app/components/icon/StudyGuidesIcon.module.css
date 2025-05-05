@@ -1,7 +1,7 @@
 .icon {
-    width: 25px;
-    height: 25px;
-    stroke: var(--icon);
-    stroke-width: 10px;
-    cursor: pointer;
+  width: 25px;
+  height: 25px;
+  stroke: var(--white);
+  stroke-width: 10px;
+  cursor: pointer;
 }

@@ -7,7 +7,7 @@
 }
 
 .active {
-  stroke: var(--logo-active);
+  stroke: var(--white);
 }
 
 .btn {
@@ -16,7 +16,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--pagiantion-background-btn);
+  background-color: var(--ocean-blue);
   border-radius: 45px;
 }
 
