@@ -1,6 +1,6 @@
 import MenuIcon from './icon/MenuIcon';
-import SignInLoginBtn from './button/SignInLoginBtn';
 import SignUpLoginBtn from './button/SignUpLoginBtn';
+import SignInLoginBtn from './button/SignInLoginBtn';
 import styles from './NavBar.module.css';
 import Logo from './icon/Logo';
 

@@ -1,26 +1,26 @@
 .about {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  justify-content: center;
 }
 
 .img {
-    width: 100%;
-    height: 220px;
+  width: 100%;
+  height: 220px;
 }
 
 .h1 {
-    font-size: 24px;
-    text-align: center;
-    font-weight: 600;
-    padding: 10px;
-    color: var(--header-text);
+  font-size: 24px;
+  text-align: center;
+  font-weight: 600;
+  padding: 10px;
+  color: var(--header-text);
 }
 
 .p {
-    font-size: 16px;
-    text-align: left;
-    padding: 0 10px 10px 10px;
-    color: var(--paragraph-text);
+  font-size: 16px;
+  text-align: left;
+  padding: 0 10px 10px 10px;
+  color: var(--paragraph-text);
 }

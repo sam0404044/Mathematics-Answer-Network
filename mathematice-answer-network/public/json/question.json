@@ -11,9 +11,9 @@
         "3 個",
         "無限多個"
       ],
-      "answer":  2,
+      "answer":  [2,3],
       "explanation": "設 P 的位置為 x，則 |x - 1| + |x - 4| = 4。解這個方程式可以得到 x = 1 或 x = 4，因此有 1 個解。",
-      "image": ""
+      "question_type": "mutiple"
     },
     {
       "id": 2,
@@ -27,7 +27,7 @@
       ],
       "answer":  5,
       "explanation": "由矩陣乘法可知，a = 4, b = -6, c = 3，因此 a + b + c = 4 - 6 + 3 = 1。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 3,
@@ -41,7 +41,7 @@
       ],
       "answer":  2,
       "explanation": "因為 a 在 1/2 到 1 之間，所以 log a 是負數，且最小。其他選項的值都大於 0。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 4,
@@ -55,7 +55,7 @@
       ],
       "answer":  1,
       "explanation": "可以使用組合計算來求解，計算出抽到三種不同款式的情況數，再除以總情況數，得到機率為 5/16。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 5,
@@ -69,7 +69,7 @@
       ],
       "answer":  2,
       "explanation": "當平面與圓錐面平行於圓錐的軸時，截痕會是一個橢圓。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 6,
@@ -83,7 +83,7 @@
       ],
       "answer":  5,
       "explanation": "化簡後的多項式為 x²，表示 a, b, c 的係數必須滿足某種關係，經過計算可得 c > b > a。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 7,
@@ -97,7 +97,7 @@
       ],
       "answer":  5,
       "explanation": "柱子的實際高度是由柱頂坐標減去柱底坐標得到的。計算每個柱子的高度，E 柱的高度最大。",
-      "image": "114數B_7.png"
+      "question_type": "single"
     },
     {
       "id": 8,
@@ -111,7 +111,7 @@
       ],
       "answer":  1,
       "explanation": "曲線 y = x^3 - x 是一個奇函數，關於原點對稱，因此其對稱中心為原點。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 9,
@@ -125,7 +125,7 @@
       ],
       "answer":  4,
       "explanation": "向量 OP = αOA + βOB 表示 P 是 A 和 B 的凸組合。選項 中 A(1, 2) 和 B(2, 1) 可以通過適當的 α 和 β 使得 OP = (2, 2)。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 10,
@@ -139,7 +139,7 @@
       ],
       "answer":  5,
       "explanation": "乙的每次發球用時平均為 1.5 秒，標準差為 0.3 秒，表示發球用時的變異較大，因此不可能每次都在 1.4 到 1.6 秒之間。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 11,
@@ -153,7 +153,7 @@
       ],
       "answer":  1,
       "explanation": "由於 A 和 B 都在北緯 60 度，且經度相差 180 度，所以從北極點到 A 和 B 的最短路徑長度相同。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 12,
@@ -167,7 +167,7 @@
       ],
       "answer":  3,
       "explanation": "因為首項和末項都是整數，且 9 在數列中，所以公差必須是整數。",
-      "image": ""
+      "question_type": "single"
     },
     {
       "id": 18,
@@ -181,7 +181,7 @@
       ],
       "answer":  2,
       "explanation": "UVI數值隨高度呈指數增長，公式為UVI = 初始值 × (1 + 增長率)^次數。次數是高度除以300，所以是15。選項(2)正確地使用了這個公式。",
-      "image": ""
+      "question_type": "single"
     }
     
   ]
