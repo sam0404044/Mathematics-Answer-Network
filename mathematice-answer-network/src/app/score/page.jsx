@@ -95,6 +95,16 @@ class score extends Component {
       return "./img/score_area_background_blue.svg"
     }
   }
+  chooseScoreBackgroundColor = () => {
+    let getScore = this.calculateScore()
+    if (getScore < 50) {
+      return "#D5981E"
+    } else if (50 <= getScore && getScore <= 80) {
+      return "#26A25F"
+    } else {
+      return "#0A7EDC"
+    }
+  }
   showContent = (index) => {
     let newState = { ...this.state }
     newState.show_status[index] = this.state.show_status[index] ? false : true
@@ -104,7 +114,7 @@ class score extends Component {
   calculateScore = () => {
     const correctN = this.state.questionbank.questions.filter((x, idx) => x.answer == this.state.answer_status[idx]).length
     // return Math.floor(correctN / this.state.questionbank.questions.length * 100)
-    return 81
+    return 40
     // return (分數)
   }
   spend_time_toString = (time) => {
@@ -135,11 +145,12 @@ class score extends Component {
       )
     )
   }
+
   render() {
     return (
-      <React.Fragment>
+      <div className='page_container'>
         <div className='main'>
-          <div className='score_display_area'>
+          <div className='score_display_area' style={{backgroundColor:this.chooseScoreBackgroundColor()}}>
             <Image
               className='score_display_img'
               src={this.chooseScoreBackgroundImg()}
@@ -217,7 +228,7 @@ class score extends Component {
           </div>
         </div>
         <Footer />
-      </React.Fragment>
+      </div>
     );
   }
 }

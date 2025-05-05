@@ -13,10 +13,19 @@ img.star_img{
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
+div.page_container{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+
+}
+
 div.main{
   /* width: 412px; */
-  background-color: #D9D9D9;
-  padding: 10px;
+  background-color: var(--score-background);
+  /* padding: 10px; */
+  flex: 1;
 }
 div.score_display_area {
   position: relative;
@@ -25,7 +34,7 @@ div.score_display_area {
   width: fit-content;
   margin: auto;
   width: 100%;
-  background-color: #0A7EDC;
+
 }
 img.score_display_img{
   z-index: 0;
@@ -54,10 +63,10 @@ div.score_display_text{
 }
 div.scoreYouGet_text{
   font-size: 40px;
-  color: white;
+  color: var(--score-display-text);
 }
 div.score_get{
-  color: white;
+  color: var(--score-display-text);
 }
 span.your_score{
   font-size: 60px;
@@ -83,11 +92,11 @@ div.question_area {
 }
 
 div.question_answer_correct {
-  /* background-color: green; */
+
 }
 
 div.question_answer_wrong {
-  /* background-color: red; */
+
 }
 
 div.question_choosed {
@@ -209,7 +218,7 @@ div.time_area{
   flex-direction: column;
 }
 div.menu_area_link{
-  
+  min-width: 150px;
   color: var(--text-btn);
   width: 50%;
   font-size: 30px;
@@ -218,13 +227,13 @@ div.menu_area_link{
   text-shadow: 0px 0px 2px black;
 }
 div.achievement_link{
-  background-color: rgb(68, 122, 204);
+  background-color: var(--score-button-achievement);
 }
 div.practice_link{
-  background-color: rgb(68, 122, 204);
+  background-color: var(--score-button-practice);
 }
 div.main_page_link{
-  background-color: #000000d2;
+  background-color: var(--score-button-toMainPage);
 }
 a.link_button{
   display: block;
