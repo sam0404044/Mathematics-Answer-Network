@@ -11,10 +11,16 @@ import Notice from '../components/toastModel';
 export default function ForgotPassword() {
     const [showModal, setShowModal] = useState(false);
     
-//     const [formData, setFormData] = useState({
-//         userEmail: "",
-//         userCaptcha: "",
-//     });
+    const [email, setEmail] = useState("");
+
+    const handleSendCode = async () => {
+        const res = await fetch('/send_reset_code.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `email=${encodeURIComponent(email)}`
+        });
+    };
+   
 
     return (
         <>
@@ -46,23 +52,34 @@ export default function ForgotPassword() {
                         <span>電子信箱</span><br />
                         <input 
                             type="email" 
-                            name="userEmail" 
-                            className={styles.uemail}
-                            // value={formData.userEmail}
-                            // onChange={(e) => setFormData({...formData, userEmail: e.target.value})}
+                            name="setEmail" 
+                            className={styles.setEmail}
+                            onClick={() => setShowModal(true)}
+                            value={email} 
+                            onChange={e => setEmail(e.target.value)}
                         />
-                        <button type="button" className={styles.mybtn}>發送信件</button>
+                        <button 
+                            className={styles.mybtn}
+                            type="button"
+                            onClick={handleSendCode}>
+                            發送信件
+                        </button>
                         <br />
                         <span>驗證碼</span><br />
                         <input 
                             type="text" 
-                            name="userCaptcha" 
-                            className={styles.ucaptcha}
+                            name="captcha" 
+                            className={styles.captcha}
                             // value={formData.userCaptcha}
                             // onChange={(e) => setFormData({...formData, userCaptcha: e.target.value})}
                         />
                         <br />
-                        <button type="button" className={styles.myconfirmbtn}>驗證確認</button>
+                        <button
+                            className={styles.myconfirmbtn} 
+                            type="button" 
+                            onClick={() => setShowModal(true)}>
+                            驗證確認
+                        </button>
                     </form>
                 </div>
             </div>           

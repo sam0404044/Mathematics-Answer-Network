@@ -1,5 +1,6 @@
 import MenuIcon from './icon/MenuIcon';
 import SignUpLoginBtn from './button/SignUpLoginBtn';
+import SignInLoginBtn from './button/SignInLoginBtn';
 import styles from './NavBar.module.css';
 import Logo from './icon/Logo';
 
@@ -15,7 +16,7 @@ export default function NavBar({ onIsActive, isActive }) {
             ) : (
                 <div className={styles.navbarcomponent}>
                     <SignUpLoginBtn>Sign up</SignUpLoginBtn>
-                    <SignUpLoginBtn>Log in</SignUpLoginBtn>
+                    <SignInLoginBtn>Log in</SignInLoginBtn>
                 </div>
             )}
         </nav>
