@@ -10,7 +10,7 @@ export default function StartAnsweringLoading() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/start-answering/start-answeringdone"); // 5秒後跳轉
+      router.push("/StartAnswering/StartAnsweringdone"); // 5秒後跳轉
     }, 5000);
 
     return () => clearTimeout(timer); // 離開頁面時清除 timer

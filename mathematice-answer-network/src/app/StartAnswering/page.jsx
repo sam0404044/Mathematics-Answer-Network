@@ -7,7 +7,7 @@ export default function QuestionSettings() {
   const router = useRouter();
 
   const handleStart = () => {
-    router.push("./start-answering/start-answering-loading"); // 轉跳頁面
+    router.push("./StartAnswering/StartAnsweringLoding"); // 轉跳頁面
   };
 
   return (
@@ -32,13 +32,7 @@ export default function QuestionSettings() {
       <button className="unit-button">選單元</button>
 
       <div className="section-label">難易度</div>
-      <input
-        type="range"
-        min="1"
-        max="5"
-        defaultValue="3"
-        className="range-slider"
-      />
+      <input type="range" min="1" max="5" defaultValue="3" className="range-slider" />
 
       <div className="checkbox-group">
         <label>
