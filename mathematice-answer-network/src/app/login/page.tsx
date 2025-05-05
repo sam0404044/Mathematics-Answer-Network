@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import Notice from '../components/toastModel';
+import Notice from '../components/Notice';
 import Footer from '../components/Footer';
 
 export default function Login() {
