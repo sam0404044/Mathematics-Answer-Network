@@ -1,13 +1,13 @@
-'use client'; // Next.js App Router 必須加！
+"use client"; // Next.js App Router 必須加！
 
-import { useRouter } from 'next/navigation';
-import './style.css'; // 你的CSS獨立出來
+import { useRouter } from "next/navigation";
+import "./style.css"; // 你的CSS獨立出來
 
 export default function QuestionSettings() {
   const router = useRouter();
 
   const handleStart = () => {
-    router.push('./StartAnswering/StartAnsweringLoding'); // 轉跳頁面
+    router.push("./StartAnswering/StartAnsweringLoding"); // 轉跳頁面
   };
 
   return (

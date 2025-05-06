@@ -5,12 +5,10 @@ import styles from "./page.module.css";
 import HeroSection from "./components/HeroSection";
 import StartBtn from "./components/button/StartBtn";
 import About from "./components/About";
-import Menu from "./components/Menu";
 import Animation from "./components/Animation";
 import { useEffect, useState } from "react";
 
 export default function page() {
-  const [isActive, setIsActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(function () {
@@ -27,11 +25,10 @@ export default function page() {
         <Animation />
       ) : (
         <>
-          <NavBar isActive={isActive} onIsActive={setIsActive} />
-          {isActive ? <Menu onIsActive={setIsActive} /> : ""}
+          <NavBar />
           <div className={styles.content}>
             <HeroSection />
-            <StartBtn>Start answering</StartBtn>
+            <StartBtn>開始答題</StartBtn>
             <About />
           </div>
           <Footer />

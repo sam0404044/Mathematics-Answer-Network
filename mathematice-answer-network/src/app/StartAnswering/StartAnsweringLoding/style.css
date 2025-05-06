@@ -18,7 +18,7 @@ body {
   width: calc(100vw - 20px);
   padding: 20px;
   margin: 10px;
-  background-color: #ffffff;
+  background-color: var(--white);
   box-sizing: border-box;
   border-radius: 12px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
@@ -31,14 +31,14 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-color: white;
+  background-color: var(--white);
 }
 
 .spinner {
   width: 60px;
   height: 60px;
-  border: 6px solid #cce5ff;
-  border-top: 6px solid #3498db;
+  border: 6px solid var(--spinner-loading);
+  border-top: 6px solid var(--spinner-background);
   border-radius: 50%;
   animation: spin 1.2s linear infinite;
   margin-bottom: 20px;
@@ -46,7 +46,6 @@ body {
 
 .loading-text {
   font-size: 18px;
-  color: #1a2b4c;
   font-weight: bold;
 }
 

@@ -1,12 +1,25 @@
-.btn {
-    background-color: var(--background-btn);
-    color: var(--text-btn);
-    text-align: center;
-    min-width: 75px;
-    min-height: 40px;
-    border-radius: 10px;
-    font-weight: 400;
-    font-size: 16px;
-    padding: 0 10px;
-    cursor: pointer;
+.sign-up {
+  background-color: var(--sign-up-btn);
+  color: var(--white);
+  text-align: center;
+  min-width: 75px;
+  min-height: 40px;
+  border-radius: 10px;
+  font-weight: 400;
+  font-size: 16px;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.log-in {
+  background-color: var(--log-in-btn);
+  color: var(--white);
+  text-align: center;
+  min-width: 75px;
+  min-height: 40px;
+  border-radius: 10px;
+  font-weight: 400;
+  font-size: 16px;
+  padding: 0 10px;
+  cursor: pointer;
 }

@@ -41,10 +41,12 @@
   font-weight: 800;
   align-items: center;
   min-width: 200px;
+  cursor: pointer;
 }
 
 .checkbox input[type="checkbox"] {
   width: 20px;
   height: 20px;
   accent-color: var(--question-checkbox);
+  cursor: pointer;
 }
