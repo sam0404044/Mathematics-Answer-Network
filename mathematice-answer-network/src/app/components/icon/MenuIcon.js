@@ -1,7 +1,7 @@
 import styles from "./MenuIcon.module.css";
-export default function MenuIcon({ onIsActive, isActive }) {
+export default function MenuIcon({ setIsActive, isActive }) {
   return (
-    <button onClick={() => onIsActive((isActive) => !isActive)}>
+    <button onClick={() => setIsActive((isActive) => !isActive)}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className={`${styles.icon} ${isActive ? styles.active : ""}`}
