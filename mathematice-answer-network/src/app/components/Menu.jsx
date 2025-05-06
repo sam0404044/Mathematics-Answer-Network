@@ -14,7 +14,7 @@ export default function Menu({ onIsActive }) {
             <QuestionBankIcon />
             <button className={styles.btn}>歷年考古題</button>
           </Link>
-          <Link href="/pricing-plan" className={styles.link}>
+          <Link href="/PricingPlan" className={styles.link}>
             <PlanIcon />
             <button className={styles.btn}>我的方案</button>
           </Link>
