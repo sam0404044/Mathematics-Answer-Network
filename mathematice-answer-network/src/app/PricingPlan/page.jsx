@@ -5,8 +5,6 @@ import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 
 export default function PricingPage() {
-  const [isLoading, setIsLoading] = useState(true);
-
   return (
     <>
       <NavBar />
