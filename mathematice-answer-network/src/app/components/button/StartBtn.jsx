@@ -3,7 +3,7 @@ import styles from "./StartBtn.module.css";
 
 export default function StartBtn({ children }) {
   return (
-    <Link href="/StartAnswering">
+    <Link href="/questionSettings">
       <button className={styles.btn}>{children}</button>
     </Link>
   );
