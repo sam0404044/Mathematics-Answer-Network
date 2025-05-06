@@ -18,7 +18,7 @@ body {
   width: calc(100vw - 20px);
   padding: 20px;
   margin: 10px;
-  background-color: #ffffff;
+  background-color: var(--white);
   box-sizing: border-box;
   border-radius: 12px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
@@ -31,7 +31,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-color: white;
+  background-color: var(--white);
 }
 
 .checkmark {
@@ -55,5 +55,4 @@ body {
   margin-top: 20px;
   font-size: 20px;
   font-weight: bold;
-  color: #000;
 }

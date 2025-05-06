@@ -1,24 +1,23 @@
 .container {
-    background-color: var(--background);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    position: relative;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
 }
 
 .content {
-    flex: 1;
-    padding: 10px;
+  flex: 1;
+  padding: 10px;
 }
 
 .menu {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .svg {
-    width: 25px;
-    height: 25px;
-    border-radius: 15px;
-    background-color: bisque;
+  width: 25px;
+  height: 25px;
+  border-radius: 15px;
 }

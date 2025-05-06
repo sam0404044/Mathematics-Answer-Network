@@ -8,23 +8,26 @@ export default function Menu({ onIsActive }) {
   return (
     <>
       <div className={styles["menu-box"]}>
-        <h1 className={styles.h1}>Students</h1>
+        <h1 className={styles.h1}>學生專區</h1>
         <div className={styles.option}>
           <Link href="/question-bank" className={styles.link}>
             <QuestionBankIcon />
-            <button className={styles.btn}>Question Bank</button>
+            <button className={styles.btn}>歷年考古題</button>
           </Link>
           <Link href="/PricingPlan" className={styles.link}>
             <PlanIcon />
-            <button className={styles.btn}>My Plan</button>
+            <button className={styles.btn}>我的方案</button>
           </Link>
           <Link href="/record" className={styles.link}>
             <StudyGuidesIcon />
-            <button className={styles.btn}>Study Guides</button>
+            <button className={styles.btn}>個人紀錄</button>
           </Link>
         </div>
       </div>
-      <div className={styles.overlay} onClick={() => onIsActive((isActive) => !isActive)}></div>
+      <div
+        className={styles.overlay}
+        onClick={() => onIsActive((isActive) => !isActive)}
+      ></div>
     </>
   );
 }
