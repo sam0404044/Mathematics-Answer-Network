@@ -14,9 +14,9 @@ export default function PricingPage() {
       <NavBar isActive={isActive} onIsActive={setIsActive} />
       {isActive ? <Menu onIsActive={setIsActive} /> : ""}
 
-      <div className="p-[10px] bg-[#edf2ff]">
+      <div className="p-[10px] min-h-screen">
         <h2 className=" text-center text-[18px] mb-[15px]  text-[#333] font-pricing">
-          方案
+          Pricing
         </h2>
 
         {/* 免費方案 */}

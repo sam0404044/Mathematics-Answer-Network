@@ -7,6 +7,7 @@ import TestPaper from "@/app/components/button/TestPaper";
 import Pagination from "@/app/components/button/Pagination";
 import NavBar from "../components/NavBar";
 import Menu from "../components/Menu";
+import LoginAnimation from "../components/LoginAnimation";
 
 import { useEffect, useState, useReducer } from "react";
 
@@ -43,16 +44,20 @@ export default function QuestionBank() {
     async function getData() {
       const res = await fetch("https://jsonplaceholder.typicode.com/comments");
       const data = await res.json();
-      dispatch({ type: "setData", payload: data });
+
+      setTimeout(function () {
+        dispatch({ type: "setData", payload: data });
+      }, 3000);
     }
     getData();
   }, []);
 
   if (isLoading)
     return (
-      <div className={styles.loading}>
-        <p className={styles["loading-text"]}>載入中...</p>
-      </div>
+      // <div className={styles.loading}>
+      //   <p className={styles["loading-text"]}>載入中...</p>
+      // </div>
+      <LoginAnimation />
     );
 
   return (

@@ -83,7 +83,7 @@ export default function Login() {
 
               <input
                 type="text"
-                className="w-full  focus:ring-2 focus:ring-[var(--header-text)] border border-[var(--header-text)] rounded-lg focus:outline-none py-1 px-1"
+                className="w-full  focus:ring-2 focus:ring-[var(--secondColor)] border border-[var(--secondColor)] rounded-lg focus:outline-none py-1 px-1"
                 value={userInfo.email}
                 onChange={(e) =>
                   setUserInfo({ ...userInfo, email: e.target.value })
@@ -94,7 +94,7 @@ export default function Login() {
             <div>
               <label
                 htmlFor=""
-                className="block text-sm text-[var(--header-text)] mb-2 font-bold"
+                className="block text-sm text-[var(--subtitleColor)] mb-2 font-bold"
               >
                 密碼:
               </label>
@@ -122,12 +122,12 @@ export default function Login() {
                   記住我
                 </span>
               </label>
-              <Link href="#" className="text-[var(--subtitle)]">
+              <Link href="/forgot-password" className="text-[var(--subtitle)]">
                 忘記密碼?
               </Link>
             </div>
             <button
-              className="w-full bg-[var(--background-btn)] text-(--white) py-2 rounded-lg font-bold"
+              className="w-full bg-[var(--log-in-btn)] text-white py-2 rounded-lg font-bold"
               onClick={login}
               type="button"
             >
@@ -135,7 +135,7 @@ export default function Login() {
             </button>
             <Link
               href={"/api/auth/google"}
-              className="w-full bg-(--log-in-btn) text-(--text-btn) py-2 rounded-lg font-bold flex items-center justify-center space-x-2"
+              className="w-full bg-[var(--log-in-btn)] text-[var(--text-btn)] py-2 rounded-lg font-bold flex items-center justify-center space-x-2"
             >
               <Image
                 src="/img/google.svg"
@@ -154,7 +154,10 @@ export default function Login() {
             <label htmlFor="" className="text-[var(--subtitle)]">
               還沒有帳號?
             </label>
-            <Link href={"#"} className="font-bold text-[var(--header-text)]">
+            <Link
+              href={"/register"}
+              className="font-bold text-[var(--header-text)]"
+            >
               註冊
             </Link>
           </div>

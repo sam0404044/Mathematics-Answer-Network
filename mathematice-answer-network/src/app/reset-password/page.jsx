@@ -58,7 +58,11 @@ export default function ResetPassword() {
             />
             <br />
             {/* 確認按鈕 */}
-            <button type="button" className={styles.mybtn}>
+            <button
+              className={styles.mybtn}
+              type="button"
+              onClick={() => setShowModal(true)}
+            >
               重設密碼
             </button>
           </form>
