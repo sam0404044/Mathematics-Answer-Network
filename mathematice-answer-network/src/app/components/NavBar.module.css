@@ -18,3 +18,70 @@
 .active {
   background-color: var(--bar-background);
 }
+
+/*  */
+.h1 {
+  font-size: 16px;
+  text-align: center;
+  color: var(--text-btn);
+  padding: 10px 0;
+}
+
+.link {
+  display: inline-block;
+  display: flex;
+  gap: 20px;
+  justify-content: start;
+  align-items: center;
+  max-height: 25px;
+  max-width: max-content;
+  min-width: max-content;
+}
+
+.link:hover .btn {
+  color: var(--icon-hover);
+}
+
+.link:hover svg {
+  stroke: var(--icon-hover);
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0 100px;
+}
+
+.btn {
+  font-size: 16px;
+  text-align: center;
+  color: var(--text-btn);
+  padding: 10px 0;
+  cursor: pointer;
+  display: flex;
+  gap: 15px;
+}
+
+.overlay {
+  left: 0;
+  top: 270px;
+  height: calc(100vh - 270px);
+  width: 100%;
+  position: fixed;
+  background-color: var(--bar-overlay);
+  z-index: 999;
+}
+
+.menu-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  min-height: 200px;
+  padding: 20px;
+  background-color: var(--menu-background);
+  position: fixed;
+  top: 70px;
+  z-index: 999;
+}
