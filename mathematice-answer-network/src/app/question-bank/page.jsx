@@ -49,10 +49,8 @@ export default function QuestionBank() {
 
   useEffect(function () {
     async function getData() {
-      // const res = await fetch("https://jsonplaceholder.typicode.com/comments");
       const res = await fetch("/api/questionBank");
       const data = await res.json();
-      console.log(data.questions);
       setTimeout(function () {
         dispatch({ type: "setData", payload: data.questions });
       }, 3000);
