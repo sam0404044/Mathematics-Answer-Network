@@ -12,6 +12,7 @@ import { useEffect, useState, useReducer } from "react";
 
 const initialState = {
   data: [],
+  originalData: [],
   curPage: 1,
   isLoading: true,
 };
@@ -19,9 +20,16 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "setData":
-      return { ...state, data: action.payload, isLoading: false };
+      return {
+        ...state,
+        data: action.payload,
+        originalData: action.payload,
+        isLoading: false,
+      };
     case "setCurPage":
       return { ...state, curPage: action.payload };
+    case "filteredData":
+      return { ...state, data: action.payload, curPage: 1 };
 
     default:
       return state;
@@ -29,9 +37,10 @@ function reducer(state, action) {
 }
 
 export default function QuestionBank() {
-  const [filter, setFilter] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
   const { data, curPage, isLoading } = state;
+  const [checked, setChecked] = useState([]);
 
   const start = (curPage - 1) * 10;
   const end = start + 10;
@@ -40,11 +49,12 @@ export default function QuestionBank() {
 
   useEffect(function () {
     async function getData() {
-      const res = await fetch("https://jsonplaceholder.typicode.com/comments");
+      // const res = await fetch("https://jsonplaceholder.typicode.com/comments");
+      const res = await fetch("/api/questionBank");
       const data = await res.json();
-
+      console.log(data.questions);
       setTimeout(function () {
-        dispatch({ type: "setData", payload: data });
+        dispatch({ type: "setData", payload: data.questions });
       }, 3000);
     }
     getData();
@@ -55,13 +65,22 @@ export default function QuestionBank() {
   return (
     <div className={styles.container}>
       <NavBar />
-      {filter && <QuestionFilter setFilter={setFilter} filter={filter} />}
+      {isActive && (
+        <QuestionFilter
+          setIsActive={setIsActive}
+          isActive={isActive}
+          data={state.originalData}
+          dispatch={dispatch}
+          checked={checked}
+          setChecked={setChecked}
+        />
+      )}
       <div className={styles.list}>
-        <QuestionFilterBtn setFilter={setFilter} filter={filter}>
+        <QuestionFilterBtn setIsActive={setIsActive} isActive={isActive}>
           題庫過濾
         </QuestionFilterBtn>
         {showCurPage.map((cur) => (
-          <TestPaper key={cur.id} title={`Test Paper ${cur.id < 10 ? `0${cur.id}` : cur.id}`} content={cur.body} />
+          <TestPaper key={cur.UID} content={cur.questionYear} />
         ))}
       </div>
       <Pagination curPage={curPage} dispatch={dispatch} totalPage={totalPage} />

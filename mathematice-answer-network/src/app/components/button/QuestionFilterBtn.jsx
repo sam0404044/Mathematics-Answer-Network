@@ -1,8 +1,8 @@
 import styles from "./QuestionFilterBtn.module.css";
 
-export default function QuestionFilterBtn({ filter, setFilter, children }) {
+export default function QuestionFilterBtn({ isActive, setIsActive, children }) {
   return (
-    <button className={styles.btn} onClick={() => setFilter(!filter)}>
+    <button className={styles.btn} onClick={() => setIsActive(!isActive)}>
       {children}
     </button>
   );
