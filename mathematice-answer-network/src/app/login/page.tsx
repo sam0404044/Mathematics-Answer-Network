@@ -43,7 +43,7 @@ export default function Login() {
 
     return (
         <>
-            <main className="relative flex flex-col items-center bg-[var(--backgroundColor)] h-full pt-10 px-[40px] min-h-screen">
+            <main className="relative flex flex-col items-center bg-[var(--background)] h-full pt-10 px-[40px] min-h-screen">
                 {/* 關閉按鈕 */}
                 <button className="absolute top-5 right-5">
                     <Link href={"/"}>
@@ -59,12 +59,12 @@ export default function Login() {
 
                 {/* 登入表單 */}
                 <div className="w-full max-w-[372px] mx-auto">
-                    <form className="bg-[var(--formColor)] rounded-xl w-full  space-y-4 p-5">
+                    <form className="bg-(--white) rounded-xl w-full  space-y-4 p-5">
                         {/* email */}
                         <div>
                             <label
                                 htmlFor=""
-                                className="block text-sm text-[var(--subtitleColor)] mb-2 font-bold"
+                                className="block text-sm text-[var(--header-text)] mb-2 font-bold"
                             >
                                 電子郵件:
                             </label>
@@ -88,7 +88,7 @@ export default function Login() {
                             </label>
                             <input
                                 type="password"
-                                className="w-full  focus:ring-2 focus:ring-[var(--secondColor)] border border-[var(--secondColor)] rounded-lg focus:outline-none py-1 px-1"
+                                className="w-full  focus:ring-2 focus:ring-[var(--header-text)] border border-[var(--header-text)] rounded-lg focus:outline-none py-1 px-1"
                                 value={userInfo.password}
                                 onChange={(e) =>
                                     setUserInfo({ ...userInfo, password: e.target.value })
@@ -100,20 +100,20 @@ export default function Login() {
                             <label className="flex items-center space-x-2">
                                 <input
                                     type="checkbox"
-                                    className="w-4 h-4 border-[var(--secondColor)]"
+                                    className="w-4 h-4 border-[var(--header-text)]"
                                     checked={userInfo.rememberMe}
                                     onChange={(e) =>
                                         setUserInfo({ ...userInfo, rememberMe: e.target.checked })
                                     }
                                 />
-                                <span className="text-[var(--headerColor)] font-bold">記住我</span>
+                                <span className="text-[var(--header-text)] font-bold">記住我</span>
                             </label>
-                            <Link href="#" className="text-[var(--secondColor)]">
+                            <Link href="/forgot-password" className="text-[var(--subtitle)]">
                                 忘記密碼?
                             </Link>
                         </div>
                         <button
-                            className="w-full bg-[var(--secondColor)] text-white py-2 rounded-lg font-bold"
+                            className="w-full bg-[var(--log-in-btn)] text-white py-2 rounded-lg font-bold"
                             onClick={login}
                             type="button"
                         >
@@ -121,7 +121,7 @@ export default function Login() {
                         </button>
                         <Link
                             href={"/api/auth/google"}
-                            className="w-full bg-[var(--googleLoginColor)] text-[var(--accountColor)] py-2 rounded-lg font-bold flex items-center justify-center space-x-2"
+                            className="w-full bg-[var(--log-in-btn)] text-[var(--text-btn)] py-2 rounded-lg font-bold flex items-center justify-center space-x-2"
                         >
                             <Image src="/img/google.svg" alt="Google" width={20} height={20} />
                             <span>以Google登入</span>
@@ -132,10 +132,10 @@ export default function Login() {
                 {/* 註冊? */}
                 <div className="max-w-[372px] mx-auto w-full">
                     <div className="flex items-center justify-between my-5">
-                        <label htmlFor="" className="text-[var(--accountColor)]">
+                        <label htmlFor="" className="text-[var(--subtitle)]">
                             還沒有帳號?
                         </label>
-                        <Link href={"#"} className="font-bold text-[var(--secondColor)]">
+                        <Link href={"/register"} className="font-bold text-[var(--header-text)]">
                             註冊
                         </Link>
                     </div>

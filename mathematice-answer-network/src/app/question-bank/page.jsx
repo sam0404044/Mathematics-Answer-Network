@@ -5,6 +5,9 @@ import QuestionFilterBtn from "@/app/components/button/QuestionFilterBtn";
 import QuestionFilter from "@/app/components/QuestionFilter";
 import TestPaper from "@/app/components/button/TestPaper";
 import Pagination from "@/app/components/button/Pagination";
+import NavBar from "../components/NavBar";
+import Menu from "../components/Menu";
+import LoginAnimation from "../components/LoginAnimation";
 
 import { useEffect, useState, useReducer } from "react";
 
@@ -28,6 +31,7 @@ function reducer(state, action) {
 
 export default function QuestionBank() {
   const [isActive, setIsActive] = useState(false);
+  const [filter, setFilter] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
   const { data, curPage, isLoading } = state;
 
@@ -40,27 +44,37 @@ export default function QuestionBank() {
     async function getData() {
       const res = await fetch("https://jsonplaceholder.typicode.com/comments");
       const data = await res.json();
-      dispatch({ type: "setData", payload: data });
+
+      setTimeout(function () {
+        dispatch({ type: "setData", payload: data });
+      }, 3000);
     }
     getData();
   }, []);
 
   if (isLoading)
     return (
-      <div className={styles.loading}>
-        <p className={styles["loading-text"]}>loading...</p>
-      </div>
+      // <div className={styles.loading}>
+      //   <p className={styles["loading-text"]}>載入中...</p>
+      // </div>
+      <LoginAnimation />
     );
 
   return (
     <div className={styles.container}>
-      {isActive && <QuestionFilter setIsActive={setIsActive} isActive={isActive} />}
+      <NavBar isActive={isActive} onIsActive={setIsActive} />
+      {isActive ? <Menu onIsActive={setIsActive} /> : ""}
+      {filter && <QuestionFilter setFilter={setFilter} filter={filter} />}
       <div className={styles.list}>
-        <QuestionFilterBtn setIsActive={setIsActive} isActive={isActive}>
-          Question Filter
+        <QuestionFilterBtn setFilter={setFilter} filter={filter}>
+          題庫過濾
         </QuestionFilterBtn>
         {showCurPage.map((cur) => (
-          <TestPaper key={cur.id} title={`Test Paper ${cur.id < 10 ? `0${cur.id}` : cur.id}`} content={cur.body} />
+          <TestPaper
+            key={cur.id}
+            title={`Test Paper ${cur.id < 10 ? `0${cur.id}` : cur.id}`}
+            content={cur.body}
+          />
         ))}
       </div>
       <Pagination curPage={curPage} dispatch={dispatch} totalPage={totalPage} />

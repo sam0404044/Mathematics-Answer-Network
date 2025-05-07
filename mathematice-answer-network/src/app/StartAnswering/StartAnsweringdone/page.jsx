@@ -1,6 +1,6 @@
-'use client'; // Next.js App Router 要加這行！
+"use client"; // Next.js App Router 要加這行！
 
-import './style.css'; // 外掛 CSS
+import "./style.css"; // 外掛 CSS
 
 export default function StartAnsweringDone() {
   return (
@@ -10,7 +10,7 @@ export default function StartAnsweringDone() {
           <path
             className="checkmark-path"
             fill="none"
-            stroke="#2ecc71"
+            stroke="var(--question-checkbox)"
             strokeWidth="5"
             d="M14 27l7 7 17-17"
           />

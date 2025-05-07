@@ -18,7 +18,7 @@
 }
 
 .loading {
-  background-color: var(--animatiom-object);
+  background-color: var(--animation-object);
   width: 100vw;
   height: 100vh;
   display: flex;

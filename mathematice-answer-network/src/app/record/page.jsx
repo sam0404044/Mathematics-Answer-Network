@@ -63,7 +63,7 @@ class record extends Component {
     }
     render() {
         return (
-            <React.Fragment>
+            <div className='page_container'>
                 <div className='main'>
                     <div className='title_area'>
                         <span className='title_text'>
@@ -136,7 +136,7 @@ class record extends Component {
                     </div>
                 </div>
                 <Footer />
-            </React.Fragment>
+            </div>
         );
     }
 }

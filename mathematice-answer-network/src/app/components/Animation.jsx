@@ -15,14 +15,18 @@ export default function Animation() {
     containerRef.current.addEventListener("animationend", handleAnimationEnd);
 
     return () => {
-      if (containerRef.current) containerRef.current.removeEventListener("animationend", handleAnimationEnd);
+      if (containerRef.current)
+        containerRef.current.removeEventListener(
+          "animationend",
+          handleAnimationEnd
+        );
     };
   }, []);
 
   return (
     <div ref={containerRef} className={styles["animation-container"]}>
       <div className={styles["animation-triangle-left"]}></div>
-      <h1 className={styles["animation-text"]}>MWBB</h1>
+      <h1 className={styles["animation-text"]}>數學答題王</h1>
       <div className={styles["animation-triangle-right"]}></div>
     </div>
   );

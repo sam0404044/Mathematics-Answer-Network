@@ -1,40 +1,79 @@
 @import "tailwindcss";
 
 :root {
-  --backgroundColor: #868e96;
-  --secondColor: #3c4248;
-  --iconColorDark: #242424;
-  --subtitleColor: #9aa0a7;
-  --headerColor: #3b3535;
-  --accountColor: #646b71;
-  --footerColor: #000000;
-  --footerText: #b8b8b8;
-  --formColor: #f8f9fa;
-  --googleLoginColor: #e9ecef;
-  --logo: #868e96;
-  --logo-active: #fff;
-  --icon: #fff;
+  --animation-background: #f0f3fc;
+  --animation-object: #1f3499;
+  --answering-background-btn: #fcc419;
+  --answering-text-btn: #00113b;
+  --background: #edf2ff;
+  --background-btn: #1864ab;
+  --bar-background: #00091f;
+  --bar-overlay: rgba(0, 0, 0, 0.8);
+  --confirm-btn: #04aa6d;
   --footer-background: #000;
   --footer-text: #b8b8b8;
-  --background-btn: #3c4248;
-  --text-btn: #ffffff;
-  --background: #f8f9fa;
   --header-text: #3b3535;
-  --paragraph-text: #514b4b;
-  --bar-background: #3b3535;
-  --bar-overlay: rgba(0, 0, 0, 0.8);
-  --menu-background: #3c4248;
   --icon-hover: #afafaf;
-  --animatiom-background: #f8f9fa;
-  --animatiom-object: #3b3535;
-  --test-paper-btn: #9aa0a7;
-  --pagiantion-background: #878787;
-  --pagiantion-disactive: #e9ecef;
-  --pagiantion-current: #000;
+  --logo: #868e96;
+  --log-in-btn: #001b5e;
+  --menu-background: #00113b;
+  --ocean-blue: #4c6ef5;
+  --plan-subscribe-btn: #4d67a8;
+  --plan-list: #2f9e44;
+  --plan-text-list: #2f9e44;
+  --pagiantion-background: #bac8ff;
+  --pagiantion-disactive: #cbd2ee;
+  --pagiantion-current: #212529;
+  --paragraph-text: #514b4b;
+  --question-filter-btn: #4360ac;
   --question-filter: #e9ecef;
-  --question-checkbox: #878787;
+  --question-checkbox: #2b8a3e;
+  --subtitle: #646b71;
+  --sign-up-btn: #4360ac;
+  --spinner-background: #3498db;
+  --spinner-loading: #cce5ff;
+  --text-btn: #e7f5ff;
+  --test-paper-header: #1971c2;
+  --test-paper-text: #339af0;
+  --white: #fff;
+  --red: #c74545;
+
+  --quiz-background: #e9ecef;
+  --quiz-question-topic-background: #f8f9fa;
+  --quiz-submit-button: #04aa6d;
+  --quiz-progress-bar-has-selected: #3c4248;
+  --quiz-progress-bar-not-selected-has-viewed: #878787;
+  --quiz-progress-bar-not-selected-not-viewed: #fff;
+  --quiz-option-letter-choosed-background: #339af0;
+  --quiz-option-word-area-choosed-background: #a5d8ff;
+  --quiz-overlay-menu-background: rgba(0, 0, 0, 0.7);
+  --quiz-overlay-menu-cross-img-background: rgba(0, 0, 0, 0.5);
+  --quiz-title-word-background: #000;
+  --quiz-title-word: #fff;
+  --quiz-switch-button-edge-background: #808080;
+  --quiz-menu-content-button-has-answer: #f32626;
+  --quiz-menu-content-button-not-answer: #04aa6d;
+  --quiz-dark-mode-text: #fff;
+  --quiz-main-dark-mode: #242424;
+  --quiz-title-word-dark-mode: #3c4248;
+  --quiz-dark-mode-color-first: #333333;
+  --quiz-dark-mode-color-second: #484848;
+  --quiz-dark-mode-switch-button-on: #2196f3;
+  --quiz-dark-mode-switch-button-off: #ccc;
+  --quiz-dark-mode-switch-button-slider: #fff;
+
+  --record-background: #d9d9d9;
+  --record-improve-button: #339af0;
+  --record-improve-button-shadow: #19598e;
+  --record-border: #c6c7c8;
+
+  --score-background: #d9d9d9;
+  --score-button-toMainPage: #000000d2;
+  --score-button-achievement: #447ccc;
+  --score-button-practice: #447ccc;
+  --score-display-text: #fff;
 }
 
 @theme {
-    --font-pricing: Arial, sans-serif;
+  --font-pricing: Arial, sans-serif;
 }
