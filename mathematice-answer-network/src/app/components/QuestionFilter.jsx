@@ -4,13 +4,7 @@ import styles from "./QuestionFilter.module.css";
 export default function QuestionFilter({ setFilter, filter }) {
   const [checked, setChecked] = useState([]);
   console.log(checked);
-  const options = [
-    "Exam Year",
-    "Exam Source",
-    "Grade Level",
-    "Single Choice",
-    "Multiple Select",
-  ];
+  const options = ["數學A考科", "數學B考科", "學測"];
   return (
     <>
       <div className={`${styles.filter}`}>
