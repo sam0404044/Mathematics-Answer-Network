@@ -38,6 +38,8 @@
   --white: #fff;
   --red: #c74545;
 
+  --quiz-color-first: #868e96;
+  --quiz-question-type-text: #e7f5ff;
   --quiz-background: #e9ecef;
   --quiz-question-topic-background: #f8f9fa;
   --quiz-submit-button: #04aa6d;
@@ -60,7 +62,7 @@
   --quiz-dark-mode-color-second: #484848;
   --quiz-dark-mode-switch-button-on: #2196f3;
   --quiz-dark-mode-switch-button-off: #ccc;
-  --quiz-dark-mode-switch-button-slider: #fff;
+  --quiz-dark-mode-switch-button-slider: transparent;
 
   --record-background: #d9d9d9;
   --record-improve-button: #339af0;

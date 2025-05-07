@@ -1,12 +1,9 @@
 "use client";
-import { unstable_ViewTransition as ViewTransition } from "react";
 import React, { Component } from "react";
 import "./style.css";
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "../components/Footer";
-
-// 舊版
+import Footer from "@/app/components/Footer";
 class quiz extends Component {
   state = {
     quiz: [
@@ -18,7 +15,9 @@ class quiz extends Component {
         answer: [2, 3],
         explanation:
           "設 P 的位置為 x，則 |x - 1| + |x - 4| = 4。解這個方程式可以得到 x = 1 或 x = 4，因此有 1 個解。",
-        question_type: "mutiple",
+        question_type: "multiple",
+        source: "test",
+        image: ""
       },
       {
         id: 2,
@@ -29,6 +28,8 @@ class quiz extends Component {
         explanation:
           "要使抽到藍色球與抽到1號球的事件互相獨立，則P(藍色) × P(1號) = P(藍色且1號)。\n藍色球總數為2 + 3 = 5顆，綠色球總數為4 + k顆。\n總球數為5 + 4 + k = 9 + k。\nP(藍色) = 5/(9+k)，P(1號) = (2+4)/(9+k) = 6/(9+k)，\nP(藍色且1號) = 2/(9+k)。\n\n所以，5/(9+k) × 6/(9+k) = 2/(9+k)，\n30 = 2(9+k)，\n30 = 18 + 2k，\n12 = 2k，\nk = 6。\n\n因此，k的值為6。",
         question_type: "single",
+        source: "test",
+        image: ""
       },
     ],
     index: 0,
@@ -46,21 +47,24 @@ class quiz extends Component {
     dark_mode: false,
   };
   // 這裡fetch題庫資料跟開始計時
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.state.timeCount_display = this.spend_time_toString(
       this.state.time_limit
     );
-    fetch("./json/question.json")
+
+    
+    const { year } = await this.props.params;
+    let json = await fetch(`../api/quiz/${year}`)
       .then((data) => {
         return data.json();
       })
-      .then((data) => {
-        let newState = { ...this.state };
-        newState.quiz = data.questions;
-        newState.status = data.questions.map(() => []);
-        this.setState(newState);
-        this.setMyInterval();
-      });
+      ;
+    let newState = { ...this.state };
+    console.log(convertdata(json))
+    newState.quiz = convertdata(json);
+    newState.status = json.questions.map(() => []);
+    this.setState(newState);
+    this.setMyInterval();
   };
 
   setMyInterval = (event) => {
@@ -137,7 +141,7 @@ class quiz extends Component {
       case "single":
         this.choose_single(index);
         break;
-      case "mutiple":
+      case "multiple":
         this.choose_mutiple(index);
         break;
       default:
@@ -180,7 +184,23 @@ class quiz extends Component {
     newstate.dark_mode = newstate.dark_mode ? false : true;
     this.setState(newstate);
   };
-
+  show_img = () => {
+    let img_path = ""
+    let html_element = <></>
+    if (this.state.quiz[this.state.index].image) {
+      img_path = this.state.quiz[this.state.index].image
+      html_element =
+        // <Image
+        //   src={img_path}
+        //   width={100}
+        //   height={100}
+        // />
+        <span>
+          {img_path}
+        </span>
+    }
+    return html_element
+  }
   render() {
     return (
       <div className="page_container">
@@ -294,32 +314,14 @@ class quiz extends Component {
               </span>
             </div>
 
-            <button
-              className={
-                "dark_mode_button " +
-                (this.state.dark_mode
-                  ? " dark_mode_button_on "
-                  : " dark_mode_button_off ")
-              }
-              onClick={() => this.dark_mode_switch()}
-            >
-              {/* <span className={" dark_mode_button_text " + (this.state.dark_mode? " dark_mode_button_on " :  " dark_mode_button_off ")}>暗黑模式: {this.state.dark_mode ? "on" : "off" } </span> */}
-              <span
-                className={
-                  " dark_mode_button_slider " +
-                  (this.state.dark_mode
-                    ? " dark_mode_button_slider_on "
-                    : " dark_mode_button_slider_off ")
-                }
-              ></span>
-            </button>
+
             <button
               className="leave_button"
               onClick={() => this.show_leave_menu_or_not()}
             >
               <Image
                 className="close_img"
-                src={"./img/close.svg"}
+                src={"../img/close.svg"}
                 width={30}
                 height={30}
                 alt="this is close img"
@@ -334,7 +336,35 @@ class quiz extends Component {
                   ? " topic_bar_dark_mode_on "
                   : " topic_bar_dark_mode_off ")
               }
-            ></div>
+            >
+              {this.state.quiz[this.state.index].question_type}
+              <button
+                className={
+                  "dark_mode_button " +
+                  (this.state.dark_mode
+                    ? " dark_mode_button_on "
+                    : " dark_mode_button_off ")
+                }
+                onClick={() => this.dark_mode_switch()}
+              >
+                <span
+                  className={
+                    " dark_mode_button_slider " +
+                    (this.state.dark_mode
+                      ? " dark_mode_button_slider_on "
+                      : " dark_mode_button_slider_off ")
+                  }
+                >
+                  <Image
+                    src={this.state.dark_mode ? "../img/moon.svg" : "../img/sun.svg"}
+                    width={20}
+                    height={20}
+                    alt="this is dark_mode_switch_img"
+                  />
+                </span>
+              </button>
+            </div>
+
             <div
               className={
                 " topic_word " +
@@ -343,9 +373,12 @@ class quiz extends Component {
                   : " topic_word_dark_mode_off ")
               }
             >
-              {this.state.quiz[this.state.index].question_type}
-              <br />
-              {this.state.quiz[this.state.index].question}
+              <div className="topic_img_area">
+                {this.show_img()}
+              </div>
+              <span>
+                {this.state.quiz[this.state.index].question}
+              </span>
             </div>
           </div>
           <div className="options_area">
@@ -361,8 +394,8 @@ class quiz extends Component {
                       (this.state.status[this.state.index].includes(idx)
                         ? " option_letter_choosed "
                         : this.state.dark_mode
-                        ? " option_letter_not_choosed_dark_mode_on "
-                        : " option_letter_not_choosed_dark_mode_off ")
+                          ? " option_letter_not_choosed_dark_mode_on "
+                          : " option_letter_not_choosed_dark_mode_off ")
                     }
                   >
                     {idx + 1}
@@ -373,8 +406,8 @@ class quiz extends Component {
                       (this.state.status[this.state.index].includes(idx)
                         ? " option_word_area_choosed "
                         : this.state.dark_mode
-                        ? " option_word_area_not_choosed_dark_mode_on "
-                        : " option_word_area_not_choosed_dark_mode_off ")
+                          ? " option_word_area_not_choosed_dark_mode_on "
+                          : " option_word_area_not_choosed_dark_mode_off ")
                     }
                   >
                     <span className="option_word">{x}</span>
@@ -391,7 +424,7 @@ class quiz extends Component {
                   : " source_text_dark_mode_off "
               }
             >
-              Source: this is source
+              Source: {this.state.quiz[this.state.index].source}
             </h3>
           </div>
           <div className="switch_button_area">
@@ -453,3 +486,24 @@ class quiz extends Component {
 }
 
 export default quiz;
+
+function convertdata(json) {
+
+  let newjson = json.questions.map(x => {
+    return (
+      {
+        id: x.uid,
+        question: x.question,
+        options: [x.option_a, x.option_b, x.option_c, x.option_d, x.option_e],
+        answer: x.answer,
+        explanation: x.explanation,
+        question_type: x.type,
+        source: x.questionYear,
+        image: x.image
+      }
+    )
+  })
+
+
+  return newjson
+} 
