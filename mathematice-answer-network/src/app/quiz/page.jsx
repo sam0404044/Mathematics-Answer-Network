@@ -1,9 +1,11 @@
 "use client";
 
+import { MathJax } from "better-react-mathjax";
 import React, { Component } from "react";
 import Image from "next/image";
 import Footer from "../components/Footer";
 import "./style.css"
+
 export default class Quiz extends Component {
   state = {
     quiz: [],
@@ -125,7 +127,7 @@ export default class Quiz extends Component {
           <div className="topic">
             <div className={dark_mode ? "topic_bar_dark_mode_on" : "topic_bar_dark_mode_off"}></div>
             <div className={`topic_word ${dark_mode ? "topic_word_dark_mode_on" : "topic_word_dark_mode_off"}`}>
-              {q.question}
+              <MathJax>{q.question}</MathJax>
             </div>
           </div>
 
@@ -153,7 +155,7 @@ export default class Quiz extends Component {
                         : "option_word_area_not_choosed_dark_mode_off"
                     }`}
                   >
-                    <span className="option_word">{opt}</span>
+                    <span className="option_word"><MathJax>{opt}</MathJax></span>
                   </div>
                 </button>
               </div>
