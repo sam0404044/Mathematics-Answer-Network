@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,9 +10,12 @@ import Notice from '../components/Notice';
 
 
 
-export default function register() {
+export default function Register() {
     const [showModal, setShowModal] = useState(false);
     const router = useRouter();
+    const [errors, setErrors] = useState({});
+
+
     const [formData, setFormData] = useState({
         userName: "",
         userEmail: "",
@@ -23,7 +26,6 @@ export default function register() {
         userGender: "",
     });
 
-    const [errors, setErrors] = useState({});
 
     const validateField = (name, value) => {
         switch (name) {
@@ -45,23 +47,45 @@ export default function register() {
                 return '';
         }
     };
+
+
     
-    const handleChange = (event) => {
+    const handleChange = async (event) => {
         const { name, value } = event.target;
+    
         setFormData((prev) => ({ ...prev, [name]: value }));
-
-        const errorMessage = validateField(name, value);
+    
+        let errorMessage = validateField(name, value);
+    
+        if (name === 'userEmail' && errorMessage === '') {
+            try {
+                const res = await fetch('/api/register/check-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: value })
+                });
+    
+                const data = await res.json();
+                if (data.exists) {
+                    errorMessage = '此 Email 已被註冊過';
+                }
+            } catch (err) {
+                errorMessage = 'Email 驗證失敗，請稍後再試';
+            }
+        }
+    
         setErrors((prev) => ({ ...prev, [name]: errorMessage }));
-
+    
         if (name === 'userPwd') {
             const confirmError = validateField('userPwdConfirm', formData.userPwdConfirm);
             setErrors((prev) => ({ ...prev, userPwdConfirm: confirmError }));
         }
     };
     
-    const submitHandler = (event) => {
+    const submitHandler = async (event) => {
         event.preventDefault();
     
+        // 驗證資料
         const newErrors = {};
         Object.entries(formData).forEach(([key, value]) => {
             const msg = validateField(key, value);
@@ -69,12 +93,26 @@ export default function register() {
         });
     
         if (Object.keys(newErrors).length > 0) {
-          setErrors(newErrors);
-          return;
+            setErrors(newErrors);
+            return;
         }
     
-        console.log("送出的資料：", formData);
-        setShowModal(true);
+        // 若驗證通過才送出資料
+        const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+        });
+    
+        const result = await res.json();
+        if (res.ok) {
+          setShowModal(true);
+          setTimeout(() => {
+            router.push('/login');
+          }, 1000);
+        } else {
+          setErrors({ userEmail: result.error || '註冊失敗' });
+        }
     };
  
 
@@ -106,7 +144,6 @@ export default function register() {
                 <div className={styles.myform}>
                     <form onSubmit={submitHandler}> 
                         <label htmlFor="userName">用戶名</label> <br /> 
-                        {/* ---- placeholder考慮壹下比較好 ---- */}
                         <input 
                             type="text" 
                             name="userName"
@@ -114,7 +151,7 @@ export default function register() {
                             onChange={handleChange}
                             onBlur={handleChange}
                         />
-                        {errors.userName && <div style={{ color: "red" }}>{errors.userName}</div>}
+                        {errors.userName && <div style={{ color: 'var(--red)' }}>{errors.userName}</div>}
                         <br />
                         <label htmlFor="userEmail">電子信箱</label> <br />
                         <input 
@@ -122,9 +159,8 @@ export default function register() {
                             name="userEmail" 
                             value={formData.userEmail} 
                             onChange={handleChange} 
-                            onBlur={handleChange}
                         />
-                        {errors.userEmail && <div style={{ color: "red" }}>{errors.userEmail}</div>}
+                        {errors.userEmail && <div style={{ color: 'var(--red)' }}>{errors.userEmail}</div>}
                         <br />
                         <label htmlFor="userPwd">密碼</label> <br />
                         <input 
@@ -132,9 +168,8 @@ export default function register() {
                             name="userPwd" 
                             value={formData.userPwd} 
                             onChange={handleChange} 
-                            onBlur={handleChange}
                         />
-                        {errors.userPwd && <div style={{ color: "red" }}>{errors.userPwd}</div>}
+                        {errors.userPwd && <div style={{ color: 'var(--red)' }}>{errors.userPwd}</div>}
                         <br />
                         <label htmlFor="userPwdConfirm">確認密碼</label> <br />
                         <input 
@@ -142,9 +177,8 @@ export default function register() {
                             name="userPwdConfirm"
                             value={formData.userPwdConfirm}  
                             onChange={handleChange}
-                            onBlur={handleChange} 
                         />
-                        {errors.userPwdConfirm && <div style={{ color: "red" }}>{errors.userPwdConfirm}</div>}
+                        {errors.userPwdConfirm && <div style={{ color: 'var(--red)' }}>{errors.userPwdConfirm}</div>}
                         <br />
                         <label htmlFor="userSchool">就讀學校（非必填）</label> <br />
                         <input 
@@ -180,8 +214,7 @@ export default function register() {
                         {/* 確認按鈕 */}
                         <button 
                             className={styles.mybtn} 
-                            type="button"
-                            onClick={() => setShowModal(true)}>
+                            type="submit">
                             確認註冊
                         </button>
                     </form>
@@ -190,13 +223,16 @@ export default function register() {
             {/* 彈窗 */}
             {/* 有條件渲染的彈窗 */}
             <Notice 
-                show={showModal} 
-                onClose={() => { 
-                    setShowModal(false) 
-                    setTimeout(() => {
-                        router.push('/')
-                    }, 1000);
-                }} message={'註冊成功'} 
+                // show={showModal} 
+                // onClose={() => { 
+                //     setShowModal(false) 
+                //     setTimeout(() => {
+                //         router.push('/')
+                //     }, 1000);
+                // }} message={'註冊成功'} 
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                message="註冊成功"
             />                        
             <Footer />
         </> 

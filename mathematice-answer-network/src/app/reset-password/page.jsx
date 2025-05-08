@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from'./page.module.css';
@@ -12,44 +13,46 @@ import Notice from '../components/Notice';
 export default function ResetPassword() {
     const [showModal, setShowModal] = useState(false);
     const router = useRouter();
-    
-    
+    const searchParams = useSearchParams();
+    const token = searchParams.get('token');
+        
     const [formData, setFormData] = useState({
-        userPwd: "",
-        userPwdConfirm: "",
+        newPassword: "",
+        confirmPassword: "",
     });
     
     const [errors, setErrors] = useState({});
     
     const validateField = (name, value) => {
         switch (name) {
-            case 'userPwd':
+            case 'newPassword':
                 const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
                 return pwdRegex.test(value)
                     ? ''
                     : '密碼需包含大小寫英文與數字，且至少8碼';
-            case 'userPwdConfirm':
-                return value !== formData.userPwd 
+            case 'confirmPassword':
+                return value !== formData.newPassword 
                     ? '兩次輸入的密碼不一致' : '';
             default:
                 return '';
         }
     };
     
-    const handleChange = (event) => {
+    const handleChange = async (event) => {
         const { name, value } = event.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
 
         const errorMessage = validateField(name, value);
         setErrors((prev) => ({ ...prev, [name]: errorMessage }));
 
-        if (name === 'userPwd') {
-            const confirmError = validateField('userPwdConfirm', formData.userPwdConfirm);
-            setErrors((prev) => ({ ...prev, userPwdConfirm: confirmError }));
+
+        if (name === 'newPassword') {
+            const confirmError = validateField('confirmPassword', formData.confirmPassword);
+            setErrors((prev) => ({ ...prev, confirmPassword: confirmError }));
         }
     };
     
-    const submitHandler = (event) => {
+    const submitHandler = async (event) => {
         event.preventDefault();
     
         const newErrors = {};
@@ -63,8 +66,24 @@ export default function ResetPassword() {
             return;
         }
     
-        console.log("送出的資料：", formData);
-        setShowModal(true);
+        const res = await fetch('/api/reset-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                token,
+                newPassword: formData.newPassword
+            }),
+        });
+      
+        const result = await res.json();
+        if (res.ok) {
+            setShowModal(true);
+            setTimeout(() => {
+                router.push('/login');
+            }, 1000);
+        } else {
+            setErrors({ general: result.error || '重設密碼失敗' });
+        }
     };
 
     return (
@@ -97,24 +116,24 @@ export default function ResetPassword() {
                         <span>請重新輸入密碼</span><br />
                         <input 
                             type="password"     
-                            name="userPwd" 
+                            name="newPassword" 
                             className={styles.upwd}
-                            value={formData.userPwd}
+                            value={formData.newPassword}
                             onChange={handleChange}
                             onBlur={handleChange}              
                         />
-                        {errors.userPwd && <div style={{ color: 'red' }}>{errors.userPwd}</div>}
+                        {errors.newPassword && <div style={{ color: 'var(--red)' }}>{errors.newPassword}</div>}
                         <br />
                         <span>再次確認密碼</span><br />
                         <input 
                             type="password" 
-                            name="userPwdConfirm"  
+                            name="confirmPassword"  
                             className={styles.upwd_confirm} 
-                            value={formData.userPwdConfirm}
+                            value={formData.confirmPassword}
                             onChange={handleChange}
                             onBlur={handleChange}                        
                         />
-                        {errors.userPwdConfirm && <div style={{ color: 'red' }}>{errors.userPwdConfirm}</div>}
+                        {errors.confirmPassword && <div style={{ color: 'var(--red)' }}>{errors.confirmPassword}</div>}
                         <br />
                         {/* 確認按鈕 */}
                         <button 
@@ -122,19 +141,23 @@ export default function ResetPassword() {
                             type="submit">
                             重設密碼
                         </button>
+                        {errors.general && <div style={{ color: 'var(--red)' }}>{errors.general}</div>}
                     </form>
                 </div>
             </div>
             {/* 彈窗 */}
             {/* 有條件渲染的彈窗 */}
             <Notice 
-                show={showModal} 
-                onClose={() => { 
-                    setShowModal(false) 
-                    setTimeout(() => {
-                        router.push('/login')
-                    }, 1000);
-                }} message={'重新設定成功'} 
+                // show={showModal} 
+                // onClose={() => { 
+                //     setShowModal(false) 
+                //     setTimeout(() => {
+                //         router.push('/login')
+                //     }, 1000);
+                // }} message={'重新設定成功'}
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                message="註冊成功" 
             />                          
             <Footer />
         </> 

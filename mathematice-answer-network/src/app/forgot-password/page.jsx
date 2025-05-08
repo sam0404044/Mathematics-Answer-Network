@@ -4,28 +4,30 @@ import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from'./page.module.css';
+import styles from './page.module.css';
 import Footer from '../components/Footer';
 import Notice from '../components/Notice';
 
 
 export default function ForgotPassword() {
     const [showModal, setShowModal] = useState(false);
+    const [email, setEmail] = useState('');
     const router = useRouter();
 
-    const [formData, setFormData] = useState({
-        email: "",
-        captcha: "",
-    });
-    
-    const handleSendCode = async () => {
-        const res = await fetch('/send_reset_code.php', {
+    const handleSendResetEmail = async () => {
+        const res = await fetch('/api/send-reset-code', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `email=${encodeURIComponent(email)}`
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
         });
+
+        const result = await res.json();
+        if (res.ok) {
+            setShowModal(true);
+        } else {
+            alert(result.error || '發送失敗');
+        }
     };
-   
 
     return (
         <>
@@ -37,8 +39,7 @@ export default function ForgotPassword() {
                             src='/img/close.svg' 
                             alt='LoginImg' 
                             width={30} 
-                            height={30}
-                        />
+                            height={30}/>
                     </Link>
                 </button>
                 {/* 插圖與標題 */}
@@ -47,58 +48,35 @@ export default function ForgotPassword() {
                         src='/img/ForgotPwd_cover.svg'
                         alt="忘記密碼頁面"
                         width={372}
-                        height={283}
-                    />
+                        height={283}/>
                     <h1>忘記密碼</h1>       
                 </div>
-                {/* 驗證碼表單 */}
+                {/* 表單 */}
                 <div className={styles.myform}>
                     <form onSubmit={e => e.preventDefault()}>
                         <span>電子信箱</span><br />
                         <input 
                             type="email" 
-                            name="setEmail" 
                             className={styles.setEmail}
-                            value={formData.email}
+                            value={email}
                             onChange={e => setEmail(e.target.value)}
                         />
                         <button 
                             className={styles.mybtn}
                             type="button"
-                            onClick={handleSendCode}>
-                            發送信件
-                        </button>
-                        <br />
-                        <span>驗證碼</span><br />
-                        <input 
-                            type="text" 
-                            name="captcha" 
-                            className={styles.captcha}
-                            value={formData.captcha}
-                            onChange={(e) => setFormData({...formData, userCaptcha: e.target.value})}
-                        />
-                        <br />
-                        <button
-                            className={styles.myconfirmbtn} 
-                            type="button" 
-                            onClick={() => setShowModal(true)}>
-                            驗證確認
+                            onClick={handleSendResetEmail}>
+                            發送重設密碼連結
                         </button>
                     </form>
                 </div>
-            </div>           
+            </div>
             {/* 彈窗 */}
-            {/* 有條件渲染的彈窗 */}
             <Notice 
-                show={showModal} 
-                onClose={() => { 
-                    setShowModal(false) 
-                    setTimeout(() => {
-                        router.push('/reset-password')
-                    }, 1000);
-                }} message={'驗證成功'} 
-            />                         
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                message={'已寄出連結，請至信箱查看'} 
+            />
             <Footer />
-        </>    
+        </>
     );
-};
+}
