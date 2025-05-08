@@ -10,7 +10,7 @@ export default function PricingPage() {
 
 
   const plan_status = 1;
-  const points = 0;
+  const points = 100;
   
   // 免費方案永遠在以下三種狀況要變灰（視為啟用）
   const isFreeActive =
