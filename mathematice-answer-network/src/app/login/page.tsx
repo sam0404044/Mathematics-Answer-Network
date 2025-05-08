@@ -2,8 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import Notice from "../../components/Notice";
-import Footer from "../../components/Footer";
+import Notice from "@/app/components/Notice";
+import Footer from "@/app/components/Footer";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
