@@ -8,6 +8,7 @@
   background-color: var(--white);
   box-shadow: 0 2px 3px rgba(198, 198, 198, 0.758);
   z-index: 999;
+  width: 100%;
 }
 .navbarcomponent {
   display: flex;

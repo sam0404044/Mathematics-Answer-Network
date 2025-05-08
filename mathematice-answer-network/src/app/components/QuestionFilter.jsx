@@ -32,9 +32,7 @@ export default function QuestionFilter({ isActive, setIsActive, data, dispatch, 
                 checked.length === 0
                   ? data
                   : data.filter(
-                      (paper) =>
-                        typeof paper.questionYear === "string" &&
-                        checked.some((suffix) => paper.questionYear.endsWith(suffix))
+                      (paper) => typeof paper === "string" && checked.some((suffix) => paper.endsWith(suffix))
                     );
               dispatch({
                 type: "filteredData",

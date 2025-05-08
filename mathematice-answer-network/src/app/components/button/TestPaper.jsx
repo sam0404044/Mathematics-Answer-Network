@@ -1,9 +1,9 @@
 import Link from "next/link";
 import styles from "./TestPaper.module.css";
 
-export default function TestPaper({ uid, content }) {
+export default function TestPaper({ content }) {
   return (
-    <Link href={`/quiz?uid=${uid}`} className={styles["btn-container"]}>
+    <Link href={`/quiz/${content}`} className={styles["btn-container"]}>
       <p className={styles.content}> {content}</p>
     </Link>
   );

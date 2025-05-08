@@ -51,8 +51,10 @@ export default function QuestionBank() {
     async function getData() {
       const res = await fetch("/api/questionBank");
       const data = await res.json();
+      const reversedData = [...data.questions].reverse();
+      const uniqueData = [...new Set(reversedData.map((cur) => cur.questionYear))];
       setTimeout(function () {
-        dispatch({ type: "setData", payload: data.questions });
+        dispatch({ type: "setData", payload: uniqueData });
       }, 3000);
     }
     getData();
@@ -78,11 +80,7 @@ export default function QuestionBank() {
           題庫過濾
         </QuestionFilterBtn>
         {showCurPage.map((cur) => (
-          <TestPaper
-            key={cur.UID}
-            uid={cur.questionYear}
-            content={cur.questionYear}
-          />
+          <TestPaper key={cur} content={cur} />
         ))}
       </div>
       <Pagination curPage={curPage} dispatch={dispatch} totalPage={totalPage} />
