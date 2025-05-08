@@ -1,18 +1,16 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import pool from "@/lib/db";
-import type { RowDataPacket } from "mysql2";
+import type { ResultSetHeader } from "mysql2";
 
 export async function GET(req: Request) {
     // 取得網址
     const url = new URL(req.url);
     // 取得網址中code=後續部分
     const code = url.searchParams.get("code")!;
-    // 宣告從資料庫抓到的資料型態
-    interface UserInfo extends RowDataPacket {
-        email: string;
-        google_id: string;
-    }
+
+    // 給ResultSetHeader換個名字
+    type ExecResult = ResultSetHeader;
 
     try {
         // 交換token
@@ -61,36 +59,37 @@ export async function GET(req: Request) {
 
         const nowTime = new Date(Date.now());
 
-        // 更新last_login時間
-        await pool.execute(
+        const [result] = await pool.execute<ExecResult>(
             `
             INSERT INTO user_info (email, google_id, last_login)
             VALUES (?, ?, ?)
             ON DUPLICATE KEY UPDATE
               google_id  = VALUES(google_id),
-              last_login = VALUES(last_login)
+              last_login = VALUES(last_login),
+              id = LAST_INSERT_ID(id)
             `,
             [email, googleId, nowTime]
         );
 
-        // 使用next.js的crypto生成sessionToken
-        const sessionToken = crypto.randomUUID();
-
-        // 設置cookie
-        // next.js中cookies()會返回一個Promise，需要使用await
-        const cookieStore = await cookies();
-        cookieStore.set({
-            name: "login session", // 名稱
-            value: sessionToken, // 值
-            httpOnly: true, // 安全設置
-            secure: process.env.NODE_ENV === "production", // 安全設置
-            sameSite: "strict", // 安全設置
-            maxAge: 60 * 30, // 過期時間 : 30天
-        });
+        // 得到被修改的那筆資料的流水號id
+        const uid = result.insertId;
 
         // 導到首頁
-        // next.js 新版本需要使用await
-        return NextResponse.redirect(new URL("/", req.url));
+        // cookie設定
+        const res = NextResponse.redirect(new URL("/", req.url));
+
+        // cookie設定
+        res.cookies.set({
+            name: "google_login_session", // Cookie 名稱
+            value: uid.toString(), // 把uid轉成字串
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production", //
+            sameSite: "strict",
+            path: "/", // 全域生效
+            // 不設定 maxAge，瀏覽器關閉就清空
+        });
+
+        return res;
 
         // 如果驗證失敗
     } catch (error) {

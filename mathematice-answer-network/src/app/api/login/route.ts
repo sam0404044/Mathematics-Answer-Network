@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     // 根據SQL指令，將相符結果存入[rows]這個物件陣列中
     const [rows] = await pool.execute<UserInfo[]>(
         // 使用接收到的email，查詢資料庫
-        "SELECT email, password_hash FROM user_info WHERE email = ? LIMIT 1",
+        "SELECT id, email, password_hash FROM user_info WHERE email = ? LIMIT 1",
         [email]
     );
 
@@ -59,6 +59,24 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: false, message: "密碼錯誤" }, { status: 401 });
     }
 
+    const uid = user.id;
     // 登入成功
-    return NextResponse.json({ success: true }, { status: 200 });
+    const res = NextResponse.json({ success: true }, { status: 200 });
+
+    // cookie設定
+
+    res.cookies.set({
+        name: "local_login", // Cookie 名稱
+        value: uid.toString(), // 把uid轉成字串
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", //
+        sameSite: "strict",
+        path: "/", // 全域生效
+        // 如果勾「記住我」，設 30 天；否則不帶 maxAge → session cookie
+        ...(rememberMe
+            ? { maxAge: 60 * 60 * 24 * 30 } // 30 天
+            : {}),
+    });
+
+    return res;
 }
