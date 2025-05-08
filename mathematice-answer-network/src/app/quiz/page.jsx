@@ -46,6 +46,10 @@ class quiz extends Component {
   };
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = () => {
+    const searchParam = new URLSearchParams(window.location.search);
+    const uid = searchParam.get("uid");
+    console.log(uid);
+
     this.state.timeCount_display = this.spend_time_toString(
       this.state.time_limit
     );
