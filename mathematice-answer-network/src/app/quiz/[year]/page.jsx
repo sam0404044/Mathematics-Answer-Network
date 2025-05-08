@@ -4,8 +4,10 @@ import "./style.css";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/app/components/Footer";
+
 class quiz extends Component {
   state = {
+    id: 1,
     quiz: [
       {
         id: 1,
@@ -52,7 +54,7 @@ class quiz extends Component {
       this.state.time_limit
     );
 
-    
+
     const { year } = await this.props.params;
     let json = await fetch(`../api/quiz/${year}`)
       .then((data) => {
@@ -60,13 +62,20 @@ class quiz extends Component {
       })
       ;
     let newState = { ...this.state };
-    console.log(convertdata(json))
     newState.quiz = convertdata(json);
     newState.status = json.questions.map(() => []);
     this.setState(newState);
     this.setMyInterval();
+    this.typesetMath();
   };
-
+  componentDidUpdate = () => {
+    this.typesetMath(); // 每次更新後都重新渲染 MathJax
+  }
+  typesetMath = () => {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise();
+    }
+  }
   setMyInterval = (event) => {
     if (this.state.mytimeid) {
       clearInterval(this.state.mytimeid);
@@ -201,6 +210,77 @@ class quiz extends Component {
     }
     return html_element
   }
+  export_answer_data = () => {
+    function compare_array(a, b) {
+      return a.sort().toString() == b.sort().toString()
+    }
+    function translate_letter_to_number(letter) {
+      switch (letter) {
+        case "A":
+          return [0];
+        case "B":
+          return [1];
+        case "C":
+          return [2];
+        case "D":
+          return [3];
+        case "E":
+          return [4];
+        default:
+          return 1;
+
+      }
+    }
+    let answer = {
+      "answer_info":
+        [{
+          "uid": 1,
+          "answer": [2],
+          "right_answer": [2]
+        },
+        ], "answer_status":
+        { "total": 2, "correct": 1 }
+    }
+    let correct_n = this.state.quiz.filter((question, idx) => {
+      return compare_array(this.state.status[idx], translate_letter_to_number(question.answer))
+    })
+    answer.answer_info = this.state.quiz.map((question, idx) => {
+      return ({
+        "uid": question.id,
+        "answer": this.state.status[idx],
+        "right_answer": translate_letter_to_number(question.answer)
+      })
+    })
+    answer.answer_status = {
+       "total": this.state.quiz.length, 
+       "correct": correct_n.length
+    }
+    return answer
+  }
+  submit_quiz = () => {
+    if (this.state.commit_status) {
+      let answer = {
+        "answer_info":
+          [{
+            "uid": 1,
+            "answer": [2],
+            "right_answer": [2]
+          },
+          ], "answer_status":
+          { "total": 2, "correct": 1 }
+      }
+
+      fetch("../api/quizSubmit", {
+        method: "POST",
+        body: JSON.stringify({
+          userid: this.state.id,
+          cost_time: this.state.time_count,
+          answer:this.export_answer_data()
+        }
+        )
+      })
+    }
+  }
   render() {
     return (
       <div className="page_container">
@@ -230,7 +310,7 @@ class quiz extends Component {
               <div className="leave_menu_button_area">
                 <button className="leave_menu_button">
                   {
-                    <Link href={this.state.commit_status ? "/score" : "/"}>
+                    <Link onNavigate={() => { this.submit_quiz() }} href={this.state.commit_status ? "/score" : "/"}>
                       {this.state.commit_status ? "確定交卷" : "確定離開"}
                     </Link>
                   }

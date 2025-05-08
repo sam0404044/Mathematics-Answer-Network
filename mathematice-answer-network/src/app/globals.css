@@ -64,15 +64,8 @@
   --quiz-dark-mode-switch-button-off: #ccc;
   --quiz-dark-mode-switch-button-slider: transparent;
 
-  --record-background: #d9d9d9;
-  --record-improve-button: #339af0;
-  --record-improve-button-shadow: #19598e;
-  --record-border: #c6c7c8;
 
-  --score-background: #d9d9d9;
-  --score-button-toMainPage: #000000d2;
-  --score-button-achievement: #447ccc;
-  --score-button-practice: #447ccc;
+ 
   --score-display-text: #fff;
 }
 

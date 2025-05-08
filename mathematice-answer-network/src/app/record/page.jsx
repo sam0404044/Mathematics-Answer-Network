@@ -4,8 +4,10 @@ import React, { Component } from 'react';
 import "./style.css"
 import Image from 'next/image'
 import Footer from '../components/Footer';
+import NavBar from "../components/NavBar";
 class record extends Component {
     state = {
+        id: 1,
         tree: {
             tree_status: 4,
             tree_grow_up_gap: 5,
@@ -39,6 +41,33 @@ class record extends Component {
 
 
     }
+    componentDidMount = () => {
+        fetch("./api/record", {
+            method: "POST",
+            body: JSON.stringify({ uid: this.state.id }
+            )
+        })
+        .then(res => res.json())
+        .then(json =>{
+            let newstate = {...this.state}
+            newstate.answer_history = json.question_record.map(question =>{
+                let timestamp = new Date(question.time).getTime()
+                
+                return (
+                    {
+                        date: { month: (new Date(timestamp).getMonth()) + 1, day: new Date(timestamp).getDate()  },
+                        answer_record: { has_answer: question.answer.answer_status.correct, total_question: question.answer.answer_status.total }
+                }
+                )
+            })
+            newstate.tree = {
+                tree_status:json.tree_status[0].status,
+                tree_grow_up_gap:json.tree_status[0].gap
+            }
+            newstate.wrong_question.total_number = json.wrong_question_n[0].wrong_question_number
+            this.setState(newstate)
+        })
+    }
     tree_status = () => {
         let tree_address
         switch (this.state.tree.tree_status) {
@@ -64,6 +93,7 @@ class record extends Component {
     render() {
         return (
             <div className='page_container'>
+                <NavBar />
                 <div className='main'>
                     <div className='title_area'>
                         <span className='title_text'>
