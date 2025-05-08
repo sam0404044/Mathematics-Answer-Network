@@ -49,7 +49,6 @@ export default function QuestionBank() {
 
   useEffect(function () {
     async function getData() {
-      // const res = await fetch("https://jsonplaceholder.typicode.com/comments");
       const res = await fetch("/api/questionBank");
       const data = await res.json();
       console.log(data.questions);
@@ -80,7 +79,7 @@ export default function QuestionBank() {
           題庫過濾
         </QuestionFilterBtn>
         {showCurPage.map((cur) => (
-          <TestPaper key={cur.UID} content={cur.questionYear} />
+          <TestPaper key={cur.UID} uid={cur.UID} content={cur.questionYear} />
         ))}
       </div>
       <Pagination curPage={curPage} dispatch={dispatch} totalPage={totalPage} />
