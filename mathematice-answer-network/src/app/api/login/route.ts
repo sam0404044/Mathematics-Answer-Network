@@ -1,7 +1,7 @@
-import pool from '../../../lib/db';
-import { NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import type { RowDataPacket } from 'mysql2';
+import pool from "@/lib/db";
+import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import type { RowDataPacket } from "mysql2";
 
 // 登入驗證
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     // 如果後端沒有收到完整資料(email+密碼)則報錯
     if (!email || !password) {
         return NextResponse.json(
-            { success: false, message: '請提供 email 與 password' },
+            { success: false, message: "請提供 email 與 password" },
             { status: 400 }
         );
     }
@@ -28,14 +28,25 @@ export async function POST(req: Request) {
     // 根據SQL指令，將相符結果存入[rows]這個物件陣列中
     const [rows] = await pool.execute<UserInfo[]>(
         // 使用接收到的email，查詢資料庫
-        'SELECT email, password_hash FROM user_info WHERE email = ? LIMIT 1',
+        "SELECT email, password_hash FROM user_info WHERE email = ? LIMIT 1",
         [email]
     );
 
     // 如果陣列為空，則代表查無此使用者
     if (rows.length === 0) {
-        return NextResponse.json({ success: false, message: '使用者不存在' }, { status: 401 });
+        return NextResponse.json({ success: false, message: "使用者不存在" }, { status: 401 });
     }
+
+    const nowTime = new Date(Date.now());
+    // 更新登入時間
+    await pool.execute(
+        `
+        UPDATE user_info
+        SET last_login = ?
+        WHERE email = ?
+      `,
+        [nowTime, email]
+    );
 
     // 若陣列不為空，將user設為陣列中的第一個元素(同一個帳號理應只有一筆資料)
     const user = rows[0];
@@ -45,12 +56,9 @@ export async function POST(req: Request) {
     const valid = await bcrypt.compare(password, user.password_hash);
     // 如果驗證失敗則返回密碼錯誤
     if (!valid) {
-        return NextResponse.json({ success: false, message: '密碼錯誤' }, { status: 401 });
+        return NextResponse.json({ success: false, message: "密碼錯誤" }, { status: 401 });
     }
 
     // 登入成功
-    return NextResponse.json(
-        { success: true, userId: user.id, rememberMe, message: '登入成功' },
-        { status: 200 }
-    );
+    return NextResponse.json({ success: true }, { status: 200 });
 }
