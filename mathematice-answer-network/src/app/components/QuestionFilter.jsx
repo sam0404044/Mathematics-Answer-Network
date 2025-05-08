@@ -1,13 +1,6 @@
 import styles from "./QuestionFilter.module.css";
 
-export default function QuestionFilter({
-  isActive,
-  setIsActive,
-  data,
-  dispatch,
-  checked,
-  setChecked,
-}) {
+export default function QuestionFilter({ isActive, setIsActive, data, dispatch, checked, setChecked }) {
   const options = ["數學A考科", "數學B考科", "學測"];
   const matched = ["數A", "數B", "學測"];
   if (!data) return;
@@ -35,13 +28,14 @@ export default function QuestionFilter({
             className={styles.btn}
             onClick={() => {
               setIsActive(!isActive);
-              const filtered = data.filter((paper) =>
-                typeof paper.questionYear === "string" && checked.length === 0
+              const filtered =
+                checked.length === 0
                   ? data
-                  : checked.some((suffix) =>
-                      paper.questionYear.endsWith(suffix)
-                    )
-              );
+                  : data.filter(
+                      (paper) =>
+                        typeof paper.questionYear === "string" &&
+                        checked.some((suffix) => paper.questionYear.endsWith(suffix))
+                    );
               dispatch({
                 type: "filteredData",
                 payload: filtered,
@@ -52,10 +46,7 @@ export default function QuestionFilter({
           </button>
         </div>
       </div>
-      <div
-        className={styles.overlay}
-        onClick={() => setIsActive(!isActive)}
-      ></div>
+      <div className={styles.overlay} onClick={() => setIsActive(!isActive)}></div>
     </>
   );
 }

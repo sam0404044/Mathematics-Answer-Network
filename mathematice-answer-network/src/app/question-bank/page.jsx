@@ -51,7 +51,6 @@ export default function QuestionBank() {
     async function getData() {
       const res = await fetch("/api/questionBank");
       const data = await res.json();
-      console.log(data.questions);
       setTimeout(function () {
         dispatch({ type: "setData", payload: data.questions });
       }, 3000);
