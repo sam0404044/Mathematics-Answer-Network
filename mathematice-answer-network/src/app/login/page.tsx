@@ -2,10 +2,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import Notice from "../components/Notice";
-import Footer from "../components/Footer";
+import Notice from "@/app/components/Notice";
+import Footer from "@/app/components/Footer";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+    const router = useRouter();
     const [showModal, setShowModal] = useState(false);
     const [message, setMessage] = useState("");
     const [userInfo, setUserInfo] = useState({
@@ -16,7 +18,6 @@ export default function Login() {
 
     // 登入按鈕
     const login = async () => {
-        // console.log(userInfo);
         // 傳送資料給後端
         const res = await fetch("/api/login", {
             method: "POST",
@@ -35,15 +36,18 @@ export default function Login() {
             console.log(err);
             return;
         } else {
-            setMessage("登入成功");
+            setMessage("登入成功，三秒後將跳轉到首頁");
             setShowModal(true);
+            setTimeout(() => {
+                router.push("/");
+            }, 3000);
             return;
         }
     };
 
     return (
         <>
-            <main className="relative flex flex-col items-center bg-[var(--background)] h-full pt-10 px-[40px] min-h-screen">
+            <main className="relative flex flex-col items-center bg-[var(--background)] h-full p-10 min-h-screen">
                 {/* 關閉按鈕 */}
                 <button className="absolute top-5 right-5">
                     <Link href={"/"}>
@@ -55,7 +59,7 @@ export default function Login() {
                 <Image src={"/img/LoginImg.svg"} alt="LoginImg" width={372} height={283}></Image>
 
                 {/* 標題 */}
-                <h1 className="text-4xl text-center font-bold py-5">Wellcome to MWBB!</h1>
+                <h1 className="text-4xl text-center font-bold py-5">登入</h1>
 
                 {/* 登入表單 */}
                 <div className="w-full max-w-[372px] mx-auto">
@@ -113,7 +117,7 @@ export default function Login() {
                             </Link>
                         </div>
                         <button
-                            className="w-full bg-[var(--log-in-btn)] text-white py-2 rounded-lg font-bold"
+                            className="w-full bg-(--sign-up-btn) text-white py-2 rounded-lg font-bold"
                             onClick={login}
                             type="button"
                         >

@@ -1,15 +1,17 @@
 .filter {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
-  height: 280px;
+  height: 220px;
   background-color: var(--question-filter);
   z-index: 999;
 }
 
 .overlay {
   left: 0;
-  top: 280px;
-  height: calc(100vh - 280px);
+  top: 220px;
+  height: calc(100vh - 220px);
   width: 100%;
   position: fixed;
   background-color: var(--bar-overlay);
@@ -17,6 +19,7 @@
 }
 
 .checkboxContainer {
+  height: 150px;
   margin-top: 30px;
   display: flex;
   flex-direction: column;

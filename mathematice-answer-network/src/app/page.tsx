@@ -8,7 +8,7 @@ import About from "./components/About";
 import Animation from "./components/Animation";
 import { useEffect, useState } from "react";
 
-export default function page() {
+export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(function () {

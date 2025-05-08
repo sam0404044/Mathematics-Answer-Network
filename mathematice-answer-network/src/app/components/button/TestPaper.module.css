@@ -13,18 +13,18 @@
   box-shadow: 0 2px 1px rgba(1, 80, 145, 0.5);
 }
 
-.title {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--test-paper-header);
-  white-space: nowrap;
-}
-
-.content {
+/* .title {
   max-width: 390px;
   font-size: 16px;
   color: var(--test-paper-text);
   text-overflow: ellipsis;
   overflow: hidden;
+  white-space: nowrap;
+} */
+
+.content {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--test-paper-header);
   white-space: nowrap;
 }
