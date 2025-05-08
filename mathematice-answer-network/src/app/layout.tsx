@@ -1,6 +1,6 @@
-import { MathJaxContext } from "better-react-mathjax";
-import type { Metadata } from "next";
+import { Metadata } from "next";
 import "./globals.css";
+import ClientSideEffect from "./ClientSideEffect/ClientSideEffect"; // 引入客戶端處理的組件
 
 export const metadata: Metadata = {
   title: "MWBB",
@@ -17,16 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <MathJaxContext
-          config={{
-            loader: { load: ["[tex]/ams"] },
-            tex: {
-              packages: { "[+]": ["ams"] },
-            },
-          }}
-        >
-          {children}
-        </MathJaxContext>
+        <ClientSideEffect>{children}</ClientSideEffect>
       </body>
     </html>
   );
