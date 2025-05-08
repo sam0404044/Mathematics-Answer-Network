@@ -78,7 +78,11 @@ export default function QuestionBank() {
           題庫過濾
         </QuestionFilterBtn>
         {showCurPage.map((cur) => (
-          <TestPaper key={cur.UID} uid={cur.UID} content={cur.questionYear} />
+          <TestPaper
+            key={cur.UID}
+            uid={cur.questionYear}
+            content={cur.questionYear}
+          />
         ))}
       </div>
       <Pagination curPage={curPage} dispatch={dispatch} totalPage={totalPage} />
