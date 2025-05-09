@@ -26,6 +26,9 @@ export default function QuestionSettings() {
 
       const data = await res.json();
 
+    // / ✅ 加入 LOG：印出 API 回傳內容
+    console.log("📦 題目 API 回傳資料：", data);
+
       if (!res.ok || !data.questions) {
         alert("題目產生失敗");
         setStatus("idle");
