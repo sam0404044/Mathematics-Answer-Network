@@ -249,7 +249,7 @@ div.question_overlay_menu_button_img {
 
 button.menu_content_button {
     background-color: var(--quiz-color-first);
-    color: var(--text-btn);
+    ;
     overflow: hidden;
     display: flex;
     text-align: center;
@@ -267,9 +267,15 @@ button.menu_content_button {
 }
 button.menu_content_button_has_answer {
     background-color: var(--quiz-menu-content-button-has-answer);
+    color: var(--text-btn)
 }
 button.menu_content_button_not_answer {
     background-color: var(--quiz-menu-content-button-not-answer);
+    color: var(--text-btn)
+}
+button.menu_content_button_not_view{
+    background-color: var(--quiz-menu-content-button-not-view);
+    color: var(--quiz-menu-content-button-not-view-font-color)
 }
 div.title_area {
     display: flex;
