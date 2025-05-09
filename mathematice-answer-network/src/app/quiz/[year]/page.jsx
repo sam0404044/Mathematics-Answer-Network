@@ -54,7 +54,7 @@ class quiz extends Component {
     this.state.timeCount_display = this.spend_time_toString(
       this.state.time_limit
     );
-
+  
 
     const { year } = await this.props.params;
     let json = await fetch(`../api/quiz/${year}`)
