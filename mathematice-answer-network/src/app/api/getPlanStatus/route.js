@@ -5,10 +5,10 @@ import db from "@/lib/db"; // 你自訂的 MySQL 或 SQLite 連線工具
 
 export async function GET() {
   const cookieStore = cookies();
-  const userId = cookieStore.get("")?.value;
+  const userId = cookieStore.get("gooogle session XXXXX")?.value;
 
   // ✅ 未登入情況
-  if (!userId) {
+  if (!userId || GID) {
     return NextResponse.json({
       plan_status: 0,
       points: 0,
