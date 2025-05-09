@@ -10,7 +10,8 @@
 
 .head {
   color: var(--header-text);
-  font-size: 40px;
+  font-size: 36px;
+  font-weight: bold;  
   text-align: center;
   align-items: center;
   position: relative;
