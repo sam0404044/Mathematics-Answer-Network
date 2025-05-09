@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Footer from '../components/Footer';
 class score extends Component {
   state = {
+    scorll_switch:false,
     questionbank: {
       "exam_title": "114數B",
       "questions": [
@@ -20,13 +21,13 @@ class score extends Component {
             "3 個",
             "無限多個"
           ],
-          "answer": 2,
+          "answer": [2],
           "explanation": "設 P 的位置為 x，則 |x - 1| + |x - 4| = 4。解這個方程式可以得到 x = 1 或 x = 4，因此有 1 個解。",
           "image": ""
         }
       ]
     },
-    answer_status: [1, 2, 3, 4],
+    answer_status: [[1], [2], [3], [4]],
     show_status: [false],
     time_spent: 629,
     star_setting: [
@@ -70,6 +71,7 @@ class score extends Component {
     ]
   }
   componentDidMount = () => {
+    window.addEventListener("scroll",() =>{this.scroll_event()})
     fetch("./json/question.json",)
       .then(data => {
         return data.json();
@@ -77,7 +79,7 @@ class score extends Component {
         let newState = { ...this.state }
         newState.questionbank = data
         // 作答狀態假設↓↓↓↓↓↓↓↓↓↓
-        newState.answer_status = data.questions.map((x, index) => (index % 5) + 1)
+        newState.answer_status = data.questions.map((x, index) => [1])
         // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
         newState.status = data.questions.map(() => false)
         this.setState(newState);
@@ -112,9 +114,9 @@ class score extends Component {
   }
 
   calculateScore = () => {
-    const correctN = this.state.questionbank.questions.filter((x, idx) => x.answer == this.state.answer_status[idx]).length
-    // return Math.floor(correctN / this.state.questionbank.questions.length * 100)
-    return 40
+    const correctN = this.state.questionbank.questions.filter((x, idx) => (this.compare_answer(x.answer, this.state.answer_status[idx]))).length
+    return Math.floor(correctN / this.state.questionbank.questions.length * 100)
+    // return 80
     // return (分數)
   }
   spend_time_toString = (time) => {
@@ -145,12 +147,38 @@ class score extends Component {
       )
     )
   }
+  question_sort_start_wrong_to_correct = () => {
+    let newquestions = [...this.state.questionbank.questions]
+    newquestions.forEach((x, idx) => x.localIndex = idx)
+    let wrong_question = newquestions.filter((x, idx) => !(this.compare_answer(x.answer, this.state.answer_status[idx])))
+    let correct_question = newquestions.filter((x, idx) => this.compare_answer(x.answer, this.state.answer_status[idx]))
+    return [...wrong_question, ...correct_question]
+  }
 
+  compare_answer = (array1, array2) => {
+    return array1.sort().toString() === array2.sort().toString()
+  }
+  scroll_event = () =>{
+    let newstate = {...this.state}
+
+    if (window.pageYOffset < (document.body.scrollHeight / 2)){
+      newstate.scorll_switch = false
+    }else{
+      newstate.scorll_switch = true
+    }
+    this.setState(newstate)
+    
+  }
   render() {
     return (
       <div className='page_container'>
+        <div className='scroll_area'>
+          <button className='scroll_arrow' onClick={() => window.scrollTo(0, (this.state.scorll_switch ?   0: document.body.scrollHeight ))}>
+            {(this.state.scorll_switch) ? "↑" : "↓"  }
+          </button>
+        </div>
         <div className='main'>
-          <div className='score_display_area' style={{backgroundColor:this.chooseScoreBackgroundColor()}}>
+          <div className='score_display_area' style={{ backgroundColor: this.chooseScoreBackgroundColor() }}>
             <Image
               className='score_display_img'
               src={this.chooseScoreBackgroundImg()}
@@ -176,7 +204,7 @@ class score extends Component {
             </div>
           </div>
           <div className='questions_area'>
-            {this.state.questionbank.questions.map(
+            {this.question_sort_start_wrong_to_correct().map(
               (x, idx) => {
                 return (
                   <div key={idx} className={"question_area " + (this.state.answer_status[idx] == x.answer ? " question_answer_correct " : " question_answer_wrong ") + (this.state.show_status[idx] ? " question_choosed " : " question_not_choosed ")}>
@@ -184,15 +212,15 @@ class score extends Component {
                       <span className={'question_topic_head ' + (this.state.show_status[idx] ? "question_topic_head_choosed" : "question_topic_head_not_choosed")}>
                         <Image
                           className='right_or_false_img'
-                          src={this.state.answer_status[idx] == x.answer ? "./img/right.svg" : "./img/false.svg"}
+                          src={this.compare_answer(this.state.answer_status[idx], x.answer) ? "./img/right.svg" : "./img/false.svg"}
                           width={20}
                           height={20}
                           alt='right or false'
                         />
-                        <span className={"next_img_text " + (this.state.show_status[idx] ? " next_img_text_choosed " : " next_img_text_not_choosed ")}>{this.state.answer_status[idx] == x.answer ? "答對了" : " 答錯了"}</span>
+                        <span className={"next_img_text " + (this.state.show_status[idx] ? " next_img_text_choosed " : " next_img_text_not_choosed ")}>{(this.compare_answer(this.state.answer_status[idx], x.answer)) ? "答對了" : " 答錯了"}</span>
                       </span>
 
-                      <span className={'question_topic_text ' + (this.state.show_status[idx] ? "topic_text_choosed" : "topic_text_not_choosed")}>{idx + 1}. {x.question}</span>
+                      <span className={'question_topic_text ' + (this.state.show_status[idx] ? "topic_text_choosed" : "topic_text_not_choosed")}>{x.localIndex + 1}. {x.question}</span>
                     </div>
                     <div className={'dropDown_content ' + (this.state.show_status[idx] ? "dropDown_content_visible" : "dropDown_content_disable")}>
                       <div className='answer_row right_answer'>正確答案:<br />{x.answer}</div>
@@ -217,14 +245,15 @@ class score extends Component {
               <span>{this.spend_time_toString(this.state.time_spent)}</span>
             </div>
             <div className='achievement_link menu_area_link'>
-              <Link className='link_button' href="/">觀看成就</Link>
+              <Link className='link_button' href="/record">觀看成就</Link>
             </div>
             <div className='practice_link menu_area_link'>
-              <Link className='link_button' href="/">錯題練習</Link>
+              <Link className='link_button' href="/quiz/87年學測">錯題練習</Link>
             </div>
             <div className='main_page_link menu_area_link'>
               <Link className='link_button' href="/">回到首頁</Link>
             </div>
+
           </div>
         </div>
         <Footer />

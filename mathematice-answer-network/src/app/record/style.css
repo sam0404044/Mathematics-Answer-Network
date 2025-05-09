@@ -155,6 +155,9 @@ span.record_date_text {
   font-weight: bold;
 }
 div.record_answer_status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 span.record_answer_status_text {
   font-size: 24px;

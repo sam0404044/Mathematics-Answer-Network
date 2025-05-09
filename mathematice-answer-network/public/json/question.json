@@ -25,7 +25,7 @@
         "5",
         "8"
       ],
-      "answer":  5,
+      "answer":  [5],
       "explanation": "由矩陣乘法可知，a = 4, b = -6, c = 3，因此 a + b + c = 4 - 6 + 3 = 1。",
       "question_type": "single"
     },
@@ -39,7 +39,7 @@
         "log b",
         "1/log b"
       ],
-      "answer":  2,
+      "answer":  [2],
       "explanation": "因為 a 在 1/2 到 1 之間，所以 log a 是負數，且最小。其他選項的值都大於 0。",
       "question_type": "single"
     },
@@ -53,7 +53,7 @@
         "9/16",
         "5/8"
       ],
-      "answer":  1,
+      "answer":  [1],
       "explanation": "可以使用組合計算來求解，計算出抽到三種不同款式的情況數，再除以總情況數，得到機率為 5/16。",
       "question_type": "single"
     },
@@ -67,7 +67,7 @@
         "圓",
         "兩相交直線"
       ],
-      "answer":  2,
+      "answer":  [2],
       "explanation": "當平面與圓錐面平行於圓錐的軸時，截痕會是一個橢圓。",
       "question_type": "single"
     },
@@ -81,7 +81,7 @@
         "c > a > b",
         "c > b > a"
       ],
-      "answer":  5,
+      "answer":  [5],
       "explanation": "化簡後的多項式為 x²，表示 a, b, c 的係數必須滿足某種關係，經過計算可得 c > b > a。",
       "question_type": "single"
     },
@@ -95,7 +95,7 @@
         "D",
         "E"
       ],
-      "answer":  5,
+      "answer":  [5],
       "explanation": "柱子的實際高度是由柱頂坐標減去柱底坐標得到的。計算每個柱子的高度，E 柱的高度最大。",
       "question_type": "single"
     },
@@ -109,7 +109,7 @@
         "r 與函數 y = x^3 + x 的圖形對稱於 x 軸",
         "r 與函數 y = -x^3 + x 的圖形對稱於 y 軸"
       ],
-      "answer":  1,
+      "answer":  [1],
       "explanation": "曲線 y = x^3 - x 是一個奇函數，關於原點對稱，因此其對稱中心為原點。",
       "question_type": "single"
     },
@@ -123,7 +123,7 @@
         "A(1, 2)、B(2, 1)",
         "A(1, -1)、B(1, 1)"
       ],
-      "answer":  4,
+      "answer":  [4],
       "explanation": "向量 OP = αOA + βOB 表示 P 是 A 和 B 的凸組合。選項 中 A(1, 2) 和 B(2, 1) 可以通過適當的 α 和 β 使得 OP = (2, 2)。",
       "question_type": "single"
     },
@@ -137,7 +137,7 @@
         "甲在該場中每次發球用時的全距，大於丁在該場中每次發球用時的全距",
         "乙在該場中每次發球的用時不可能都在 1.4 到 1.6 秒之間"
       ],
-      "answer":  5,
+      "answer":  [5],
       "explanation": "乙的每次發球用時平均為 1.5 秒，標準差為 0.3 秒，表示發球用時的變異較大，因此不可能每次都在 1.4 到 1.6 秒之間。",
       "question_type": "single"
     },
@@ -151,7 +151,7 @@
         "C 到 D 的最短路徑必經過北極點",
         "E 到北極點的最短路徑長」與「C 到 D 的最短路徑長」的比為 2：3"
       ],
-      "answer":  1,
+      "answer":  [1],
       "explanation": "由於 A 和 B 都在北緯 60 度，且經度相差 180 度，所以從北極點到 A 和 B 的最短路徑長度相同。",
       "question_type": "single"
     },
@@ -165,7 +165,7 @@
         "滿足條件的等差數列共有 10 個",
         "若 n 為 7 的倍數，則 n = 21"
       ],
-      "answer":  3,
+      "answer":  [3],
       "explanation": "因為首項和末項都是整數，且 9 在數列中，所以公差必須是整數。",
       "question_type": "single"
     },
@@ -179,7 +179,7 @@
         "4×100(1+0.04)^15",
         "4×100(1+0.04×15)"
       ],
-      "answer":  2,
+      "answer":  [2],
       "explanation": "UVI數值隨高度呈指數增長，公式為UVI = 初始值 × (1 + 增長率)^次數。次數是高度除以300，所以是15。選項(2)正確地使用了這個公式。",
       "question_type": "single"
     }
