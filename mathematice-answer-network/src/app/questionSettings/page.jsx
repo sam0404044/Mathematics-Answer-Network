@@ -1,4 +1,3 @@
-// ✅ 前端 /app/questionSettings/page.jsx 或 component
 "use client";
 
 import { useState, useEffect } from "react";
@@ -25,9 +24,7 @@ export default function QuestionSettings() {
       });
 
       const data = await res.json();
-
-    // / ✅ 加入 LOG：印出 API 回傳內容
-    console.log("📦 題目 API 回傳資料：", data);
+      console.log("📦 題目 API 回傳資料：", data);
 
       if (!res.ok || !data.questions) {
         alert("題目產生失敗");
@@ -49,16 +46,17 @@ export default function QuestionSettings() {
   useEffect(() => {
     if (status === "done") {
       const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            router.push("/quiz");
-          }
-          return prev - 1;
-        });
+        setCountdown((prev) => prev - 1);
       }, 1000);
+      return () => clearInterval(timer); // 清除計時器
     }
   }, [status]);
+
+  useEffect(() => {
+    if (status === "done" && countdown <= 0) {
+      router.push("/quiz");
+    }
+  }, [countdown, status]);
 
   return (
     <div className="question-settings">

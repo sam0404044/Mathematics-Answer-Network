@@ -33,8 +33,7 @@ class quiz extends Component {
         question_type: "single",
         source: "test",
         image: ""
-      },
-    ],
+      },],
     index: 0,
     mytimeid: 0,
     time_count: 0,
@@ -50,13 +49,12 @@ class quiz extends Component {
     dark_mode: false,
   };
   // 這裡fetch題庫資料跟開始計時
-  componentDidMount = async () => {
-    this.state.timeCount_display = this.spend_time_toString(
-      this.state.time_limit
-    );
-
+  
 
     componentDidMount = () => {
+      this.state.timeCount_display = this.spend_time_toString(
+        this.state.time_limit
+      );
       const storedQuestions = JSON.parse(sessionStorage.getItem("questions"));
       const settings = JSON.parse(sessionStorage.getItem("settings"));
     
@@ -78,9 +76,8 @@ class quiz extends Component {
       });
     };
     
-    this.setMyInterval();
-    this.typesetMath();
-  };
+
+
   componentDidUpdate = () => {
     this.typesetMath(); // 每次更新後都重新渲染 MathJax
   }
