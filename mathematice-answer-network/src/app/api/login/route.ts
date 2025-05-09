@@ -66,7 +66,6 @@ export async function POST(req: Request) {
     const res = NextResponse.redirect(new URL("/", req.url));
     const cookieValue = JSON.stringify({ method: "local", uid });
 
-    // cookie設定
     res.cookies.set({
         name: "login_data", // Cookie 名稱
         value: cookieValue, // 把uid轉成字串
@@ -74,7 +73,10 @@ export async function POST(req: Request) {
         secure: process.env.NODE_ENV === "production", //
         sameSite: "strict",
         path: "/", // 全域生效
-        // 不設定 maxAge，瀏覽器關閉就清空
+        // 如果勾「記住我」，設 30 天，否則關閉瀏覽器就清空
+        ...(rememberMe
+            ? { maxAge: 60 * 60 * 24 * 30 } // 30 天
+            : {}),
     });
 
     return res;
