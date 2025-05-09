@@ -24,33 +24,22 @@ export default class Quiz extends Component {
   };
 
   componentDidMount = () => {
-      this.state.timeCount_display = this.spend_time_toString(
-      this.state.time_limit
-    );
-    fetch("./json/question.json")
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {
-        let newState = { ...this.state };
-        newState.quiz = data.questions;
-        newState.status = data.questions.map(() => []);
-        this.setState(newState);
+    const storedQuestions = JSON.parse(sessionStorage.getItem("questions"));
+    const settings = JSON.parse(sessionStorage.getItem("settings"));
+  
+    if (!storedQuestions || !settings) return;
+  
+    this.setState({
+      quiz: storedQuestions,
+      settings,
+      status: storedQuestions.map(() => []),
+      timeCount_display: this.spend_time_toString(this.state.time_limit),
+    }, () => {
+      if (this.state.settings.timerEnabled) {
         this.setMyInterval();
-    const stored = sessionStorage.getItem("questions");
-    const settingData = sessionStorage.getItem("settings");
-    if (stored && settingData) {
-      const parsed = JSON.parse(stored);
-      const settings = JSON.parse(settingData);
-      this.setState({
-        quiz: parsed,
-        settings,
-        status: parsed.map(() => []),
-        timeCount_display: this.spend_time_toString(this.state.time_limit),
-      });
-      if (settings.timerEnabled) this.setMyInterval();
-    }
-  });}
+      }
+    });
+  };
 
   componentWillUnmount = () => {
     sessionStorage.removeItem("questions");
@@ -108,12 +97,19 @@ export default class Quiz extends Component {
   };
 
   question_type_depend = (index) => {
-    this.choose_single(index); // 可擴充為多選題時改寫
+    this.choose_single(index);
+  };
+
+  submitQuiz = () => {
+    alert("✅ 已交卷！");
+    // 你可以在這裡呼叫 API 或跳轉頁面
+    // window.location.href = "/result";
   };
 
   render() {
     const { quiz, index, status, dark_mode, timeCount_display, settings } = this.state;
     if (!quiz.length || !settings) return <p>載入中...</p>;
+
     const q = quiz[index];
     const selected = status[index] || [];
     const filteredOptions = q.options.filter((opt) => opt !== null && opt.trim() !== "");
@@ -185,7 +181,7 @@ export default class Quiz extends Component {
             </button>
             <button
               className={`switch_button ${index === quiz.length - 1 ? "submit" : "notInEdge"}`}
-              onClick={this.add}
+              onClick={index === quiz.length - 1 ? this.submitQuiz : this.add}
             >
               {index === quiz.length - 1 ? "交卷" : "下一題"}
             </button>

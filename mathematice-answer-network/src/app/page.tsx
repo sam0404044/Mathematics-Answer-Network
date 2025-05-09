@@ -9,6 +9,7 @@ import Animation from "./components/Animation";
 import { useEffect, useState } from "react";
 
 export default function Page() {
+  // ///////////////////////////////////////////////
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(function () {
