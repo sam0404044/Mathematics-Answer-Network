@@ -60,22 +60,21 @@ export async function POST(req: Request) {
     }
 
     const uid = user.id;
-    // 登入成功
-    const res = NextResponse.json({ success: true }, { status: 200 });
+
+    // 導到首頁
+    // cookie設定
+    const res = NextResponse.redirect(new URL("/", req.url));
+    const cookieValue = JSON.stringify({ method: "local", uid });
 
     // cookie設定
-
     res.cookies.set({
-        name: "local_login", // Cookie 名稱
-        value: uid.toString(), // 把uid轉成字串
+        name: "login_data", // Cookie 名稱
+        value: cookieValue, // 把uid轉成字串
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", //
         sameSite: "strict",
         path: "/", // 全域生效
-        // 如果勾「記住我」，設 30 天；否則不帶 maxAge → session cookie
-        ...(rememberMe
-            ? { maxAge: 60 * 60 * 24 * 30 } // 30 天
-            : {}),
+        // 不設定 maxAge，瀏覽器關閉就清空
     });
 
     return res;
