@@ -1,3 +1,4 @@
+"use client";
 import MenuIcon from "./icon/MenuIcon";
 import SignUpLoginBtn from "./button/SignUpLoginBtn";
 import styles from "./NavBar.module.css";
@@ -6,10 +7,36 @@ import Link from "next/link";
 import QuestionBankIcon from "./icon/QuestionBankIcon-";
 import PlanIcon from "./icon/PlanIcon";
 import StudyGuidesIcon from "./icon/StudyGuidesIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NavBar() {
   const [isActive, setIsActive] = useState(false);
+  const [isLogin, setIsLogin] = useState("loading");
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    const loginStatus = async function () {
+      try {
+        const res = await fetch("/api/user/me", { credentials: "include" });
+        if (!res.ok) {
+          setIsLogin(false);
+          return;
+        }
+        const data = await res.json();
+        if (data.uid) {
+          setIsLogin(true);
+          setUser(data.uid);
+        } else {
+          setIsLogin(false);
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setIsLogin(false);
+      }
+    };
+    loginStatus();
+  }, []);
+
   return (
     <>
       <nav className={`${styles.navbar} ${isActive ? styles.active : ""}`}>
@@ -17,14 +44,37 @@ export default function NavBar() {
           <MenuIcon setIsActive={setIsActive} isActive={isActive} />
           <Logo setIsActive={setIsActive} />
         </div>
-        {isActive ? (
-          ""
+        {isLogin === "loading" ? null : isLogin ? (
+          <div className={styles.navbarcomponent}>
+            {!isActive && (
+              <>
+                {" "}
+                <h1 className={styles.username}>歡迎回來: {user}</h1>{" "}
+                <SignUpLoginBtn
+                  type={"log-in"}
+                  isActive={isActive}
+                  isLogin={isLogin}
+                  setIsLogin={setIsLogin}
+                >
+                  登出
+                </SignUpLoginBtn>
+              </>
+            )}
+          </div>
         ) : (
           <div className={styles.navbarcomponent}>
-            <SignUpLoginBtn type={"sign-up"} route={"/register"}>
+            <SignUpLoginBtn
+              type={"sign-up"}
+              route={"/register"}
+              isActive={isActive}
+            >
               註冊
             </SignUpLoginBtn>
-            <SignUpLoginBtn type={"log-in"} route={"/login"}>
+            <SignUpLoginBtn
+              type={"log-in"}
+              route={"/login"}
+              isActive={isActive}
+            >
               登入
             </SignUpLoginBtn>
           </div>
@@ -49,7 +99,10 @@ export default function NavBar() {
               </Link>
             </div>
           </div>
-          <div className={styles.overlay} onClick={() => setIsActive((isActive) => !isActive)}></div>
+          <div
+            className={styles.overlay}
+            onClick={() => setIsActive((isActive) => !isActive)}
+          ></div>
         </>
       ) : (
         ""

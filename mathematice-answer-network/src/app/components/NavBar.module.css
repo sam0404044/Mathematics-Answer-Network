@@ -28,6 +28,15 @@
   padding: 10px 0;
 }
 
+.username {
+  font-size: 16px;
+  text-align: center;
+  color: var(--plan-list);
+  padding: 10px 0;
+  font-weight: 600;
+  font-family: sans-serif;
+}
+
 .link {
   display: inline-block;
   display: flex;
