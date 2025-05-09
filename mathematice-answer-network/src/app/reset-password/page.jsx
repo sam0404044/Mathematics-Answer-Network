@@ -26,10 +26,10 @@ export default function ResetPassword() {
     const validateField = (name, value) => {
         switch (name) {
             case 'newPassword':
-                const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                const pwdRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,}$/;
                 return pwdRegex.test(value)
                     ? ''
-                    : '密碼需包含大小寫英文與數字，且至少8碼';
+                    : '密碼需包含小寫英文與數字，且至少8碼';
             case 'confirmPassword':
                 return value !== formData.newPassword 
                     ? '兩次輸入的密碼不一致' : '';
