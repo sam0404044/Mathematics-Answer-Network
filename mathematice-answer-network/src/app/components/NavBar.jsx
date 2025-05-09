@@ -89,7 +89,7 @@ export default function NavBar() {
                 <QuestionBankIcon />
                 <button className={styles.btn}>歷年考古題</button>
               </Link>
-              <Link href="/pricingPlan" className={styles.link}>
+              <Link href="/pricing-plan" className={styles.link}>
                 <PlanIcon />
                 <button className={styles.btn}>我的方案</button>
               </Link>
