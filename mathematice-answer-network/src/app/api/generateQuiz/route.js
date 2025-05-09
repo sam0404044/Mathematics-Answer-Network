@@ -8,7 +8,7 @@ export async function POST(request) {
     const { questionCount } = body;
 
     const [rows] = await db.query(
-      `SELECT uid, question, option_a, option_b, option_c, option_d, option_e, answer, explanation
+      `SELECT uid, question, option_a, option_b, option_c, option_d, option_e, answer, explanation,questionYear,type
        FROM questionForTest
        ORDER BY RAND()
        LIMIT ?`,
@@ -27,7 +27,8 @@ export async function POST(request) {
       ].filter(Boolean),
       answer: q.answer,
       explanation: q.explanation,
-      question_type: "single", // 🔁 先預設為單選題
+      question_type: q.type,
+      source: q.questionYear,
     }));
 
     console.log("✅ 整理後題目：", questions);
