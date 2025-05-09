@@ -52,7 +52,9 @@ export default function QuestionBank() {
       const res = await fetch("/api/questionBank");
       const data = await res.json();
       const reversedData = [...data.questions].reverse();
-      const uniqueData = [...new Set(reversedData.map((cur) => cur.questionYear))];
+      const uniqueData = [
+        ...new Set(reversedData.map((cur) => cur.questionYear)),
+      ];
       setTimeout(function () {
         dispatch({ type: "setData", payload: uniqueData });
       }, 3000);
