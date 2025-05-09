@@ -8,6 +8,7 @@ import Footer from "@/app/components/Footer";
 class quiz extends Component {
   state = {
     id: 1,
+    question_bank:"87年學測",
     quiz: [
       {
         id: 1,
@@ -63,6 +64,7 @@ class quiz extends Component {
       ;
     let newState = { ...this.state };
     newState.quiz = convertdata(json);
+    newState.question_bank = year
     newState.status = json.questions.map(() => []);
     this.setState(newState);
     this.setMyInterval();
@@ -217,17 +219,22 @@ class quiz extends Component {
     function translate_letter_to_number(letter) {
       switch (letter) {
         case "A":
+        case "1":
           return [0];
         case "B":
+        case "2":
           return [1];
         case "C":
+        case "3":
           return [2];
         case "D":
+        case "4":
           return [3];
         case "E":
+        case "5":
           return [4];
         default:
-          return 1;
+          return [1];
 
       }
     }
@@ -252,8 +259,8 @@ class quiz extends Component {
       })
     })
     answer.answer_status = {
-       "total": this.state.quiz.length, 
-       "correct": correct_n.length
+      "total": this.state.quiz.length,
+      "correct": correct_n.length
     }
     return answer
   }
@@ -272,10 +279,12 @@ class quiz extends Component {
 
       fetch("../api/quizSubmit", {
         method: "POST",
+        
         body: JSON.stringify({
           userid: this.state.id,
           cost_time: this.state.time_count,
-          answer:this.export_answer_data()
+          answer: this.export_answer_data(),
+          question_bank:decodeURI(this.state.question_bank)
         }
         )
       })
@@ -350,8 +359,8 @@ class quiz extends Component {
                     className={
                       "menu_content_button " +
                       (this.state.status[idx].length > 0
-                        ? "menu_content_button_has_answer"
-                        : "menu_content_button_not_answer")
+                        ? " menu_content_button_has_answer "
+                        : (this.state.viewed_question.includes(idx) ? " menu_content_button_not_answer " : " menu_content_button_not_view "))
                     }
                     key={idx}
                     onClick={() => {
