@@ -25,7 +25,7 @@ export default function NavBar() {
         const data = await res.json();
         if (data.uid) {
           setIsLogin(true);
-          setUser(data.uid);
+          setUser(data.username);
         } else {
           setIsLogin(false);
         }
