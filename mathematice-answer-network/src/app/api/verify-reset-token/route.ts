@@ -24,14 +24,20 @@ export async function POST(req: Request) {
 
         const reset = rows[0];
         const now = new Date();
+        const expiresAt = new Date(reset.expires_at); 
 
-        if (now > reset.expires_at) {
-            return NextResponse.json({ error: '連結已過期' }, { status: 400 });
+        if (now > expiresAt) {
+        return NextResponse.json({ error: '連結已過期' }, { status: 400 });
         }
 
         return NextResponse.json({ message: 'token 驗證成功' });
-    } catch (err) {
-        console.error('[Verify Token Error]', err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error('[Verify Token Error]', err.message);
+        } else {
+            console.error('[Verify Token Error]', err);
+        }
+
         return NextResponse.json({ error: '伺服器錯誤' }, { status: 500 });
     }
 }
