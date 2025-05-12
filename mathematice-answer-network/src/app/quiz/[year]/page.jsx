@@ -1,6 +1,6 @@
 "use client";
 import React, { Component } from "react";
-import "./style.css";
+import "../style.css";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/app/components/Footer";
@@ -8,7 +8,7 @@ import Footer from "@/app/components/Footer";
 class quiz extends Component {
   state = {
     id: 1,
-    question_bank:"87年學測",
+    question_bank: "87年學測",
     quiz: [
       {
         id: 1,
@@ -54,7 +54,7 @@ class quiz extends Component {
     this.state.timeCount_display = this.spend_time_toString(
       this.state.time_limit
     );
-  
+
 
     const { year } = await this.props.params;
     let json = await fetch(`../api/quiz/${year}`)
@@ -62,10 +62,16 @@ class quiz extends Component {
         return data.json();
       })
       ;
+      
+    if (!(json?.questions.length)) {
+      alert("找不到題目，請重新設定範圍");
+      window.location.href = "/question-bank";
+      return;
+    }
     let newState = { ...this.state };
-    newState.quiz = convertdata(json);
-    newState.question_bank = year
-    newState.status = json.questions.map(() => []);
+    newState.quiz = await convertdata(json);
+    newState.question_bank = await year
+    newState.status = await json.questions.map(() => []);
     this.setState(newState);
     this.setMyInterval();
     this.typesetMath();
@@ -198,7 +204,7 @@ class quiz extends Component {
   show_img = () => {
     let img_path = ""
     let html_element = <></>
-    if (this.state.quiz[this.state.index].image) {
+    if (this.state.quiz[this.state.index]?.image) {
       img_path = this.state.quiz[this.state.index].image
       html_element =
         // <Image
@@ -217,24 +223,32 @@ class quiz extends Component {
       return a.sort().toString() == b.sort().toString()
     }
     function translate_letter_to_number(letter) {
+      if(Array.isArray(letter)){
+        return letter
+      }
       switch (letter) {
         case "A":
         case "1":
+        case 1:
           return [0];
         case "B":
         case "2":
+        case 2:
           return [1];
         case "C":
         case "3":
+        case 3:
           return [2];
         case "D":
         case "4":
+        case 4:
           return [3];
         case "E":
         case "5":
+        case 5:
           return [4];
         default:
-          return [1];
+          return [letter];
 
       }
     }
@@ -279,12 +293,12 @@ class quiz extends Component {
 
       fetch("../api/quizSubmit", {
         method: "POST",
-        
+
         body: JSON.stringify({
           userid: this.state.id,
           cost_time: this.state.time_count,
           answer: this.export_answer_data(),
-          question_bank:decodeURI(this.state.question_bank)
+          question_bank: decodeURI(this.state.question_bank)
         }
         )
       })
@@ -426,7 +440,7 @@ class quiz extends Component {
                   : " topic_bar_dark_mode_off ")
               }
             >
-              {this.state.quiz[this.state.index].question_type}
+              {this.state.quiz[this.state.index]?.question_type}
               <button
                 className={
                   "dark_mode_button " +
@@ -466,12 +480,12 @@ class quiz extends Component {
                 {this.show_img()}
               </div>
               <span>
-                {this.state.quiz[this.state.index].question}
+                {this.state.quiz[this.state.index]?.question}
               </span>
             </div>
           </div>
           <div className="options_area">
-            {this.state.quiz[this.state.index].options.map((x, idx) => (
+            {this.state.quiz[this.state.index]?.options.map((x, idx) => (
               <div className="option_area" key={idx}>
                 <button
                   className="option"
@@ -513,7 +527,7 @@ class quiz extends Component {
                   : " source_text_dark_mode_off "
               }
             >
-              Source: {this.state.quiz[this.state.index].source}
+              Source: {this.state.quiz[this.state.index]?.source}
             </h3>
           </div>
           <div className="switch_button_area">

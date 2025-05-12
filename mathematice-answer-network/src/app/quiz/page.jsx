@@ -65,9 +65,9 @@ class quiz extends Component {
       }
     
       let newState = { ...this.state };
-      newState.quiz = storedQuestions;
+      newState.quiz = storedQuestions ? storedQuestions: [];
       newState.question_bank = "即時產生題庫"; // 你也可以改成 settings.question_bank
-      newState.status = storedQuestions.map(() => []);
+      newState.status = storedQuestions?.map(() => []);
       newState.timeCount_display = this.spend_time_toString(this.state.time_limit);
     
       this.setState(newState, () => {
@@ -206,7 +206,7 @@ class quiz extends Component {
   show_img = () => {
     let img_path = ""
     let html_element = <></>
-    if (this.state.quiz[this.state.index].image) {
+    if (this.state.quiz[this.state.index]?.image) {
       img_path = this.state.quiz[this.state.index].image
       html_element =
         // <Image
@@ -225,26 +225,35 @@ class quiz extends Component {
       return a.sort().toString() == b.sort().toString()
     }
     function translate_letter_to_number(letter) {
+      if(Array.isArray(letter)){
+        return letter
+      }
       switch (letter) {
         case "A":
         case "1":
+        case 1:
           return [0];
         case "B":
         case "2":
+        case 2:
           return [1];
         case "C":
         case "3":
+        case 3:
           return [2];
         case "D":
         case "4":
+        case 4:
           return [3];
         case "E":
         case "5":
+        case 5:
           return [4];
         default:
-          return [1];
+          return [letter];
 
       }
+    
     }
     let answer = {
       "answer_info":
@@ -259,7 +268,7 @@ class quiz extends Component {
     let correct_n = this.state.quiz.filter((question, idx) => {
       return compare_array(this.state.status[idx], translate_letter_to_number(question.answer))
     })
-    answer.answer_info = this.state.quiz.map((question, idx) => {
+    answer.answer_info = this.state.quiz?.map((question, idx) => {
       return ({
         "uid": question.id,
         "answer": this.state.status[idx],
@@ -274,20 +283,8 @@ class quiz extends Component {
   }
   submit_quiz = () => {
     if (this.state.commit_status) {
-      let answer = {
-        "answer_info":
-          [{
-            "uid": 1,
-            "answer": [2],
-            "right_answer": [2]
-          },
-          ], "answer_status":
-          { "total": 2, "correct": 1 }
-      }
-
       fetch("../api/quizSubmit", {
         method: "POST",
-        
         body: JSON.stringify({
           userid: this.state.id,
           cost_time: this.state.time_count,
@@ -361,7 +358,7 @@ class quiz extends Component {
                   : " question_overlay_menu_content_close ")
               }
             >
-              {this.state.quiz.map((x, idx) => {
+              {this.state.quiz?.map((x, idx) => {
                 return (
                   <button
                     className={
@@ -434,7 +431,7 @@ class quiz extends Component {
                   : " topic_bar_dark_mode_off ")
               }
             >
-              {this.state.quiz[this.state.index].question_type}
+              {this.state.quiz[this.state.index]?.question_type}
               <button
                 className={
                   "dark_mode_button " +
@@ -474,12 +471,12 @@ class quiz extends Component {
                 {this.show_img()}
               </div>
               <span>
-                {this.state.quiz[this.state.index].question}
+                {this.state.quiz[this.state.index]?.question}
               </span>
             </div>
           </div>
           <div className="options_area">
-            {this.state.quiz[this.state.index].options.map((x, idx) => (
+            {this.state.quiz[this.state.index]?.options?.map((x, idx) => (
               <div className="option_area" key={idx}>
                 <button
                   className="option"
@@ -521,7 +518,7 @@ class quiz extends Component {
                   : " source_text_dark_mode_off "
               }
             >
-              Source: {this.state.quiz[this.state.index].source}
+              Source: {this.state.quiz[this.state.index]?.source}
             </h3>
           </div>
           <div className="switch_button_area">
@@ -554,7 +551,7 @@ class quiz extends Component {
             onClick={() => this.switch_question_menu_status()}
           >
             <div className="progress_bar">
-              {this.state.status.map((x, idx) => (
+              {this.state.status?.map((x, idx) => (
                 <div
                   key={idx}
                   className={
@@ -584,23 +581,4 @@ class quiz extends Component {
 
 export default quiz;
 
-function convertdata(json) {
 
-  let newjson = json.questions.map(x => {
-    return (
-      {
-        id: x.uid,
-        question: x.question,
-        options: [x.option_a, x.option_b, x.option_c, x.option_d, x.option_e],
-        answer: x.answer,
-        explanation: x.explanation,
-        question_type: x.type,
-        source: x.questionYear,
-        image: x.image
-      }
-    )
-  })
-
-
-  return newjson
-} 
