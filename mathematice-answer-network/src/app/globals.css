@@ -38,6 +38,8 @@
   --white: #fff;
   --red: #c74545;
 
+  --quiz-color-first: #868e96;
+  --quiz-question-type-text: #e7f5ff;
   --quiz-background: #e9ecef;
   --quiz-question-topic-background: #f8f9fa;
   --quiz-submit-button: #04aa6d;
@@ -51,8 +53,10 @@
   --quiz-title-word-background: #000;
   --quiz-title-word: #fff;
   --quiz-switch-button-edge-background: #808080;
-  --quiz-menu-content-button-has-answer: #f32626;
-  --quiz-menu-content-button-not-answer: #04aa6d;
+  --quiz-menu-content-button-has-answer: #242424;
+  --quiz-menu-content-button-not-answer: #878787;
+  --quiz-menu-content-button-not-view: #e9ecef;
+  --quiz-menu-content-button-not-view-font-color:#242424;
   --quiz-dark-mode-text: #fff;
   --quiz-main-dark-mode: #242424;
   --quiz-title-word-dark-mode: #3c4248;
@@ -60,18 +64,13 @@
   --quiz-dark-mode-color-second: #484848;
   --quiz-dark-mode-switch-button-on: #2196f3;
   --quiz-dark-mode-switch-button-off: #ccc;
-  --quiz-dark-mode-switch-button-slider: #fff;
+  --quiz-dark-mode-switch-button-slider: transparent;
 
-  --record-background: #d9d9d9;
-  --record-improve-button: #339af0;
-  --record-improve-button-shadow: #19598e;
-  --record-border: #c6c7c8;
 
-  --score-background: #d9d9d9;
-  --score-button-toMainPage: #000000d2;
-  --score-button-achievement: #447ccc;
-  --score-button-practice: #447ccc;
+ 
   --score-display-text: #fff;
+  --score-scroll-area-background: rgba(42, 62, 90, 0.7);
+  --score-scroll-area-arrow: #fff;
 }
 
 @theme {

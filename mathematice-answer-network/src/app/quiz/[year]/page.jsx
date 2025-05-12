@@ -33,7 +33,8 @@ class quiz extends Component {
         question_type: "single",
         source: "test",
         image: ""
-      },],
+      },
+    ],
     index: 0,
     mytimeid: 0,
     time_count: 0,
@@ -49,35 +50,26 @@ class quiz extends Component {
     dark_mode: false,
   };
   // 這裡fetch題庫資料跟開始計時
+  componentDidMount = async () => {
+    this.state.timeCount_display = this.spend_time_toString(
+      this.state.time_limit
+    );
   
 
-    componentDidMount = () => {
-      this.state.timeCount_display = this.spend_time_toString(
-        this.state.time_limit
-      );
-      const storedQuestions = JSON.parse(sessionStorage.getItem("questions"));
-      const settings = JSON.parse(sessionStorage.getItem("settings"));
-    
-      if (!storedQuestions || !settings) {
-        alert("❌ 找不到題目或設定，請重新開始");
-        window.location.href = "/";
-        return;
-      }
-    
-      let newState = { ...this.state };
-      newState.quiz = storedQuestions;
-      newState.question_bank = "即時產生題庫"; // 你也可以改成 settings.question_bank
-      newState.status = storedQuestions.map(() => []);
-      newState.timeCount_display = this.spend_time_toString(this.state.time_limit);
-    
-      this.setState(newState, () => {
-        this.setMyInterval();
-        this.typesetMath();
-      });
-    };
-    
-
-
+    const { year } = await this.props.params;
+    let json = await fetch(`../api/quiz/${year}`)
+      .then((data) => {
+        return data.json();
+      })
+      ;
+    let newState = { ...this.state };
+    newState.quiz = convertdata(json);
+    newState.question_bank = year
+    newState.status = json.questions.map(() => []);
+    this.setState(newState);
+    this.setMyInterval();
+    this.typesetMath();
+  };
   componentDidUpdate = () => {
     this.typesetMath(); // 每次更新後都重新渲染 MathJax
   }

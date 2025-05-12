@@ -4,8 +4,11 @@ import React, { Component } from 'react';
 import "./style.css"
 import Image from 'next/image'
 import Footer from '../components/Footer';
+import NavBar from "../components/NavBar";
+import Link from 'next/link';
 class record extends Component {
     state = {
+        id: 1,
         tree: {
             tree_status: 4,
             tree_grow_up_gap: 5,
@@ -15,29 +18,62 @@ class record extends Component {
         },
         answer_history: [
             {
-                date: { month: 3, day: 22 },
-                answer_record: { has_answer: 20, total_question: 25 }
+                date: { month: 3, day: 22, time: { hours: 12, minutes: 34, seconds: 56 } },
+                answer_record: { has_answer: 20, total_question: 25 },
+                question_bank: "隨機選題"
             },
             {
-                date: { month: 3, day: 21 },
-                answer_record: { has_answer: 15, total_question: 30 }
+                date: { month: 3, day: 21, time: { hours: 12, minutes: 34, seconds: 56 } },
+                answer_record: { has_answer: 15, total_question: 30 },
+                question_bank: "隨機選題"
             },
             {
-                date: { month: 3, day: 19 },
-                answer_record: { has_answer: 10, total_question: 10 }
+                date: { month: 3, day: 19, time: { hours: 12, minutes: 34, seconds: 56 } },
+                answer_record: { has_answer: 10, total_question: 10 },
+                question_bank: "隨機選題"
             },
             {
-                date: { month: 2, day: 9 },
-                answer_record: { has_answer: 5, total_question: 45 }
+                date: { month: 2, day: 9, time: { hours: 12, minutes: 34, seconds: 56 } },
+                answer_record: { has_answer: 5, total_question: 45 },
+                question_bank: "隨機選題"
             },
             {
-                date: { month: 1, day: 10 },
-                answer_record: { has_answer: 0, total_question: 5 }
+                date: { month: 1, day: 10, time: { hours: 12, minutes: 34, seconds: 56 } },
+                answer_record: { has_answer: 0, total_question: 5 },
+                question_bank: "隨機選題"
             },
         ]
 
 
 
+    }
+    componentDidMount = () => {
+        fetch("./api/record", {
+            method: "POST",
+            body: JSON.stringify({ uid: this.state.id }
+            )
+        })
+            .then(res => res.json())
+            .then(json => {
+                let newstate = { ...this.state }
+                newstate.answer_history = json.question_record.map(question => {
+                    let timestamp = new Date(question.time).getTime()
+
+                    return (
+                        {
+                            date: { month: (new Date(timestamp).getMonth()) + 1, day: new Date(timestamp).getDate(), time: { hours: new Date(timestamp).getHours(), minutes: new Date(timestamp).getMinutes(), seconds: new Date(timestamp).getSeconds() } },
+                            answer_record: { has_answer: question.answer.answer_status.correct, total_question: question.answer.answer_status.total },
+                            question_bank: question.question_bank
+                        }
+                    )
+                })
+                newstate.tree = {
+                    tree_status: json.tree_status[0].status,
+                    tree_grow_up_gap: json.tree_status[0].gap
+                }
+                newstate.wrong_question.total_number = json.wrong_question_n[0].wrong_question_number
+                this.setState(newstate)
+            })
     }
     tree_status = () => {
         let tree_address
@@ -64,6 +100,7 @@ class record extends Component {
     render() {
         return (
             <div className='page_container'>
+                <NavBar />
                 <div className='main'>
                     <div className='title_area'>
                         <span className='title_text'>
@@ -105,9 +142,9 @@ class record extends Component {
                                 <span>{this.state.wrong_question.total_number}</span>
                             </div>
                         </div>
-                        <a href='/' className='improve_button'>
+                        <Link href='/quiz/87年學測' className='improve_button'>
                             <span className='improve_button_text'>針對題目進行加強</span>
-                        </a>
+                        </Link>
                     </div>
                     <div className='area_default answer_history_area'>
                         <div className='answer_history_title'>
@@ -121,13 +158,17 @@ class record extends Component {
                                     <div className={'answer_history_content_record ' + (idx == this.state.answer_history.length - 1 ? 'record_last' : 'record_not_last')} key={idx}>
                                         <div className='record_date'>
                                             <span className='record_date_text'>
-                                                {x.date.month}月 {x.date.day}日
+                                                {x.date.month}月 {x.date.day}日 {x.date.time.hours}點 {x.date.time.minutes}分 {x.date.time.seconds}秒
                                             </span>
                                         </div>
                                         <div className='record_answer_status'>
                                             <span className='record_answer_status_text'>
-                                                答題 {x.answer_record.has_answer} / {x.answer_record.total_question}
+                                                範圍: {x.question_bank}
                                             </span>
+                                            <span className='record_answer_status_text'>
+                                                答題: {x.answer_record.has_answer} / {x.answer_record.total_question}
+                                            </span>
+
                                         </div>
                                     </div>
                                 )

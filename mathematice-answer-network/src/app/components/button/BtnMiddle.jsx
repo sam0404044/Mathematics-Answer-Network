@@ -1,6 +1,15 @@
 import styles from "./BtnMiddle.module.css";
 
 export default function BtnMiddle({ curPage, dispatch, goToPage, firstPage, isFirstPage, isLastPage, totalPage }) {
+  if (totalPage === 1)
+    return (
+      <button
+        className={`${styles["btn-page"]} ${isFirstPage ? styles["page-current"] : ""}`}
+        onClick={() => goToPage(firstPage)}
+      >
+        {firstPage}
+      </button>
+    );
   return (
     <>
       <button
