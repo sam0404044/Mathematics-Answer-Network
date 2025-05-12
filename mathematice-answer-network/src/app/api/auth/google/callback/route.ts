@@ -76,11 +76,12 @@ export async function GET(req: Request) {
         // 導到首頁
         // cookie設定
         const res = NextResponse.redirect(new URL("/", req.url));
+        const cookieValue = JSON.stringify({ method: "google", uid });
 
         // cookie設定
         res.cookies.set({
-            name: "google_login_session", // Cookie 名稱
-            value: uid.toString(), // 把uid轉成字串
+            name: "login_data", // Cookie 名稱
+            value: cookieValue, // 把uid轉成字串
             httpOnly: true,
             secure: process.env.NODE_ENV === "production", //
             sameSite: "strict",
