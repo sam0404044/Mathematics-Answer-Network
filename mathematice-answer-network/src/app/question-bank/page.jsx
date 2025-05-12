@@ -84,6 +84,8 @@ export default function QuestionBank() {
         {showCurPage.map((cur) => (
           <TestPaper key={cur} content={cur} />
         ))}
+      </div>
+      <div className={styles.pagination}>
         <Pagination
           curPage={curPage}
           dispatch={dispatch}
