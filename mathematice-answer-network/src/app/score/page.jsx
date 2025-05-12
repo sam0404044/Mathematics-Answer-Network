@@ -7,12 +7,13 @@ import Link from 'next/link';
 import Footer from '../components/Footer';
 class score extends Component {
   state = {
-    scorll_switch:false,
+    id: 1,
+    scorll_switch: false,
     questionbank: {
-      "exam_title": "114數B",
       "questions": [
         {
-          "id": 1,
+          "localIndex": 1,
+          "uid": 1,
           "question": "設數線上有一點 P 滿足 P 到 1 的距離加上 P 到 4 的距離等於 4。試問這樣的 P 有幾個？",
           "options": [
             "0 個",
@@ -71,17 +72,75 @@ class score extends Component {
     ]
   }
   componentDidMount = () => {
-    window.addEventListener("scroll",() =>{this.scroll_event()})
-    fetch("./json/question.json",)
+    window.addEventListener("scroll", () => { this.scroll_event() })
+    fetch("./api/score", {
+      method: "POST",
+      body: JSON.stringify({ uid: this.state.id }
+      )
+    })
       .then(data => {
         return data.json();
-      }).then(data => {
+      }).then(async (json) => {
+        let data = await json.question_record[0]
         let newState = { ...this.state }
-        newState.questionbank = data
-        // 作答狀態假設↓↓↓↓↓↓↓↓↓↓
-        newState.answer_status = data.questions.map((x, index) => [1])
-        // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-        newState.status = data.questions.map(() => false)
+        if (data.answer_review.has_review) {
+          let question_fetch = await fetch("./api/getQuestion", {
+            method: "POST",
+            body: JSON.stringify({ question_id: data.answer_review.answer_info?.map(x => x.uid) }
+            )
+          })
+            .then(res => res.json())
+
+          newState.time_spent = data.answer_review.cost_time
+          newState.questionbank.questions = question_fetch.questions
+          newState.answer_status = data.answer_review.answer_info.map((x, index) => x.answer)
+        } else {
+          let question_fetch = await fetch("./api/getQuestion", {
+            method: "POST",
+            body: JSON.stringify({
+              question_id: data.answer.answer_info?.map(x => x.uid)
+            })
+          })
+            .then(res => res.json())
+          newState.questionbank.questions = question_fetch.questions
+          newState.answer_status = data.answer.answer_info.map((x, index) => x.answer)
+          newState.time_spent = data.cost_time
+        }
+        newState.questionbank.questions.forEach(x => {
+          function translate_letter_to_number(letter) {
+            if (Array.isArray(letter)) {
+              return letter
+            }
+            switch (letter) {
+              case "A":
+              case "1":
+              case 1:
+                return [1];
+              case "B":
+              case "2":
+              case 2:
+                return [2];
+              case "C":
+              case "3":
+              case 3:
+                return [3];
+              case "D":
+              case "4":
+              case 4:
+                return [4];
+              case "E":
+              case "5":
+              case 5:
+                return [5];
+              default:
+                return [letter];
+
+            }
+          }
+          x.answer = translate_letter_to_number(x.answer)
+        })
+        console.log(newState.questionbank)
+
         this.setState(newState);
       })
 
@@ -151,30 +210,30 @@ class score extends Component {
     let newquestions = [...this.state.questionbank.questions]
     newquestions.forEach((x, idx) => x.localIndex = idx)
     let wrong_question = newquestions.filter((x, idx) => !(this.compare_answer(x.answer, this.state.answer_status[idx])))
-    let correct_question = newquestions.filter((x, idx) => this.compare_answer(x.answer, this.state.answer_status[idx]))
+    let correct_question = newquestions.filter((x, idx) => (this.compare_answer(x.answer, this.state.answer_status[idx])))
     return [...wrong_question, ...correct_question]
   }
 
   compare_answer = (array1, array2) => {
-    return array1.sort().toString() === array2.sort().toString()
+    return array1?.sort().toString() === array2?.sort().toString()
   }
-  scroll_event = () =>{
-    let newstate = {...this.state}
+  scroll_event = () => {
+    let newstate = { ...this.state }
 
-    if (window.pageYOffset < (document.body.scrollHeight / 2)){
+    if (window.pageYOffset < (document.body.scrollHeight / 2)) {
       newstate.scorll_switch = false
-    }else{
+    } else {
       newstate.scorll_switch = true
     }
     this.setState(newstate)
-    
+
   }
   render() {
     return (
       <div className='page_container'>
         <div className='scroll_area'>
-          <button className='scroll_arrow' onClick={() => window.scrollTo(0, (this.state.scorll_switch ?   0: document.body.scrollHeight ))}>
-            {(this.state.scorll_switch) ? "↑" : "↓"  }
+          <button className='scroll_arrow' onClick={() => window.scrollTo(0, (this.state.scorll_switch ? 0 : document.body.scrollHeight))}>
+            {(this.state.scorll_switch) ? "↑" : "↓"}
           </button>
         </div>
         <div className='main'>
@@ -199,7 +258,7 @@ class score extends Component {
               </div>
               <div className='answer_status'>
                 <span className='total_questions'>總答題數：{this.state.questionbank.questions.length}</span>
-                <span className='correct_answer_questions'>　你答對的題數：{this.state.questionbank.questions.filter((x, idx) => x.answer == this.state.answer_status[idx]).length}</span>
+                <span className='correct_answer_questions'>　你答對的題數：{this.state.questionbank.questions.filter((x, idx) => this.compare_answer(x.answer, this.state.answer_status[idx])).length}</span>
               </div>
             </div>
           </div>
@@ -207,17 +266,17 @@ class score extends Component {
             {this.question_sort_start_wrong_to_correct().map(
               (x, idx) => {
                 return (
-                  <div key={idx} className={"question_area " + (this.state.answer_status[idx] == x.answer ? " question_answer_correct " : " question_answer_wrong ") + (this.state.show_status[idx] ? " question_choosed " : " question_not_choosed ")}>
+                  <div key={idx} className={"question_area " + (this.state.answer_status[x.localIndex] == x.answer ? " question_answer_correct " : " question_answer_wrong ") + (this.state.show_status[idx] ? " question_choosed " : " question_not_choosed ")}>
                     <div className={'question_topic ' + (this.state.show_status[idx] ? "topic_choosed" : "topic_not_choosed")} onClick={() => { this.showContent(idx) }}>
                       <span className={'question_topic_head ' + (this.state.show_status[idx] ? "question_topic_head_choosed" : "question_topic_head_not_choosed")}>
                         <Image
                           className='right_or_false_img'
-                          src={this.compare_answer(this.state.answer_status[idx], x.answer) ? "./img/right.svg" : "./img/false.svg"}
+                          src={this.compare_answer(this.state.answer_status[x.localIndex], x.answer) ? "./img/right.svg" : "./img/false.svg"}
                           width={20}
                           height={20}
                           alt='right or false'
                         />
-                        <span className={"next_img_text " + (this.state.show_status[idx] ? " next_img_text_choosed " : " next_img_text_not_choosed ")}>{(this.compare_answer(this.state.answer_status[idx], x.answer)) ? "答對了" : " 答錯了"}</span>
+                        <span className={"next_img_text " + (this.state.show_status[idx] ? " next_img_text_choosed " : " next_img_text_not_choosed ")}>{(this.compare_answer(this.state.answer_status[x.localIndex], x.answer)) ? "答對了" : " 答錯了"}</span>
                       </span>
 
                       <span className={'question_topic_text ' + (this.state.show_status[idx] ? "topic_text_choosed" : "topic_text_not_choosed")}>{x.localIndex + 1}. {x.question}</span>
@@ -225,10 +284,10 @@ class score extends Component {
                     <div className={'dropDown_content ' + (this.state.show_status[idx] ? "dropDown_content_visible" : "dropDown_content_disable")}>
                       <div className='answer_row right_answer'>正確答案:<br />{x.answer}</div>
                       <br />
-                      <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[idx]}</div>
+                      <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[x.localIndex]}</div>
                       <br /><br />
                       <div className='solution_area'>
-                        <button className='solution_link' onClick={() => { this.solution_get(x.id) }}>
+                        <button className='solution_link' onClick={() => { this.solution_get(x.uid) }}>
                           詳細解答
                         </button>
                         <div>↓</div>
@@ -247,8 +306,8 @@ class score extends Component {
             <div className='achievement_link menu_area_link'>
               <Link className='link_button' href="/record">觀看成就</Link>
             </div>
-            <div className='practice_link menu_area_link'>
-              <Link className='link_button' href="/quiz/87年學測">錯題練習</Link>
+            <div style={this.calculateScore() == 100 ? { display: "none" } : {}} className='practice_link menu_area_link'>
+              <Link className='link_button' href="/quiz/review">錯題練習</Link>
             </div>
             <div className='main_page_link menu_area_link'>
               <Link className='link_button' href="/">回到首頁</Link>

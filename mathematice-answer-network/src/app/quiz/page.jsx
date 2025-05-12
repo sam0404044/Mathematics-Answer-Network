@@ -132,12 +132,14 @@ class quiz extends Component {
     this.setState(newstate);
   };
   choose_single = (index) => {
+
     let newstate = { ...this.state };
     newstate.status[this.state.index] = [index];
     this.setState(newstate);
     console.log(newstate.status);
   };
   choose_mutiple = (index) => {
+
     let newstate = { ...this.state };
 
     if (newstate.status[this.state.index].length === 0) {
@@ -232,23 +234,23 @@ class quiz extends Component {
         case "A":
         case "1":
         case 1:
-          return [0];
+          return [1];
         case "B":
         case "2":
         case 2:
-          return [1];
+          return [2];
         case "C":
         case "3":
         case 3:
-          return [2];
+          return [3];
         case "D":
         case "4":
         case 4:
-          return [3];
+          return [4];
         case "E":
         case "5":
         case 5:
-          return [4];
+          return [5];
         default:
           return [letter];
 
@@ -480,12 +482,12 @@ class quiz extends Component {
               <div className="option_area" key={idx}>
                 <button
                   className="option"
-                  onClick={() => this.question_type_depend(idx)}
+                  onClick={() => this.question_type_depend(idx + 1)}
                 >
                   <div
                     className={
                       "option_letter " +
-                      (this.state.status[this.state.index].includes(idx)
+                      (this.state.status[this.state.index].includes(idx + 1)
                         ? " option_letter_choosed "
                         : this.state.dark_mode
                           ? " option_letter_not_choosed_dark_mode_on "
@@ -497,7 +499,7 @@ class quiz extends Component {
                   <div
                     className={
                       "option_word_area " +
-                      (this.state.status[this.state.index].includes(idx)
+                      (this.state.status[this.state.index].includes(idx + 1)
                         ? " option_word_area_choosed "
                         : this.state.dark_mode
                           ? " option_word_area_not_choosed_dark_mode_on "

@@ -48,25 +48,55 @@ class quiz extends Component {
     exit_menu_status: false,
     commit_status: false,
     dark_mode: false,
+    review_mode: false
   };
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = async () => {
+    function compare_array(a, b) {
+      return a.sort().toString() == b.sort().toString()
+    }
     this.state.timeCount_display = this.spend_time_toString(
       this.state.time_limit
     );
 
 
     const { year } = await this.props.params;
-    let json = await fetch(`../api/quiz/${year}`)
-      .then((data) => {
-        return data.json();
+
+    let json
+    if (year == "review") {
+      this.state.review_mode = true
+      let data = await fetch("../api/score", {
+        method: "POST",
+        body: JSON.stringify({ uid: this.state.id }
+        )
       })
-      ;
-      
-    if (!(json?.questions.length)) {
-      alert("找不到題目，請重新設定範圍");
-      window.location.href = "/question-bank";
-      return;
+        .then(res => {
+
+          return res?.json();
+        })
+      data = data.question_record[0].answer_review
+
+      let wrong_question = await data.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
+      if (wrong_question?.length == 0) {
+        alert("沒有題目需要複習");
+        window.location.href = "/";
+        return;
+      }
+      json = await fetch("../api/getQuestion", {
+        method: "POST",
+        body: JSON.stringify({ question_id: wrong_question.map(x => x.uid) })
+      }).then(res => res.json())
+    } else {
+      json = await fetch(`../api/quiz/${year}`)
+        .then((data) => {
+          return data.json();
+        })
+        ;
+      if (!(json?.questions.length)) {
+        alert("找不到題目，請重新設定範圍");
+        window.location.href = "/question-bank";
+        return;
+      }
     }
     let newState = { ...this.state };
     newState.quiz = await convertdata(json);
@@ -130,14 +160,15 @@ class quiz extends Component {
     this.setState(newstate);
   };
   choose_single = (index) => {
+
     let newstate = { ...this.state };
     newstate.status[this.state.index] = [index];
     this.setState(newstate);
     console.log(newstate.status);
   };
   choose_mutiple = (index) => {
-    let newstate = { ...this.state };
 
+    let newstate = { ...this.state };
     if (newstate.status[this.state.index].length === 0) {
       newstate.status[this.state.index] = [index];
     } else {
@@ -223,30 +254,30 @@ class quiz extends Component {
       return a.sort().toString() == b.sort().toString()
     }
     function translate_letter_to_number(letter) {
-      if(Array.isArray(letter)){
+      if (Array.isArray(letter)) {
         return letter
       }
       switch (letter) {
         case "A":
         case "1":
         case 1:
-          return [0];
+          return [1];
         case "B":
         case "2":
         case 2:
-          return [1];
+          return [2];
         case "C":
         case "3":
         case 3:
-          return [2];
+          return [3];
         case "D":
         case "4":
         case 4:
-          return [3];
+          return [4];
         case "E":
         case "5":
         case 5:
-          return [4];
+          return [5];
         default:
           return [letter];
 
@@ -290,18 +321,28 @@ class quiz extends Component {
           ], "answer_status":
           { "total": 2, "correct": 1 }
       }
-
-      fetch("../api/quizSubmit", {
-        method: "POST",
-
-        body: JSON.stringify({
-          userid: this.state.id,
-          cost_time: this.state.time_count,
-          answer: this.export_answer_data(),
-          question_bank: decodeURI(this.state.question_bank)
-        }
-        )
-      })
+      if (this.state.review_mode) {
+         fetch("../api/quizReview", {
+          method: "POST",
+          body: JSON.stringify({
+            userid: this.state.id,
+            cost_time: this.state.time_count,
+            answer: this.export_answer_data(),
+          }
+          )
+        })
+      } else {
+        fetch("../api/quizSubmit", {
+          method: "POST",
+          body: JSON.stringify({
+            userid: this.state.id,
+            cost_time: this.state.time_count,
+            answer: this.export_answer_data(),
+            question_bank: decodeURI(this.state.question_bank)
+          }
+          )
+        })
+      }
     }
   }
   render() {
@@ -489,12 +530,12 @@ class quiz extends Component {
               <div className="option_area" key={idx}>
                 <button
                   className="option"
-                  onClick={() => this.question_type_depend(idx)}
+                  onClick={() => this.question_type_depend(idx + 1)}
                 >
                   <div
                     className={
                       "option_letter " +
-                      (this.state.status[this.state.index].includes(idx)
+                      (this.state.status[this.state.index].includes(idx + 1)
                         ? " option_letter_choosed "
                         : this.state.dark_mode
                           ? " option_letter_not_choosed_dark_mode_on "
@@ -506,7 +547,7 @@ class quiz extends Component {
                   <div
                     className={
                       "option_word_area " +
-                      (this.state.status[this.state.index].includes(idx)
+                      (this.state.status[this.state.index].includes(idx + 1)
                         ? " option_word_area_choosed "
                         : this.state.dark_mode
                           ? " option_word_area_not_choosed_dark_mode_on "

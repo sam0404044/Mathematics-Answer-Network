@@ -142,7 +142,7 @@ class record extends Component {
                                 <span>{this.state.wrong_question.total_number}</span>
                             </div>
                         </div>
-                        <Link href='/quiz/87年學測' className='improve_button'>
+                        <Link href='/' className='improve_button'>
                             <span className='improve_button_text'>針對題目進行加強</span>
                         </Link>
                     </div>
