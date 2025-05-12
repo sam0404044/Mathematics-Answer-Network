@@ -84,8 +84,12 @@ export default function QuestionBank() {
         {showCurPage.map((cur) => (
           <TestPaper key={cur} content={cur} />
         ))}
+        <Pagination
+          curPage={curPage}
+          dispatch={dispatch}
+          totalPage={totalPage}
+        />
       </div>
-      <Pagination curPage={curPage} dispatch={dispatch} totalPage={totalPage} />
       <Footer />
     </div>
   );
