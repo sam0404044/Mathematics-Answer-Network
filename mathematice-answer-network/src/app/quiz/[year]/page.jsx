@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/app/components/Footer";
 import { loginOrNot } from "../../../lib/checkCookie";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 class quiz extends Component {
   state = {
     id: 1,
@@ -21,7 +21,7 @@ class quiz extends Component {
           "設 P 的位置為 x，則 |x - 1| + |x - 4| = 4。解這個方程式可以得到 x = 1 或 x = 4，因此有 1 個解。",
         question_type: "multiple",
         source: "test",
-        image: ""
+        image: "",
       },
       {
         id: 2,
@@ -33,7 +33,7 @@ class quiz extends Component {
           "要使抽到藍色球與抽到1號球的事件互相獨立，則P(藍色) × P(1號) = P(藍色且1號)。\n藍色球總數為2 + 3 = 5顆，綠色球總數為4 + k顆。\n總球數為5 + 4 + k = 9 + k。\nP(藍色) = 5/(9+k)，P(1號) = (2+4)/(9+k) = 6/(9+k)，\nP(藍色且1號) = 2/(9+k)。\n\n所以，5/(9+k) × 6/(9+k) = 2/(9+k)，\n30 = 2(9+k)，\n30 = 18 + 2k，\n12 = 2k，\nk = 6。\n\n因此，k的值為6。",
         question_type: "single",
         source: "test",
-        image: ""
+        image: "",
       },
     ],
     index: 0,
@@ -49,55 +49,51 @@ class quiz extends Component {
     exit_menu_status: false,
     commit_status: false,
     dark_mode: false,
-    review_mode: false
+    review_mode: false,
   };
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = async () => {
-    let jwt_uid = await loginOrNot()
+    let jwt_uid = await loginOrNot();
     function compare_array(a, b) {
-      return a.sort().toString() == b.sort().toString()
+      return a.sort().toString() == b.sort().toString();
     }
     this.state.timeCount_display = this.spend_time_toString(
       this.state.time_limit
     );
 
-
     const { year } = await this.props.params;
 
-    let json
+    let json;
     if (year == "review") {
-      this.state.review_mode = true
+      this.state.review_mode = true;
       let data = await fetch("../api/score", {
         method: "POST",
-        body: JSON.stringify({ uid: jwt_uid }
-        )
-      })
-        .then(res => {
+        body: JSON.stringify({ uid: jwt_uid }),
+      }).then((res) => {
+        return res?.json();
+      });
+      if (Array.isArray(data)) {
+        data = data?.question_record[0].answer_review;
+      }
 
-          return res?.json();
-        })
-        if(Array.isArray(data)){
-          data = data?.question_record[0].answer_review
-        }
-
-      let wrong_question = await data.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
+      let wrong_question = await data.answer_info?.filter(
+        (x) => !compare_array(x.answer, x.right_answer)
+      );
       if (wrong_question?.length == 0 || !wrong_question) {
         alert("沒有題目需要複習");
         window.location.href = "/";
         return;
       }
-      
+
       json = await fetch("../api/getQuestion", {
         method: "POST",
-        body: JSON.stringify({ question_id: wrong_question.map(x => x.uid) })
-      }).then(res => res.json())
+        body: JSON.stringify({ question_id: wrong_question.map((x) => x.uid) }),
+      }).then((res) => res.json());
     } else {
-      json = await fetch(`../api/quiz/${year}`)
-        .then((data) => {
-          return data.json();
-        })
-        ;
-      if (!(json?.questions.length)) {
+      json = await fetch(`../api/quiz/${year}`).then((data) => {
+        return data.json();
+      });
+      if (!json?.questions.length) {
         alert("找不到題目，請重新設定範圍");
         window.location.href = "/question-bank";
         return;
@@ -105,21 +101,21 @@ class quiz extends Component {
     }
     let newState = { ...this.state };
     newState.quiz = await convertdata(json);
-    newState.question_bank = await year
+    newState.question_bank = await year;
     newState.status = await json.questions.map(() => []);
-    newState.id = jwt_uid
+    newState.id = jwt_uid;
     this.setState(newState);
     this.setMyInterval();
     this.typesetMath();
   };
   componentDidUpdate = () => {
     this.typesetMath(); // 每次更新後都重新渲染 MathJax
-  }
+  };
   typesetMath = () => {
     if (window.MathJax && window.MathJax.typesetPromise) {
       window.MathJax.typesetPromise();
     }
-  }
+  };
   setMyInterval = (event) => {
     if (this.state.mytimeid) {
       clearInterval(this.state.mytimeid);
@@ -166,14 +162,12 @@ class quiz extends Component {
     this.setState(newstate);
   };
   choose_single = (index) => {
-
     let newstate = { ...this.state };
     newstate.status[this.state.index] = [index];
     this.setState(newstate);
     console.log(newstate.status);
   };
   choose_mutiple = (index) => {
-
     let newstate = { ...this.state };
     if (newstate.status[this.state.index].length === 0) {
       newstate.status[this.state.index] = [index];
@@ -239,29 +233,28 @@ class quiz extends Component {
     this.setState(newstate);
   };
   show_img = () => {
-    let img_path = ""
-    let html_element = <></>
+    let img_path = "";
+    let html_element = <></>;
     if (this.state.quiz[this.state.index]?.image) {
-      img_path = this.state.quiz[this.state.index].image
-      html_element =
+      img_path = this.state.quiz[this.state.index].image;
+      html_element = (
         // <Image
         //   src={img_path}
         //   width={100}
         //   height={100}
         // />
-        <span>
-          {img_path}
-        </span>
+        <span>{img_path}</span>
+      );
     }
-    return html_element
-  }
+    return html_element;
+  };
   export_answer_data = () => {
     function compare_array(a, b) {
-      return a.sort().toString() == b.sort().toString()
+      return a.sort().toString() == b.sort().toString();
     }
     function translate_letter_to_number(letter) {
       if (Array.isArray(letter)) {
-        return letter
+        return letter;
       }
       switch (letter) {
         case "A":
@@ -285,58 +278,59 @@ class quiz extends Component {
         case 5:
           return [5];
         default:
-          return [letter];
-
+          return [1];
       }
     }
     let answer = {
-      "answer_info":
-        [{
-          "uid": 1,
-          "answer": [2],
-          "right_answer": [2]
+      answer_info: [
+        {
+          uid: 1,
+          answer: [2],
+          right_answer: [2],
         },
-        ], "answer_status":
-        { "total": 2, "correct": 1 }
-    }
+      ],
+      answer_status: { total: 2, correct: 1 },
+    };
     let correct_n = this.state.quiz.filter((question, idx) => {
-      return compare_array(this.state.status[idx], translate_letter_to_number(question.answer))
-    })
+      return compare_array(
+        this.state.status[idx],
+        translate_letter_to_number(question.answer)
+      );
+    });
     answer.answer_info = this.state.quiz.map((question, idx) => {
-      return ({
-        "uid": question.id,
-        "answer": this.state.status[idx],
-        "right_answer": translate_letter_to_number(question.answer)
-      })
-    })
+      return {
+        uid: question.id,
+        answer: this.state.status[idx],
+        right_answer: translate_letter_to_number(question.answer),
+      };
+    });
     answer.answer_status = {
-      "total": this.state.quiz.length,
-      "correct": correct_n.length
-    }
-    return answer
-  }
+      total: this.state.quiz.length,
+      correct: correct_n.length,
+    };
+    return answer;
+  };
   submit_quiz = () => {
     if (this.state.commit_status) {
       let answer = {
-        "answer_info":
-          [{
-            "uid": 1,
-            "answer": [2],
-            "right_answer": [2]
+        answer_info: [
+          {
+            uid: 1,
+            answer: [2],
+            right_answer: [2],
           },
-          ], "answer_status":
-          { "total": 2, "correct": 1 }
-      }
+        ],
+        answer_status: { total: 2, correct: 1 },
+      };
       if (this.state.review_mode) {
-         fetch("../api/quizReview", {
+        fetch("../api/quizReview", {
           method: "POST",
           body: JSON.stringify({
             userid: this.state.id,
             cost_time: this.state.time_count,
             answer: this.export_answer_data(),
-          }
-          )
-        })
+          }),
+        });
       } else {
         fetch("../api/quizSubmit", {
           method: "POST",
@@ -344,13 +338,12 @@ class quiz extends Component {
             userid: this.state.id,
             cost_time: this.state.time_count,
             answer: this.export_answer_data(),
-            question_bank: decodeURI(this.state.question_bank)
-          }
-          )
-        })
+            question_bank: decodeURI(this.state.question_bank),
+          }),
+        });
       }
     }
-  }
+  };
   render() {
     return (
       <div className="page_container">
@@ -380,7 +373,12 @@ class quiz extends Component {
               <div className="leave_menu_button_area">
                 <button className="leave_menu_button">
                   {
-                    <Link onNavigate={() => { this.submit_quiz() }} href={this.state.commit_status ? "/score" : "/"}>
+                    <Link
+                      onNavigate={() => {
+                        this.submit_quiz();
+                      }}
+                      href={this.state.commit_status ? "/score" : "/"}
+                    >
                       {this.state.commit_status ? "確定交卷" : "確定離開"}
                     </Link>
                   }
@@ -421,7 +419,9 @@ class quiz extends Component {
                       "menu_content_button " +
                       (this.state.status[idx].length > 0
                         ? " menu_content_button_has_answer "
-                        : (this.state.viewed_question.includes(idx) ? " menu_content_button_not_answer " : " menu_content_button_not_view "))
+                        : this.state.viewed_question.includes(idx)
+                          ? " menu_content_button_not_answer "
+                          : " menu_content_button_not_view ")
                     }
                     key={idx}
                     onClick={() => {
@@ -464,7 +464,6 @@ class quiz extends Component {
               </span>
             </div>
 
-
             <button
               className="leave_button"
               onClick={() => this.show_leave_menu_or_not()}
@@ -506,7 +505,11 @@ class quiz extends Component {
                   }
                 >
                   <Image
-                    src={this.state.dark_mode ? "../img/moon.svg" : "../img/sun.svg"}
+                    src={
+                      this.state.dark_mode
+                        ? "../img/moon.svg"
+                        : "../img/sun.svg"
+                    }
                     width={20}
                     height={20}
                     alt="this is dark_mode_switch_img"
@@ -523,12 +526,8 @@ class quiz extends Component {
                   : " topic_word_dark_mode_off ")
               }
             >
-              <div className="topic_img_area">
-                {this.show_img()}
-              </div>
-              <span>
-                {this.state.quiz[this.state.index]?.question}
-              </span>
+              <div className="topic_img_area">{this.show_img()}</div>
+              <span>{this.state.quiz[this.state.index]?.question}</span>
             </div>
           </div>
           <div className="options_area">
@@ -638,22 +637,18 @@ class quiz extends Component {
 export default quiz;
 
 function convertdata(json) {
+  let newjson = json.questions.map((x) => {
+    return {
+      id: x.uid,
+      question: x.question,
+      options: [x.option_a, x.option_b, x.option_c, x.option_d, x.option_e],
+      answer: x.answer,
+      explanation: x.explanation,
+      question_type: x.type,
+      source: x.questionYear,
+      image: x.image,
+    };
+  });
 
-  let newjson = json.questions.map(x => {
-    return (
-      {
-        id: x.uid,
-        question: x.question,
-        options: [x.option_a, x.option_b, x.option_c, x.option_d, x.option_e],
-        answer: x.answer,
-        explanation: x.explanation,
-        question_type: x.type,
-        source: x.questionYear,
-        image: x.image
-      }
-    )
-  })
-
-
-  return newjson
-} 
+  return newjson;
+}

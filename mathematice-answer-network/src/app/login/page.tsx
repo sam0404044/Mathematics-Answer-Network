@@ -39,7 +39,7 @@ export default function Login() {
       setMessage("登入成功，三秒後將跳轉到首頁");
       setShowModal(true);
       setTimeout(() => {
-        router.push("/");
+        window.location.href = "/";
       }, 3000);
       return;
     }

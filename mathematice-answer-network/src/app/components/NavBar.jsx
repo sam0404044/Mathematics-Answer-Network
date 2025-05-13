@@ -7,36 +7,14 @@ import Link from "next/link";
 import QuestionBankIcon from "./icon/QuestionBankIcon-";
 import PlanIcon from "./icon/PlanIcon";
 import StudyGuidesIcon from "./icon/StudyGuidesIcon";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function NavBar() {
+  const auth = useContext(AuthContext);
   const [isActive, setIsActive] = useState(false);
-  const [isLogin, setIsLogin] = useState("loading");
-  const [user, setUser] = useState("");
-
-  useEffect(() => {
-    const loginStatus = async function () {
-      try {
-        const res = await fetch("/api/user/me", { credentials: "include" });
-        if (!res.ok) {
-          setIsLogin(false);
-          return;
-        }
-        const data = await res.json();
-        if (data.uid) {
-          setIsLogin(true);
-          setUser(data);
-          // setUser(data.username);
-        } else {
-          setIsLogin(false);
-        }
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setIsLogin(false);
-      }
-    };
-    loginStatus();
-  }, []);
+  if (!auth) return null;
+  const { isLogin, user, setIsLogin } = auth;
 
   return (
     <>
@@ -49,10 +27,9 @@ export default function NavBar() {
           <div className={styles.navbarcomponent}>
             {!isActive && (
               <>
-                {" "}
                 <h1 className={styles.username}>
                   歡迎回來: {user.username ? user.username : user.email}
-                </h1>{" "}
+                </h1>
                 <SignUpLoginBtn
                   type={"log-in"}
                   isActive={isActive}
@@ -88,7 +65,10 @@ export default function NavBar() {
           <div className={styles["menu-box"]}>
             <h1 className={styles.h1}>學生專區</h1>
             <div className={styles.option}>
-              <Link href="/question-bank" className={styles.link}>
+              <Link
+                href={`${isLogin ? "/question-bank" : "/login"}`}
+                className={styles.link}
+              >
                 <QuestionBankIcon />
                 <button className={styles.btn}>歷年考古題</button>
               </Link>
@@ -96,7 +76,10 @@ export default function NavBar() {
                 <PlanIcon />
                 <button className={styles.btn}>我的方案</button>
               </Link>
-              <Link href="/record" className={styles.link}>
+              <Link
+                href={`${isLogin ? "/record" : "/login"}`}
+                className={styles.link}
+              >
                 <StudyGuidesIcon />
                 <button className={styles.btn}>個人紀錄</button>
               </Link>

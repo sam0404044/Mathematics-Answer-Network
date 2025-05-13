@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import "./pricing.css"; // ← 引入 CSS 檔案
 import PlanCard from "../components/pricing-plan/PlanCard";
-export default function PricingPage() {
+export default function PricingPage({ isLogin, setIsLogin, user }) {
   const plan_status = 1;
   const points = 100;
 
