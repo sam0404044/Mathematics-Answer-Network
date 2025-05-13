@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { RowDataPacket } from "mysql2";
 import { cookies } from "next/headers";
 import pool from "@/lib/db";
+import jwt from "jsonwebtoken";
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -11,8 +12,11 @@ export async function GET() {
     return NextResponse.json({ success: false }, { status: 401 });
   }
   try {
-    const parsed = JSON.parse(loginData.value);
-    const { uid } = parsed;
+    const decode = jwt.verify(loginData.value, process.env.JWT_SECRET!) as {
+      uid: number;
+      method: string;
+    };
+    const { uid } = decode;
 
     const [rows] = await pool.execute<RowDataPacket[]>(
       "SELECT username, email FROM user_info WHERE id = ?",
@@ -25,7 +29,6 @@ export async function GET() {
       );
     }
 
-    console.log(rows);
     const { username, email } = rows[0];
 
     return NextResponse.json({
@@ -35,6 +38,10 @@ export async function GET() {
       email,
     });
   } catch (err) {
-    return NextResponse.json({ success: false, message: err }, { status: 500 });
+    console.error("JWT error:", err);
+    return NextResponse.json(
+      { success: false, message: "Token 無效或過期" },
+      { status: 401 }
+    );
   }
 }
