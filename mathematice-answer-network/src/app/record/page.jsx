@@ -6,6 +6,8 @@ import Image from 'next/image'
 import Footer from '../components/Footer';
 import NavBar from "../components/NavBar";
 import Link from 'next/link';
+import "../../lib/checkCookie"
+import { loginOrNot } from '../../lib/checkCookie';
 class record extends Component {
     state = {
         id: 1,
@@ -47,14 +49,17 @@ class record extends Component {
 
 
     }
-    componentDidMount = () => {
+    componentDidMount = async() => {
+        let jwt_uid = await loginOrNot()
         fetch("./api/record", {
             method: "POST",
-            body: JSON.stringify({ uid: this.state.id }
+            body: JSON.stringify({ uid: jwt_uid }
             )
         })
             .then(res => res.json())
-            .then(json => {
+            .then(async json => {
+                json = await json
+                console.log(json)
                 let newstate = { ...this.state }
                 newstate.answer_history = json.question_record.map(question => {
                     let timestamp = new Date(question.time).getTime()
@@ -71,7 +76,15 @@ class record extends Component {
                     tree_status: json.tree_status[0].status,
                     tree_grow_up_gap: json.tree_status[0].gap
                 }
-                newstate.wrong_question.total_number = json.wrong_question_n[0].wrong_question_number
+                
+                try {
+                    newstate.wrong_question.total_number = json.wrong_question_n[0]?.wrong_question_number
+                } catch (error) {
+                    alert("找不到紀錄");
+                    window.location.href = "/";
+                    return;
+                }
+                
                 this.setState(newstate)
             })
     }

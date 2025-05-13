@@ -5,6 +5,8 @@ import "./style.css"
 import Image from 'next/image'
 import Link from 'next/link';
 import Footer from '../components/Footer';
+import "../../lib/checkCookie"
+import { loginOrNot } from '../../lib/checkCookie';
 class score extends Component {
   state = {
     id: 1,
@@ -71,16 +73,22 @@ class score extends Component {
       },
     ]
   }
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    let jwt_uid = await loginOrNot()
     window.addEventListener("scroll", () => { this.scroll_event() })
     fetch("./api/score", {
       method: "POST",
-      body: JSON.stringify({ uid: this.state.id }
+      body: JSON.stringify({ uid: jwt_uid }
       )
     })
       .then(data => {
         return data.json();
       }).then(async (json) => {
+        if (!Array.isArray(await json.question_record)) {
+          alert("找不到紀錄");
+          window.location.href = "/";
+          return;
+        }
         let data = await json.question_record[0]
         let newState = { ...this.state }
         if (data.answer_review.has_review) {

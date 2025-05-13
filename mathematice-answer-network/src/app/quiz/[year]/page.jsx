@@ -4,7 +4,8 @@ import "../style.css";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/app/components/Footer";
-
+import { loginOrNot } from "../../../lib/checkCookie";
+import jwt from 'jsonwebtoken';
 class quiz extends Component {
   state = {
     id: 1,
@@ -52,6 +53,7 @@ class quiz extends Component {
   };
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = async () => {
+    let jwt_uid = await loginOrNot()
     function compare_array(a, b) {
       return a.sort().toString() == b.sort().toString()
     }
@@ -67,21 +69,24 @@ class quiz extends Component {
       this.state.review_mode = true
       let data = await fetch("../api/score", {
         method: "POST",
-        body: JSON.stringify({ uid: this.state.id }
+        body: JSON.stringify({ uid: jwt_uid }
         )
       })
         .then(res => {
 
           return res?.json();
         })
-      data = data.question_record[0].answer_review
+        if(Array.isArray(data)){
+          data = data?.question_record[0].answer_review
+        }
 
       let wrong_question = await data.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
-      if (wrong_question?.length == 0) {
+      if (wrong_question?.length == 0 || !wrong_question) {
         alert("沒有題目需要複習");
         window.location.href = "/";
         return;
       }
+      
       json = await fetch("../api/getQuestion", {
         method: "POST",
         body: JSON.stringify({ question_id: wrong_question.map(x => x.uid) })
@@ -102,6 +107,7 @@ class quiz extends Component {
     newState.quiz = await convertdata(json);
     newState.question_bank = await year
     newState.status = await json.questions.map(() => []);
+    newState.id = jwt_uid
     this.setState(newState);
     this.setMyInterval();
     this.typesetMath();

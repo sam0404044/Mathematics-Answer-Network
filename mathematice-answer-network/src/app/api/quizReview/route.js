@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
-
+import jwt from "jsonwebtoken"
 
  
 export async function POST(
@@ -26,7 +26,7 @@ export async function POST(
     console.log(answer_review)
     await db.query(
         "UPDATE user_answer_record SET user_answer_record.answer_review = ? WHERE user_answer_record.userid = ? ORDER BY user_answer_record.time DESC LIMIT 1",
-        [JSON.stringify(answer_review) ,userid]
+        [JSON.stringify(answer_review) ,jwt.decode(userid).uid]
     );
 
 

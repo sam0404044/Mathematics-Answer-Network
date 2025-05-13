@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
-
+import jwt from "jsonwebtoken"
  
 export async function POST(
   req,
@@ -13,9 +13,10 @@ export async function POST(
      const {uid} = await req.json()
     
   try {
+    
     const [records] = await db.query(
       "SELECT * from user_answer_record WHERE user_answer_record.userid = ? ORDER BY user_answer_record.time DESC LIMIT 1",
-      [uid]
+      [jwt.decode(uid).uid]
     );
     
     return NextResponse.json({ question_record: records});

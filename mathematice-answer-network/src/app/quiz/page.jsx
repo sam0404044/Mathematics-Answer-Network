@@ -4,7 +4,8 @@ import "./style.css";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/app/components/Footer";
-
+import "../../lib/checkCookie"
+import { loginOrNot } from "../../lib/checkCookie";
 class quiz extends Component {
   state = {
     id: 1,
@@ -51,29 +52,31 @@ class quiz extends Component {
   // 這裡fetch題庫資料跟開始計時
   
 
-    componentDidMount = () => {
+    componentDidMount = async() => {
       this.state.timeCount_display = this.spend_time_toString(
         this.state.time_limit
       );
-      const storedQuestions = JSON.parse(sessionStorage.getItem("questions"));
-      const settings = JSON.parse(sessionStorage.getItem("settings"));
+      const storedQuestions = await JSON.parse(sessionStorage.getItem("questions"));
+      const settings = await JSON.parse(sessionStorage.getItem("settings"));
     
       if (!storedQuestions || !settings) {
         alert("❌ 找不到題目或設定，請重新開始");
         window.location.href = "/";
         return;
       }
-    
+      
       let newState = { ...this.state };
       newState.quiz = storedQuestions ? storedQuestions: [];
       newState.question_bank = "即時產生題庫"; // 你也可以改成 settings.question_bank
       newState.status = storedQuestions?.map(() => []);
       newState.timeCount_display = this.spend_time_toString(this.state.time_limit);
-    
+      newState.id = await loginOrNot()
+      
       this.setState(newState, () => {
         this.setMyInterval();
         this.typesetMath();
       });
+      
     };
     
 
@@ -283,9 +286,9 @@ class quiz extends Component {
     }
     return answer
   }
-  submit_quiz = () => {
+  submit_quiz = async() => {
     if (this.state.commit_status) {
-      fetch("../api/quizSubmit", {
+      await fetch("../api/quizSubmit", {
         method: "POST",
         body: JSON.stringify({
           userid: this.state.id,
@@ -326,7 +329,7 @@ class quiz extends Component {
               <div className="leave_menu_button_area">
                 <button className="leave_menu_button">
                   {
-                    <Link onNavigate={() => { this.submit_quiz() }} href={this.state.commit_status ? "/score" : "/"}>
+                    <Link onNavigate={async() => { await this.submit_quiz() }} href={this.state.commit_status ? "/score" : "/"}>
                       {this.state.commit_status ? "確定交卷" : "確定離開"}
                     </Link>
                   }
