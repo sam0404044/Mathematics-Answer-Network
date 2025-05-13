@@ -152,7 +152,7 @@ class record extends Component {
                                 <span>累積錯題</span>
                             </div>
                             <div className='wrong_question_collection_number'>
-                                <span>{this.state.wrong_question.total_number}</span>
+                                <span>{this.state.wrong_question.total_number ? this.state.wrong_question.total_number : 0}</span>
                             </div>
                         </div>
                         <Link href='/' className='improve_button'>

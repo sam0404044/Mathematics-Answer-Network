@@ -6,10 +6,11 @@ import Link from "next/link";
 import Footer from "@/app/components/Footer";
 import "../../lib/checkCookie"
 import { loginOrNot } from "../../lib/checkCookie";
+;
 class quiz extends Component {
   state = {
     id: 1,
-    question_bank:"87年學測",
+    question_bank: "87年學測",
     quiz: [
       {
         id: 1,
@@ -48,37 +49,41 @@ class quiz extends Component {
     exit_menu_status: false,
     commit_status: false,
     dark_mode: false,
+    time_over: false,
+    count_time_or_not: true,
   };
   // 這裡fetch題庫資料跟開始計時
-  
 
-    componentDidMount = async() => {
-      this.state.timeCount_display = this.spend_time_toString(
-        this.state.time_limit
-      );
-      const storedQuestions = await JSON.parse(sessionStorage.getItem("questions"));
-      const settings = await JSON.parse(sessionStorage.getItem("settings"));
-    
-      if (!storedQuestions || !settings) {
-        alert("❌ 找不到題目或設定，請重新開始");
-        window.location.href = "/";
-        return;
-      }
-      
-      let newState = { ...this.state };
-      newState.quiz = storedQuestions ? storedQuestions: [];
-      newState.question_bank = "即時產生題庫"; // 你也可以改成 settings.question_bank
-      newState.status = storedQuestions?.map(() => []);
-      newState.timeCount_display = this.spend_time_toString(this.state.time_limit);
-      newState.id = await loginOrNot()
-      
-      this.setState(newState, () => {
+
+  componentDidMount = async () => {
+    this.state.timeCount_display = this.spend_time_toString(
+      this.state.time_limit
+    );
+    const storedQuestions = await JSON.parse(sessionStorage.getItem("questions"));
+    const settings = await JSON.parse(sessionStorage.getItem("settings"));
+
+    if (!storedQuestions || !settings) {
+      alert("❌ 找不到題目或設定，請重新開始");
+      window.location.href = "/";
+      return;
+    }
+
+    let newState = { ...this.state };
+    newState.quiz = storedQuestions ? storedQuestions : [];
+    newState.question_bank = "即時產生題庫"; // 你也可以改成 settings.question_bank
+    newState.status = storedQuestions?.map(() => []);
+    newState.timeCount_display = this.spend_time_toString(this.state.time_limit);
+    newState.id = await loginOrNot()
+
+    this.setState(newState, () => {
+      if (this.state.count_time_or_not) {
         this.setMyInterval();
-        this.typesetMath();
-      });
-      
-    };
-    
+      };
+      this.typesetMath();
+    });
+
+  };
+
 
 
   componentDidUpdate = () => {
@@ -96,11 +101,15 @@ class quiz extends Component {
     this.state.mytimeid = setInterval(() => {
       this.state.time_count += 1;
       if (this.state.time_count > this.state.time_limit) {
-        alert("時間到");
+        this.state.time_over = true
+        this.state.timeCount_display = this.spend_time_toString(
+           this.state.time_count - this.state.time_limit
+        );
+      }else{
+        this.state.timeCount_display = this.spend_time_toString(
+          this.state.time_limit - this.state.time_count
+        );
       }
-      this.state.timeCount_display = this.spend_time_toString(
-        this.state.time_limit - this.state.time_count
-      );
       this.setState(this.state);
     }, 1000);
   };
@@ -230,7 +239,7 @@ class quiz extends Component {
       return a.sort().toString() == b.sort().toString()
     }
     function translate_letter_to_number(letter) {
-      if(Array.isArray(letter)){
+      if (Array.isArray(letter)) {
         return letter
       }
       switch (letter) {
@@ -258,7 +267,7 @@ class quiz extends Component {
           return [letter];
 
       }
-    
+
     }
     let answer = {
       "answer_info":
@@ -286,7 +295,7 @@ class quiz extends Component {
     }
     return answer
   }
-  submit_quiz = async() => {
+  submit_quiz = async () => {
     if (this.state.commit_status) {
       await fetch("../api/quizSubmit", {
         method: "POST",
@@ -294,7 +303,7 @@ class quiz extends Component {
           userid: this.state.id,
           cost_time: this.state.time_count,
           answer: this.export_answer_data(),
-          question_bank:decodeURI(this.state.question_bank)
+          question_bank: decodeURI(this.state.question_bank)
         }
         )
       })
@@ -329,7 +338,7 @@ class quiz extends Component {
               <div className="leave_menu_button_area">
                 <button className="leave_menu_button">
                   {
-                    <Link onNavigate={async() => { await this.submit_quiz() }} href={this.state.commit_status ? "/score" : "/"}>
+                    <Link onNavigate={async () => { await this.submit_quiz() }} href={this.state.commit_status ? "/score" : "/"}>
                       {this.state.commit_status ? "確定交卷" : "確定離開"}
                     </Link>
                   }
@@ -436,7 +445,7 @@ class quiz extends Component {
                   : " topic_bar_dark_mode_off ")
               }
             >
-              {this.state.quiz[this.state.index]?.question_type}
+              {this.state.quiz[this.state.index]?.question_type == "mutiple" ? "多選題" : "單選題"}
               <button
                 className={
                   "dark_mode_button " +
@@ -523,7 +532,7 @@ class quiz extends Component {
                   : " source_text_dark_mode_off "
               }
             >
-              Source: {this.state.quiz[this.state.index]?.source}
+              來源: {this.state.quiz[this.state.index]?.source}
             </h3>
           </div>
           <div className="switch_button_area">
@@ -535,7 +544,7 @@ class quiz extends Component {
               disabled={this.state.index == 0}
               onClick={this.sub}
             >
-              Previous
+              上一題
             </button>
             <button
               className={
@@ -547,8 +556,8 @@ class quiz extends Component {
               onClick={this.add}
             >
               {this.state.index + 1 == this.state.quiz.length
-                ? "Submit"
-                : "Next"}
+                ? "提交"
+                : "下一題"}
             </button>
           </div>
           <div
@@ -570,10 +579,10 @@ class quiz extends Component {
               ))}
             </div>
           </div>
-          <div className="time_area">
+          <div style={{display:this.state.count_time_or_not ? "flex" :"none"}} className="time_area" >
             {/* 開始時間: */}
             {/* <h1>starttime: {this.state.start_time}</h1> */}
-            <span className="time_count_text">
+            <span className={"time_count_text " + (this.state.time_over ? " time_count_over " : " time_count_not_over ")}>
               {this.state.timeCount_display}
             </span>
           </div>
