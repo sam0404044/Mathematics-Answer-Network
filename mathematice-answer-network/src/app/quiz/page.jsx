@@ -4,7 +4,8 @@ import "./style.css";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/app/components/Footer";
-
+import "../../lib/checkCookie"
+import { loginOrNot } from "../../lib/checkCookie";
 class quiz extends Component {
   state = {
     id: 1,
@@ -51,29 +52,31 @@ class quiz extends Component {
   // 這裡fetch題庫資料跟開始計時
   
 
-    componentDidMount = () => {
+    componentDidMount = async() => {
       this.state.timeCount_display = this.spend_time_toString(
         this.state.time_limit
       );
-      const storedQuestions = JSON.parse(sessionStorage.getItem("questions"));
-      const settings = JSON.parse(sessionStorage.getItem("settings"));
+      const storedQuestions = await JSON.parse(sessionStorage.getItem("questions"));
+      const settings = await JSON.parse(sessionStorage.getItem("settings"));
     
       if (!storedQuestions || !settings) {
         alert("❌ 找不到題目或設定，請重新開始");
         window.location.href = "/";
         return;
       }
-    
+      
       let newState = { ...this.state };
-      newState.quiz = storedQuestions;
+      newState.quiz = storedQuestions ? storedQuestions: [];
       newState.question_bank = "即時產生題庫"; // 你也可以改成 settings.question_bank
-      newState.status = storedQuestions.map(() => []);
+      newState.status = storedQuestions?.map(() => []);
       newState.timeCount_display = this.spend_time_toString(this.state.time_limit);
-    
+      newState.id = await loginOrNot()
+      
       this.setState(newState, () => {
         this.setMyInterval();
         this.typesetMath();
       });
+      
     };
     
 
@@ -132,12 +135,14 @@ class quiz extends Component {
     this.setState(newstate);
   };
   choose_single = (index) => {
+
     let newstate = { ...this.state };
     newstate.status[this.state.index] = [index];
     this.setState(newstate);
     console.log(newstate.status);
   };
   choose_mutiple = (index) => {
+
     let newstate = { ...this.state };
 
     if (newstate.status[this.state.index].length === 0) {
@@ -206,7 +211,7 @@ class quiz extends Component {
   show_img = () => {
     let img_path = ""
     let html_element = <></>
-    if (this.state.quiz[this.state.index].image) {
+    if (this.state.quiz[this.state.index]?.image) {
       img_path = this.state.quiz[this.state.index].image
       html_element =
         // <Image
@@ -225,26 +230,35 @@ class quiz extends Component {
       return a.sort().toString() == b.sort().toString()
     }
     function translate_letter_to_number(letter) {
+      if(Array.isArray(letter)){
+        return letter
+      }
       switch (letter) {
         case "A":
         case "1":
-          return [0];
+        case 1:
+          return [1];
         case "B":
         case "2":
-          return [1];
+        case 2:
+          return [2];
         case "C":
         case "3":
-          return [2];
+        case 3:
+          return [3];
         case "D":
         case "4":
-          return [3];
+        case 4:
+          return [4];
         case "E":
         case "5":
-          return [4];
+        case 5:
+          return [5];
         default:
-          return [1];
+          return [letter];
 
       }
+    
     }
     let answer = {
       "answer_info":
@@ -259,7 +273,7 @@ class quiz extends Component {
     let correct_n = this.state.quiz.filter((question, idx) => {
       return compare_array(this.state.status[idx], translate_letter_to_number(question.answer))
     })
-    answer.answer_info = this.state.quiz.map((question, idx) => {
+    answer.answer_info = this.state.quiz?.map((question, idx) => {
       return ({
         "uid": question.id,
         "answer": this.state.status[idx],
@@ -272,22 +286,10 @@ class quiz extends Component {
     }
     return answer
   }
-  submit_quiz = () => {
+  submit_quiz = async() => {
     if (this.state.commit_status) {
-      let answer = {
-        "answer_info":
-          [{
-            "uid": 1,
-            "answer": [2],
-            "right_answer": [2]
-          },
-          ], "answer_status":
-          { "total": 2, "correct": 1 }
-      }
-
-      fetch("../api/quizSubmit", {
+      await fetch("../api/quizSubmit", {
         method: "POST",
-        
         body: JSON.stringify({
           userid: this.state.id,
           cost_time: this.state.time_count,
@@ -327,7 +329,7 @@ class quiz extends Component {
               <div className="leave_menu_button_area">
                 <button className="leave_menu_button">
                   {
-                    <Link onNavigate={() => { this.submit_quiz() }} href={this.state.commit_status ? "/score" : "/"}>
+                    <Link onNavigate={async() => { await this.submit_quiz() }} href={this.state.commit_status ? "/score" : "/"}>
                       {this.state.commit_status ? "確定交卷" : "確定離開"}
                     </Link>
                   }
@@ -361,7 +363,7 @@ class quiz extends Component {
                   : " question_overlay_menu_content_close ")
               }
             >
-              {this.state.quiz.map((x, idx) => {
+              {this.state.quiz?.map((x, idx) => {
                 return (
                   <button
                     className={
@@ -434,7 +436,7 @@ class quiz extends Component {
                   : " topic_bar_dark_mode_off ")
               }
             >
-              {this.state.quiz[this.state.index].question_type}
+              {this.state.quiz[this.state.index]?.question_type}
               <button
                 className={
                   "dark_mode_button " +
@@ -474,21 +476,21 @@ class quiz extends Component {
                 {this.show_img()}
               </div>
               <span>
-                {this.state.quiz[this.state.index].question}
+                {this.state.quiz[this.state.index]?.question}
               </span>
             </div>
           </div>
           <div className="options_area">
-            {this.state.quiz[this.state.index].options.map((x, idx) => (
+            {this.state.quiz[this.state.index]?.options?.map((x, idx) => (
               <div className="option_area" key={idx}>
                 <button
                   className="option"
-                  onClick={() => this.question_type_depend(idx)}
+                  onClick={() => this.question_type_depend(idx + 1)}
                 >
                   <div
                     className={
                       "option_letter " +
-                      (this.state.status[this.state.index].includes(idx)
+                      (this.state.status[this.state.index].includes(idx + 1)
                         ? " option_letter_choosed "
                         : this.state.dark_mode
                           ? " option_letter_not_choosed_dark_mode_on "
@@ -500,7 +502,7 @@ class quiz extends Component {
                   <div
                     className={
                       "option_word_area " +
-                      (this.state.status[this.state.index].includes(idx)
+                      (this.state.status[this.state.index].includes(idx + 1)
                         ? " option_word_area_choosed "
                         : this.state.dark_mode
                           ? " option_word_area_not_choosed_dark_mode_on "
@@ -521,7 +523,7 @@ class quiz extends Component {
                   : " source_text_dark_mode_off "
               }
             >
-              Source: {this.state.quiz[this.state.index].source}
+              Source: {this.state.quiz[this.state.index]?.source}
             </h3>
           </div>
           <div className="switch_button_area">
@@ -554,7 +556,7 @@ class quiz extends Component {
             onClick={() => this.switch_question_menu_status()}
           >
             <div className="progress_bar">
-              {this.state.status.map((x, idx) => (
+              {this.state.status?.map((x, idx) => (
                 <div
                   key={idx}
                   className={
@@ -584,23 +586,4 @@ class quiz extends Component {
 
 export default quiz;
 
-function convertdata(json) {
 
-  let newjson = json.questions.map(x => {
-    return (
-      {
-        id: x.uid,
-        question: x.question,
-        options: [x.option_a, x.option_b, x.option_c, x.option_d, x.option_e],
-        answer: x.answer,
-        explanation: x.explanation,
-        question_type: x.type,
-        source: x.questionYear,
-        image: x.image
-      }
-    )
-  })
-
-
-  return newjson
-} 
