@@ -436,7 +436,7 @@ class quiz extends Component {
                   : " topic_bar_dark_mode_off ")
               }
             >
-              {this.state.quiz[this.state.index]?.question_type}
+              {this.state.quiz[this.state.index]?.question_type == "mutiple" ? "多選題" :"單選題"}
               <button
                 className={
                   "dark_mode_button " +
@@ -523,7 +523,7 @@ class quiz extends Component {
                   : " source_text_dark_mode_off "
               }
             >
-              Source: {this.state.quiz[this.state.index]?.source}
+              來源: {this.state.quiz[this.state.index]?.source}
             </h3>
           </div>
           <div className="switch_button_area">
@@ -535,7 +535,7 @@ class quiz extends Component {
               disabled={this.state.index == 0}
               onClick={this.sub}
             >
-              Previous
+              上一題
             </button>
             <button
               className={
@@ -547,8 +547,8 @@ class quiz extends Component {
               onClick={this.add}
             >
               {this.state.index + 1 == this.state.quiz.length
-                ? "Submit"
-                : "Next"}
+                ? "提交"
+                : "下一題"}
             </button>
           </div>
           <div

@@ -11,20 +11,26 @@ export async function POST(
 
       
      const {uid} = await req.json()
-    
+    let decode_uid =  await jwt.decode(uid).uid
+    console.log(decode_uid)
   try {
 
     const [records] =await db.query(
       "SELECT * from user_answer_record WHERE user_answer_record.userid = ? ORDER BY user_answer_record.time DESC LIMIT 5",
-      [jwt.decode(uid).uid]
+      [decode_uid]
     );
+    await db.query(
+        "INSERT INTO user_tree_status (userid,complete_test) values(?,0) ON DUPLICATE KEY UPDATE `complete_test`= (`complete_test`) ",
+        [decode_uid]
+      );
+    
     const [tree_status] =await db.query(
-        "SELECT * FROM `user_tree_status` WHERE userid = ? limit 1",
-        [jwt.decode(uid).uid]
+        "SELECT * FROM user_tree_status WHERE userid = ?",
+        [decode_uid]
       );
     const [wrong_question_n] = await db.query(
         "SELECT user_wrong_question.wrong_question_number from user_wrong_question WHERE user_wrong_question.userid = ? limit 1",
-        [jwt.decode(uid).uid]
+        [decode_uid]
     );
     return NextResponse.json({ question_record: records ,tree_status:tree_status,wrong_question_n:wrong_question_n});
   } catch (err) {
