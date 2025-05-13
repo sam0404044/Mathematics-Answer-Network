@@ -15,9 +15,7 @@
   height: auto;
   object-fit: cover;
   object-position: top;
-  /* top: 0;
-  position: absolute; */
-  animation: fadeIn 0.5s ease-in forwards;
+  animation: fadeIn 0.5s ease-in 0.5s forwards;
   opacity: 0;
 }
 .img2 {
@@ -25,10 +23,10 @@
   height: auto;
   object-fit: cover;
   object-position: top;
-  /* top: -50px; */
   position: absolute;
-  animation: fadeIn 0.5s ease-in 2s forwards,
-    floatUp 2s ease-in-out 6.5s infinite;
+  animation:
+    fadeIn 0.5s ease-in 2.5s forwards,
+    floatUp 2s ease-in-out 7s infinite;
   opacity: 0;
 }
 .img3 {
@@ -36,10 +34,10 @@
   height: auto;
   object-fit: cover;
   object-position: top;
-  /* top: -90px; */
   position: absolute;
-  animation: fadeIn 0.5s ease-in 1.5s forwards,
-    floatUp 2s ease-in-out 6s infinite;
+  animation:
+    fadeIn 0.5s ease-in 2s forwards,
+    floatUp 2s ease-in-out 6.5s infinite;
   opacity: 0;
 }
 .img4 {
@@ -47,10 +45,10 @@
   height: auto;
   object-fit: cover;
   object-position: top;
-  /* top: -130px; */
   position: absolute;
-  animation: fadeIn 0.5s ease-in 1s forwards,
-    floatUp 2s ease-in-out 5.5s infinite;
+  animation:
+    fadeIn 0.5s ease-in 1.5s forwards,
+    floatUp 2s ease-in-out 6s infinite;
   opacity: 0;
 }
 .img5 {
@@ -58,10 +56,10 @@
   height: auto;
   object-fit: cover;
   object-position: top;
-  /* top: -160px; */
   position: absolute;
-  animation: fadeIn 0.5s ease-in 0.5s forwards,
-    floatUp 2s ease-in-out 5s infinite;
+  animation:
+    fadeIn 0.5s ease-in 1s forwards,
+    floatUp 2s ease-in-out 5.5s infinite;
   opacity: 0;
 }
 
@@ -72,7 +70,7 @@
   object-position: bottom;
   top: 40%;
   position: absolute;
-  animation: fadeIn 0.5s ease-in forwards;
+  animation: fadeIn 0.5s ease-in 3s forwards;
   opacity: 0;
 }
 .img7 {
@@ -83,7 +81,9 @@
   object-fit: cover;
   object-position: bottom;
   position: absolute;
-  animation: fadeIn 0.5s ease-in 3s forwards, floatUp 2s ease-in-out 5s infinite;
+  animation:
+    fadeIn 0.5s ease-in 3.5s forwards,
+    floatUp 2s ease-in-out 5.5s infinite;
   opacity: 0;
 }
 .img8 {
@@ -95,8 +95,9 @@
   object-position: bottom;
   position: absolute;
   rotate: 20deg;
-  animation: fadeIn 0.5s ease-in 3.5s forwards,
-    floatUp 2s ease-in-out 5.5s infinite;
+  animation:
+    fadeIn 0.5s ease-in 4s forwards,
+    floatUp 2s ease-in-out 6s infinite;
   opacity: 0;
 }
 .img9 {
@@ -107,7 +108,9 @@
   object-fit: cover;
   object-position: bottom;
   position: absolute;
-  animation: fadeIn 0.5s ease-in 4s forwards, floatUp 2s ease-in-out 6s infinite;
+  animation:
+    fadeIn 0.5s ease-in 4.5s forwards,
+    floatUp 2s ease-in-out 6.5s infinite;
   opacity: 0;
 }
 .img10 {
@@ -118,8 +121,9 @@
   object-fit: cover;
   object-position: bottom;
   position: absolute;
-  animation: fadeIn 0.5s ease-in 4.5s forwards,
-    floatUp 2s ease-in-out 6.5s infinite;
+  animation:
+    fadeIn 0.5s ease-in 5s forwards,
+    floatUp 2s ease-in-out 7s infinite;
   opacity: 0;
 }
 
@@ -130,14 +134,6 @@
   to {
     opacity: 1;
   }
-}
-
-.img1 {
-  animation-delay: 5s;
-}
-
-.img6 {
-  animation-delay: 2.5s;
 }
 
 @keyframes floatUp {
