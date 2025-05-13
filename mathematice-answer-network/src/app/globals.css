@@ -35,6 +35,7 @@
   --text-btn: #e7f5ff;
   --test-paper-header: #1971c2;
   --test-paper-text: #339af0;
+  --warm: rgb(255, 252, 231);
   --white: #fff;
   --red: #c74545;
 
@@ -56,7 +57,7 @@
   --quiz-menu-content-button-has-answer: #242424;
   --quiz-menu-content-button-not-answer: #878787;
   --quiz-menu-content-button-not-view: #e9ecef;
-  --quiz-menu-content-button-not-view-font-color:#242424;
+  --quiz-menu-content-button-not-view-font-color: #242424;
   --quiz-dark-mode-text: #fff;
   --quiz-main-dark-mode: #242424;
   --quiz-title-word-dark-mode: #3c4248;
@@ -66,8 +67,6 @@
   --quiz-dark-mode-switch-button-off: #ccc;
   --quiz-dark-mode-switch-button-slider: transparent;
 
-
- 
   --score-display-text: #fff;
   --score-scroll-area-background: rgba(42, 62, 90, 0.7);
   --score-scroll-area-arrow: #fff;

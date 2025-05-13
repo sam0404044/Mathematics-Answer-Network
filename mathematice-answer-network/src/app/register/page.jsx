@@ -36,10 +36,10 @@ export default function Register() {
                 return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value) 
                     ? '' : '請輸入正確的 Email 格式';
             case 'userPwd':
-                const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                const pwdRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,}$/;
                 return pwdRegex.test(value)
                     ? ''
-                    : '密碼需包含大小寫英文與數字，且至少8碼';
+                    : '密碼需包含小寫英文與數字，且至少8碼';
             case 'userPwdConfirm':
                 return value !== formData.userPwd 
                     ? '兩次輸入的密碼不一致' : '';
@@ -59,7 +59,7 @@ export default function Register() {
     
         if (name === 'userEmail' && errorMessage === '') {
             try {
-                const res = await fetch('/api/register/check-email', {
+                const res = await fetch('/api/check-email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: value })

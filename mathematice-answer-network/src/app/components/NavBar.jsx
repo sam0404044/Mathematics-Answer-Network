@@ -25,7 +25,8 @@ export default function NavBar() {
         const data = await res.json();
         if (data.uid) {
           setIsLogin(true);
-          setUser(data.username);
+          setUser(data);
+          // setUser(data.username);
         } else {
           setIsLogin(false);
         }
@@ -49,7 +50,9 @@ export default function NavBar() {
             {!isActive && (
               <>
                 {" "}
-                <h1 className={styles.username}>歡迎回來: {user}</h1>{" "}
+                <h1 className={styles.username}>
+                  歡迎回來: {user.username ? user.username : user.email}
+                </h1>{" "}
                 <SignUpLoginBtn
                   type={"log-in"}
                   isActive={isActive}

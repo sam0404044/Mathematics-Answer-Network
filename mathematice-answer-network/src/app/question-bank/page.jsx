@@ -85,7 +85,13 @@ export default function QuestionBank() {
           <TestPaper key={cur} content={cur} />
         ))}
       </div>
-      <Pagination curPage={curPage} dispatch={dispatch} totalPage={totalPage} />
+      <div className={styles.pagination}>
+        <Pagination
+          curPage={curPage}
+          dispatch={dispatch}
+          totalPage={totalPage}
+        />
+      </div>
       <Footer />
     </div>
   );
