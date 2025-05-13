@@ -4,7 +4,9 @@
   min-height: 100vh;
   position: relative;
   align-items: center;
-  background-color: var(--warm);
+  /* background-color: var(--warm); */
+  background-image: url("/img/choseTestBackGround.png");
+  background-size: cover;
 }
 
 .content {
