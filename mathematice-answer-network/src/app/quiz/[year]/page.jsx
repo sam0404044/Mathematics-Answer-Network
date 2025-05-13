@@ -49,7 +49,9 @@ class quiz extends Component {
     exit_menu_status: false,
     commit_status: false,
     dark_mode: false,
-    review_mode: false
+    review_mode: false,
+    time_over: false,
+    count_time_or_not: true,
   };
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = async () => {
@@ -76,17 +78,29 @@ class quiz extends Component {
 
           return res?.json();
         })
-        if(Array.isArray(data)){
-          data = data?.question_record[0].answer_review
+
+      try {
+        data = await data?.question_record[0].answer_review
+      } catch (error) {
+        if (wrong_question?.length == 0 || !wrong_question) {
+          alert("發生錯誤");
+          window.location.href = "/";
+          return;
         }
+      }
+
+
+
+
 
       let wrong_question = await data.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
+
       if (wrong_question?.length == 0 || !wrong_question) {
         alert("沒有題目需要複習");
         window.location.href = "/";
         return;
       }
-      
+
       json = await fetch("../api/getQuestion", {
         method: "POST",
         body: JSON.stringify({ question_id: wrong_question.map(x => x.uid) })
@@ -109,7 +123,9 @@ class quiz extends Component {
     newState.status = await json.questions.map(() => []);
     newState.id = jwt_uid
     this.setState(newState);
-    this.setMyInterval();
+    if (this.state.count_time_or_not) {
+      this.setMyInterval();
+    }
     this.typesetMath();
   };
   componentDidUpdate = () => {
@@ -127,11 +143,15 @@ class quiz extends Component {
     this.state.mytimeid = setInterval(() => {
       this.state.time_count += 1;
       if (this.state.time_count > this.state.time_limit) {
-        alert("時間到");
+        this.state.time_over = true
+        this.state.timeCount_display = this.spend_time_toString(
+           this.state.time_count - this.state.time_limit
+        );
+      }else{
+        this.state.timeCount_display = this.spend_time_toString(
+          this.state.time_limit - this.state.time_count
+        );
       }
-      this.state.timeCount_display = this.spend_time_toString(
-        this.state.time_limit - this.state.time_count
-      );
       this.setState(this.state);
     }, 1000);
   };
@@ -328,7 +348,7 @@ class quiz extends Component {
           { "total": 2, "correct": 1 }
       }
       if (this.state.review_mode) {
-         fetch("../api/quizReview", {
+        fetch("../api/quizReview", {
           method: "POST",
           body: JSON.stringify({
             userid: this.state.id,
@@ -487,7 +507,7 @@ class quiz extends Component {
                   : " topic_bar_dark_mode_off ")
               }
             >
-              {this.state.quiz[this.state.index]?.question_type == "mutiple" ? "多選題" :"單選題"}
+              {this.state.quiz[this.state.index]?.question_type == "mutiple" ? "多選題" : "單選題"}
               <button
                 className={
                   "dark_mode_button " +
@@ -621,10 +641,10 @@ class quiz extends Component {
               ))}
             </div>
           </div>
-          <div className="time_area">
+          <div style={{display:this.state.count_time_or_not ? "flex" :"none"}} className="time_area">
             {/* 開始時間: */}
             {/* <h1>starttime: {this.state.start_time}</h1> */}
-            <span className="time_count_text">
+            <span className={"time_count_text " + (this.state.time_over ? " time_count_over " : " time_count_not_over ")}>
               {this.state.timeCount_display}
             </span>
           </div>

@@ -146,14 +146,24 @@ class score extends Component {
             }
           }
           x.answer = translate_letter_to_number(x.answer)
+          x.options = [x.option_a, x.option_b, x.option_c, x.option_d, x.option_e]
         })
-        console.log(newState.questionbank)
+        console.log(newState)
+        console.log(newState.answer_status)
 
         this.setState(newState);
+        this.typesetMath()
       })
 
   }
-
+  componentDidUpdate = () => {
+    this.typesetMath(); // 每次更新後都重新渲染 MathJax
+  }
+  typesetMath = () => {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise();
+    }
+  }
   chooseScoreBackgroundImg = () => {
     let getScore = this.calculateScore()
     if (getScore < 50) {
@@ -234,7 +244,12 @@ class score extends Component {
       newstate.scorll_switch = true
     }
     this.setState(newstate)
-
+  }
+  display_option = (qidx, opidx) => {
+    console.log()
+    return (
+      this.state.questionbank.questions[qidx].options[opidx - 1]
+    )
   }
   render() {
     return (
@@ -290,9 +305,9 @@ class score extends Component {
                       <span className={'question_topic_text ' + (this.state.show_status[idx] ? "topic_text_choosed" : "topic_text_not_choosed")}>{x.localIndex + 1}. {x.question}</span>
                     </div>
                     <div className={'dropDown_content ' + (this.state.show_status[idx] ? "dropDown_content_visible" : "dropDown_content_disable")}>
-                      <div className='answer_row right_answer'>正確答案:<br />{x.answer}</div>
+                      <div className='answer_row right_answer'>正確答案:<br />{x.answer.map(y => <div>{`(${y}) ` + this.display_option(x.localIndex, y)} <br /></div>)}</div>
                       <br />
-                      <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[x.localIndex]}</div>
+                      <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[x.localIndex].length == 0 ? "未作答" : this.state.answer_status[x.localIndex].map(y => <div> {`(${y}) ` + this.display_option(x.localIndex, y)}<br /></div>)}</div>
                       <br /><br />
                       <div className='solution_area'>
                         <button className='solution_link' onClick={() => { this.solution_get(x.uid) }}>
