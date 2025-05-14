@@ -18,8 +18,7 @@ export default function ClientSideEffect({
         },
         svg: { fontCache: 'global' }
       };
-      `
-    ;
+      `;
     document.head.appendChild(configScript);
 
     const mathjaxScript = document.createElement("script");
@@ -27,6 +26,16 @@ export default function ClientSideEffect({
       "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js";
     mathjaxScript.async = true;
     document.head.appendChild(mathjaxScript);
+
+    // Resize mobile vh
+    const setMobileVh = function () {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    setMobileVh();
+    window.addEventListener("resize", setMobileVh);
+    return () => window.removeEventListener("resize", setMobileVh);
   }, []);
 
   return <>{children}</>;

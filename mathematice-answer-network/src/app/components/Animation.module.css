@@ -1,7 +1,8 @@
 .animation-container {
   position: absolute;
   min-width: 100vw;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  height: calc(var(--vh, 1vh) * 100);
   background-color: var(--animation-background);
   z-index: 1000;
 }
