@@ -4,8 +4,6 @@
   min-height: 100vh;
   background-color: var(--animation-background);
   z-index: 1000;
-  animation: fadeOut 2s ease forwards;
-  animation-delay: 3s;
 }
 
 .animation-triangle-left {
@@ -60,17 +58,25 @@
 .animation-triangle-right,
 .animation-text {
   opacity: 0;
-  animation: fadeIn 1.5s ease forwards;
 }
 
 .animation-triangle-left {
-  animation-delay: 0.5s;
+  opacity: 0;
+  animation:
+    fadeIn 1.5s ease 0s forwards,
+    fadeOut 1.5s ease 3s forwards;
 }
 
 .animation-triangle-right {
-  animation-delay: 1s;
+  opacity: 0;
+  animation:
+    fadeIn 1.5s ease 0.5s forwards,
+    fadeOut 1.5s ease 3s forwards;
 }
 
 .animation-text {
-  animation-delay: 1.5s;
+  opacity: 0;
+  animation:
+    fadeIn 1.5s ease 1s forwards,
+    fadeOut 1.5s ease 3s forwards;
 }

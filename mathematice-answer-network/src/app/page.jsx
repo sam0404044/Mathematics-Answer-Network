@@ -13,9 +13,7 @@ export default function Page() {
   const auth = useContext(AuthContext);
   if (!auth) return null;
   const { isLogin } = auth;
-  // const [isLogin, setIsLogin] = useState("loading");
   const [isLoading, setIsLoading] = useState(true);
-  // const [user, setUser] = useState("");
 
   useEffect(function () {
     const fadeOutTimer = setTimeout(() => {
@@ -24,29 +22,6 @@ export default function Page() {
 
     return () => clearTimeout(fadeOutTimer);
   }, []);
-
-  // useEffect(() => {
-  //   const loginStatus = async function () {
-  //     try {
-  //       const res = await fetch("/api/user/me", { credentials: "include" });
-  //       if (!res.ok) {
-  //         setIsLogin(false);
-  //         return;
-  //       }
-  //       const data = await res.json();
-  //       if (data.uid) {
-  //         setIsLogin(true);
-  //         setUser(data);
-  //       } else {
-  //         setIsLogin(false);
-  //       }
-  //     } catch (err) {
-  //       console.error("Fetch error:", err);
-  //       setIsLogin(false);
-  //     }
-  //   };
-  //   loginStatus();
-  // }, []);
 
   return (
     <div className={styles.container}>
