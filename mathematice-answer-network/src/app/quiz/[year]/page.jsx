@@ -1,10 +1,10 @@
-"use client";
-import React, { Component } from "react";
-import "../style.css";
-import Image from "next/image";
-import Link from "next/link";
-import Footer from "@/app/components/Footer";
-import { loginOrNot } from "../../../lib/checkCookie";
+'use client';
+import React, { Component } from 'react';
+import '../style.css';
+import Image from 'next/image';
+import Link from 'next/link';
+import Footer from '@/app/components/Footer';
+import { loginOrNot } from '../../../lib/checkCookie';
 import jwt from 'jsonwebtoken';
 class quiz extends Component {
   state = {
@@ -65,7 +65,7 @@ class quiz extends Component {
     );
 
 
-    const { year } = await this.props.params;
+        const { year } = await this.props.params;
 
     let json
     let mydata
@@ -565,55 +565,61 @@ class quiz extends Component {
             </div>
 
 
-            <button
-              className="leave_button"
-              onClick={() => this.show_leave_menu_or_not()}
-            >
-              <Image
-                className="close_img"
-                src={"../img/close.svg"}
-                width={30}
-                height={30}
-                alt="this is close img"
-              />
-            </button>
-          </div>
-          <div className="topic">
-            <div
-              className={
-                " topic_bar " +
-                (this.state.dark_mode
-                  ? " topic_bar_dark_mode_on "
-                  : " topic_bar_dark_mode_off ")
-              }
-            >
-              {this.state.quiz[this.state.index]?.question_type == "mutiple" ? "多選題" : "單選題"}
-              <button
-                className={
-                  "dark_mode_button " +
-                  (this.state.dark_mode
-                    ? " dark_mode_button_on "
-                    : " dark_mode_button_off ")
-                }
-                onClick={() => this.dark_mode_switch()}
-              >
-                <span
-                  className={
-                    " dark_mode_button_slider " +
-                    (this.state.dark_mode
-                      ? " dark_mode_button_slider_on "
-                      : " dark_mode_button_slider_off ")
-                  }
-                >
-                  <Image
-                    src={this.state.dark_mode ? "../img/moon.svg" : "../img/sun.svg"}
-                    width={20}
-                    height={20}
-                    alt="this is dark_mode_switch_img"
-                  />
-                </span>
-              </button>
-            </div>
+                        <button
+                            className='leave_button'
+                            onClick={() => this.show_leave_menu_or_not()}
+                        >
+                            <Image
+                                className='close_img'
+                                src={'../img/close.svg'}
+                                width={30}
+                                height={30}
+                                alt='this is close img'
+                            />
+                        </button>
+                    </div>
+                    <div className='topic'>
+                        <div
+                            className={
+                                ' topic_bar ' +
+                                (this.state.dark_mode
+                                    ? ' topic_bar_dark_mode_on '
+                                    : ' topic_bar_dark_mode_off ')
+                            }
+                        >
+                            {this.state.quiz[this.state.index]?.question_type == 'mutiple'
+                                ? '多選題'
+                                : '單選題'}
+                            <button
+                                className={
+                                    'dark_mode_button ' +
+                                    (this.state.dark_mode
+                                        ? ' dark_mode_button_on '
+                                        : ' dark_mode_button_off ')
+                                }
+                                onClick={() => this.dark_mode_switch()}
+                            >
+                                <span
+                                    className={
+                                        ' dark_mode_button_slider ' +
+                                        (this.state.dark_mode
+                                            ? ' dark_mode_button_slider_on '
+                                            : ' dark_mode_button_slider_off ')
+                                    }
+                                >
+                                    <Image
+                                        src={
+                                            this.state.dark_mode
+                                                ? '../img/moon.svg'
+                                                : '../img/sun.svg'
+                                        }
+                                        width={20}
+                                        height={20}
+                                        alt='this is dark_mode_switch_img'
+                                    />
+                                </span>
+                            </button>
+                        </div>
 
             <div
               className={
@@ -740,22 +746,18 @@ function compare_array(a, b) {
   return a.sort().toString() == b.sort().toString()
 }
 function convertdata(json) {
+    let newjson = json.questions.map((x) => {
+        return {
+            id: x.uid,
+            question: x.question,
+            options: [x.option_a, x.option_b, x.option_c, x.option_d, x.option_e],
+            answer: x.answer,
+            explanation: x.explanation,
+            question_type: x.type,
+            source: x.questionYear,
+            image: x.image,
+        };
+    });
 
-  let newjson = json.questions.map(x => {
-    return (
-      {
-        id: x.uid,
-        question: x.question,
-        options: [x.option_a, x.option_b, x.option_c, x.option_d, x.option_e],
-        answer: x.answer,
-        explanation: x.explanation,
-        question_type: x.type,
-        source: x.questionYear,
-        image: x.image
-      }
-    )
-  })
-
-
-  return newjson
-} 
+    return newjson;
+}
