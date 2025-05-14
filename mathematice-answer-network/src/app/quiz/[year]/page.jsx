@@ -14,25 +14,25 @@ class quiz extends Component {
       {
         id: 1,
         question:
-          "設數線上有一點 P 滿足 P 到 1 的距離加上 P 到 4 的距離等於 4。試問這樣的 P 有幾個？",
-        options: ["0 個", "1 個", "2 個", "3 個", "無限多個"],
+          "題目一",
+        options: ["選項 1", "選項 2", "選項 3", "選項 4", "選項 5"],
         answer: [2, 3],
         explanation:
           "設 P 的位置為 x，則 |x - 1| + |x - 4| = 4。解這個方程式可以得到 x = 1 或 x = 4，因此有 1 個解。",
         question_type: "multiple",
-        source: "test",
+        source: "來源一",
         image: ""
       },
       {
         id: 2,
         question:
-          "不透明袋中有藍、綠色球各若干顆，且球上皆有1或2的編號，其顆數如下表。例如標有1號的藍色球有2顆。\n\n|    | 藍 | 綠 |\n|----|----|----|\n| 1號 | 2  | 4  |\n| 2號 | 3  | k  |\n\n從此袋中隨機抽取一球（每顆球被抽到的機率相等），若已知抽到藍色球的事件與抽到1號球的事件互相獨立，試問k值為何？",
-        options: ["2", "3", "4", "5", "6"],
+          "題目二",
+        options: ["選項 1", "選項 2", "選項 3", "選項 4", "選項 5"],
         answer: "3",
         explanation:
           "要使抽到藍色球與抽到1號球的事件互相獨立，則P(藍色) × P(1號) = P(藍色且1號)。\n藍色球總數為2 + 3 = 5顆，綠色球總數為4 + k顆。\n總球數為5 + 4 + k = 9 + k。\nP(藍色) = 5/(9+k)，P(1號) = (2+4)/(9+k) = 6/(9+k)，\nP(藍色且1號) = 2/(9+k)。\n\n所以，5/(9+k) × 6/(9+k) = 2/(9+k)，\n30 = 2(9+k)，\n30 = 18 + 2k，\n12 = 2k，\nk = 6。\n\n因此，k的值為6。",
         question_type: "single",
-        source: "test",
+        source: "來源二",
         image: ""
       },
     ],
@@ -475,7 +475,6 @@ class quiz extends Component {
   render() {
     return (
       <div className="page_container">
-
         <div
           className={
             " main  " +

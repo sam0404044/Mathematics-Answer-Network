@@ -19,31 +19,7 @@ class record extends Component {
             total_number: 0,
         },
         answer_history: [
-            {
-                date: { month: 3, day: 22, time: { hours: 12, minutes: 34, seconds: 56 } },
-                answer_record: { has_answer: 20, total_question: 25 },
-                question_bank: '隨機選題',
-            },
-            {
-                date: { month: 3, day: 21, time: { hours: 12, minutes: 34, seconds: 56 } },
-                answer_record: { has_answer: 15, total_question: 30 },
-                question_bank: '隨機選題',
-            },
-            {
-                date: { month: 3, day: 19, time: { hours: 12, minutes: 34, seconds: 56 } },
-                answer_record: { has_answer: 10, total_question: 10 },
-                question_bank: '隨機選題',
-            },
-            {
-                date: { month: 2, day: 9, time: { hours: 12, minutes: 34, seconds: 56 } },
-                answer_record: { has_answer: 5, total_question: 45 },
-                question_bank: '隨機選題',
-            },
-            {
-                date: { month: 1, day: 10, time: { hours: 12, minutes: 34, seconds: 56 } },
-                answer_record: { has_answer: 0, total_question: 5 },
-                question_bank: '隨機選題',
-            },
+            
         ],
     };
     componentDidMount = async () => {
@@ -94,7 +70,7 @@ class record extends Component {
         }).then(res => {
             return res?.json();
         })
-        const wrong_question_n = wrong_question?.question_record[0].wrong_question_set?.length
+        const wrong_question_n = wrong_question?.question_record[0]?.wrong_question_set?.length
 
         newstate.wrong_question.total_number = (wrong_question_n ? wrong_question_n : 0)
 
