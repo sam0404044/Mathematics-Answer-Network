@@ -7,6 +7,7 @@ import Link from "next/link";
 import QuestionBankIcon from "./icon/QuestionBankIcon-";
 import PlanIcon from "./icon/PlanIcon";
 import StudyGuidesIcon from "./icon/StudyGuidesIcon";
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 
 export default function NavBar() {
@@ -37,6 +38,16 @@ export default function NavBar() {
     };
     loginStatus();
   }, []);
+=======
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+
+export default function NavBar() {
+  const auth = useContext(AuthContext);
+  const [isActive, setIsActive] = useState(false);
+  if (!auth) return null;
+  const { isLogin, user, setIsLogin } = auth;
+>>>>>>> origin/main
 
   return (
     <>
@@ -49,10 +60,16 @@ export default function NavBar() {
           <div className={styles.navbarcomponent}>
             {!isActive && (
               <>
+<<<<<<< HEAD
                 {" "}
                 <h1 className={styles.username}>
                   歡迎回來: {user.username ? user.username : user.email}
                 </h1>{" "}
+=======
+                <h1 className={styles.username}>
+                  歡迎回來: {user.username ? user.username : user.email}
+                </h1>
+>>>>>>> origin/main
                 <SignUpLoginBtn
                   type={"log-in"}
                   isActive={isActive}
@@ -88,7 +105,14 @@ export default function NavBar() {
           <div className={styles["menu-box"]}>
             <h1 className={styles.h1}>學生專區</h1>
             <div className={styles.option}>
+<<<<<<< HEAD
               <Link href="/question-bank" className={styles.link}>
+=======
+              <Link
+                href={`${isLogin ? "/question-bank" : "/login"}`}
+                className={styles.link}
+              >
+>>>>>>> origin/main
                 <QuestionBankIcon />
                 <button className={styles.btn}>歷年考古題</button>
               </Link>
@@ -96,7 +120,14 @@ export default function NavBar() {
                 <PlanIcon />
                 <button className={styles.btn}>我的方案</button>
               </Link>
+<<<<<<< HEAD
               <Link href="/record" className={styles.link}>
+=======
+              <Link
+                href={`${isLogin ? "/record" : "/login"}`}
+                className={styles.link}
+              >
+>>>>>>> origin/main
                 <StudyGuidesIcon />
                 <button className={styles.btn}>個人紀錄</button>
               </Link>

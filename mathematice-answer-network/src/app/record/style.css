@@ -100,7 +100,11 @@ a.improve_button {
     border: none;
     border-radius: 15px;
     padding: 20px;
+<<<<<<< HEAD
     
+=======
+    display: flex;
+>>>>>>> origin/main
     justify-content: center;
     text-decoration: none;
 }

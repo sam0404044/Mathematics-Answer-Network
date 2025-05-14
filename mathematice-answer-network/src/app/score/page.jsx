@@ -30,6 +30,7 @@ class score extends Component {
         }
       ]
     },
+<<<<<<< HEAD
     to_get_solution_status:false,
     menber_data: {plan_status:0,point:0},
     answer_status: [[1], [2], [3], [4]],
@@ -37,6 +38,11 @@ class score extends Component {
     time_spent: 629,
     explanation: [],
     now_solution:{uid:0,index:0},
+=======
+    answer_status: [[1], [2], [3], [4]],
+    show_status: [false],
+    time_spent: 629,
+>>>>>>> origin/main
     star_setting: [
       {
         width: 67,
@@ -103,11 +109,18 @@ class score extends Component {
             )
           })
             .then(res => res.json())
+<<<<<<< HEAD
           newState.id =jwt_uid
           newState.time_spent = data.score_now.cost_time
           newState.questionbank.questions = question_fetch.questions
           newState.answer_status = data.score_now.answer_info.answer_info.map((x, index) => x.answer)
           newState.explanation = newState.answer_status.map(x => "")
+=======
+
+          newState.time_spent = data.score_now.cost_time
+          newState.questionbank.questions = question_fetch.questions
+          newState.answer_status = data.score_now.answer_info.answer_info.map((x, index) => x.answer)
+>>>>>>> origin/main
        
         newState.questionbank.questions.forEach(x => {
           function translate_letter_to_number(letter) {
@@ -196,6 +209,7 @@ class score extends Component {
     let time_seconds = ("0" + time % 60).substr(-2, 2)
     return `${time_minutes}:${time_seconds}`
   }
+<<<<<<< HEAD
   show_solution_menu = async(id,idx) =>{
     let newstate = {...this.state}
     const userdata = await fetch("./api/getUser", {
@@ -227,6 +241,10 @@ class score extends Component {
     console.log(data.status.solution[0])
     newstate.to_get_solution_status = false
     this.setState(newstate)
+=======
+  solution_get = (id) => {
+    console.log(`要求題目id: ${id} 的詳解`)
+>>>>>>> origin/main
   }
   star_display = () => {
     return (
@@ -284,6 +302,7 @@ class score extends Component {
             {(this.state.scorll_switch) ? "↑" : "↓"}
           </button>
         </div>
+<<<<<<< HEAD
         <div
             className={
               "solution_menu " +
@@ -311,6 +330,8 @@ class score extends Component {
               </div>
             </div>
           </div>
+=======
+>>>>>>> origin/main
         <div className='main'>
           <div className='score_display_area' style={{ backgroundColor: this.chooseScoreBackgroundColor() }}>
             <Image
@@ -362,11 +383,18 @@ class score extends Component {
                       <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[x.localIndex].length == 0 ? "未作答" : this.state.answer_status[x.localIndex].map(y => <div> {`(${y}) ` + this.display_option(x.localIndex, y)}<br /></div>)}</div>
                       <br /><br />
                       <div className='solution_area'>
+<<<<<<< HEAD
                         <button disabled={this.state.explanation[idx] ? true: false} className='solution_link' onClick={() => { this.show_solution_menu(x.uid,idx)}}>
                           詳細解答
                         </button>
                         <div>↓</div><br />
                         <div>{this.state.explanation[idx]}</div>
+=======
+                        <button className='solution_link' onClick={() => { this.solution_get(x.uid) }}>
+                          詳細解答
+                        </button>
+                        <div>↓</div>
+>>>>>>> origin/main
                       </div>
                     </div>
                   </div>

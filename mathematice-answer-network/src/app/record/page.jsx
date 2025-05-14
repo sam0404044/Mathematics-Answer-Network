@@ -12,6 +12,7 @@ class record extends Component {
     state = {
         id: 1,
         tree: {
+<<<<<<< HEAD
             tree_status: 0,
             tree_grow_up_gap: null,
         },
@@ -21,26 +22,73 @@ class record extends Component {
         answer_history: [
             {
                 date: { month: 3, day: 22, time: { hours: 12, minutes: 34, seconds: 56 } },
+=======
+            tree_status: 4,
+            tree_grow_up_gap: 5,
+        },
+        wrong_question: {
+            total_number: 15,
+        },
+        answer_history: [
+            {
+                date: {
+                    month: 3,
+                    day: 22,
+                    time: { hours: 12, minutes: 34, seconds: 56 },
+                },
+>>>>>>> origin/main
                 answer_record: { has_answer: 20, total_question: 25 },
                 question_bank: '隨機選題',
             },
             {
+<<<<<<< HEAD
                 date: { month: 3, day: 21, time: { hours: 12, minutes: 34, seconds: 56 } },
+=======
+                date: {
+                    month: 3,
+                    day: 21,
+                    time: { hours: 12, minutes: 34, seconds: 56 },
+                },
+>>>>>>> origin/main
                 answer_record: { has_answer: 15, total_question: 30 },
                 question_bank: '隨機選題',
             },
             {
+<<<<<<< HEAD
                 date: { month: 3, day: 19, time: { hours: 12, minutes: 34, seconds: 56 } },
+=======
+                date: {
+                    month: 3,
+                    day: 19,
+                    time: { hours: 12, minutes: 34, seconds: 56 },
+                },
+>>>>>>> origin/main
                 answer_record: { has_answer: 10, total_question: 10 },
                 question_bank: '隨機選題',
             },
             {
+<<<<<<< HEAD
                 date: { month: 2, day: 9, time: { hours: 12, minutes: 34, seconds: 56 } },
+=======
+                date: {
+                    month: 2,
+                    day: 9,
+                    time: { hours: 12, minutes: 34, seconds: 56 },
+                },
+>>>>>>> origin/main
                 answer_record: { has_answer: 5, total_question: 45 },
                 question_bank: '隨機選題',
             },
             {
+<<<<<<< HEAD
                 date: { month: 1, day: 10, time: { hours: 12, minutes: 34, seconds: 56 } },
+=======
+                date: {
+                    month: 1,
+                    day: 10,
+                    time: { hours: 12, minutes: 34, seconds: 56 },
+                },
+>>>>>>> origin/main
                 answer_record: { has_answer: 0, total_question: 5 },
                 question_bank: '隨機選題',
             },
@@ -48,12 +96,17 @@ class record extends Component {
     };
     componentDidMount = async () => {
         let jwt_uid = await loginOrNot();
+<<<<<<< HEAD
         let newstate = { ...this.state };
         let json = await fetch('./api/record', {
+=======
+        fetch('./api/record', {
+>>>>>>> origin/main
             method: 'POST',
             body: JSON.stringify({ uid: jwt_uid }),
         })
             .then((res) => res.json())
+<<<<<<< HEAD
 
         newstate.answer_history = json.question_record.map((question) => {
             let timestamp = new Date(question.time).getTime();
@@ -99,13 +152,58 @@ class record extends Component {
         newstate.wrong_question.total_number = (wrong_question_n ? wrong_question_n : 0)
 
         this.setState(newstate)
+=======
+            .then(async (json) => {
+                json = await json;
+                console.log(json);
+                let newstate = { ...this.state };
+                newstate.answer_history = json.question_record.map((question) => {
+                    let timestamp = new Date(question.time).getTime();
+
+                    return {
+                        date: {
+                            month: new Date(timestamp).getMonth() + 1,
+                            day: new Date(timestamp).getDate(),
+                            time: {
+                                hours: new Date(timestamp).getHours(),
+                                minutes: new Date(timestamp).getMinutes(),
+                                seconds: new Date(timestamp).getSeconds(),
+                            },
+                        },
+                        answer_record: {
+                            has_answer: question.answer.answer_status.correct,
+                            total_question: question.answer.answer_status.total,
+                        },
+                        question_bank: question.question_bank,
+                    };
+                });
+                newstate.tree = {
+                    tree_status: json.tree_status[0].status,
+                    tree_grow_up_gap: json.tree_status[0].gap,
+                };
+
+                try {
+                    newstate.wrong_question.total_number =
+                        json.wrong_question_n[0]?.wrong_question_number;
+                } catch (error) {
+                    alert('找不到紀錄');
+                    window.location.href = '/';
+                    return;
+                }
+
+                this.setState(newstate);
+            });
+>>>>>>> origin/main
     };
     tree_status = () => {
         let tree_address;
         switch (this.state.tree.tree_status) {
+<<<<<<< HEAD
             case 0:
                 tree_address = './img/tree_0.svg';
                 break;
+=======
+>>>>>>> origin/main
             case 1:
                 tree_address = './img/tree_1.svg';
                 break;
@@ -129,7 +227,11 @@ class record extends Component {
             <div className='page_container'>
                 <NavBar />
                 <div className='bg-[url(/img/choseTestBackGround.png)]'>
+<<<<<<< HEAD
                     <div className='main max-w-[600px] mx-auto'>
+=======
+                    <div className='main max-w-[600px] mx-auto shadow-mine'>
+>>>>>>> origin/main
                         <div className='title_area'>
                             <span className='title_text'>個人紀錄與學習建議</span>
                         </div>
@@ -174,7 +276,11 @@ class record extends Component {
                                     </span>
                                 </div>
                             </div>
+<<<<<<< HEAD
                             <Link style={this.state.wrong_question.total_number == 0 ? { display: "none" } : { display: "flex" }} href='/quiz/improve' className='improve_button'>
+=======
+                            <Link href='/' className='improve_button'>
+>>>>>>> origin/main
                                 <span className='improve_button_text'>針對題目進行加強</span>
                             </Link>
                         </div>
