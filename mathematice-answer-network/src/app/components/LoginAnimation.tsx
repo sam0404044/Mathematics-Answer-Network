@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function LoginAnimation() {
     return (
-        <div className='relative w-full h-screen overflow-hidden bg-(--background)'>
+        <div className='relative w-full h-screen overflow-hidden'>
             {/* 上半 */}
             <motion.div
                 className='absolute top-0 left-0 w-full h-1/2 bg-(--animation-object)'

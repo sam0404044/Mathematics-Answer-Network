@@ -6,13 +6,10 @@ import HeroSection from "./components/HeroSection";
 import StartBtn from "./components/button/StartBtn";
 import About from "./components/About";
 import Animation from "./components/Animation";
-import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
+import { useEffect, useState } from "react";
 
 export default function Page() {
-  const auth = useContext(AuthContext);
-  if (!auth) return null;
-  const { isLogin } = auth;
+  // ///////////////////////////////////////////////
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(function () {
@@ -32,7 +29,7 @@ export default function Page() {
           <NavBar />
           <div className={styles.content}>
             <HeroSection />
-            <StartBtn isLogin={isLogin}>開始答題</StartBtn>
+            <StartBtn>開始答題</StartBtn>
             <About />
           </div>
           <Footer />

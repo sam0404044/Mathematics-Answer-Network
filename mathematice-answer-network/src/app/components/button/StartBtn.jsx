@@ -1,9 +1,9 @@
 import Link from "next/link";
 import styles from "./StartBtn.module.css";
 
-export default function StartBtn({ isLogin, children }) {
+export default function StartBtn({ children }) {
   return (
-    <Link href={`${isLogin ? "/questionSettings" : "/login"}`}>
+    <Link href="/questionSettings">
       <button className={styles.btn}>{children}</button>
     </Link>
   );

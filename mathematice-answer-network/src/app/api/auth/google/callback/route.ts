@@ -87,9 +87,10 @@ export async function GET(req: Request) {
             name: 'login_data', // Cookie 名稱
             value: token, // 把uid轉成字串
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production', //
             sameSite: 'strict',
             path: '/', // 全域生效
+            // 不設定 maxAge，瀏覽器關閉就清空
         });
 
         return res;
