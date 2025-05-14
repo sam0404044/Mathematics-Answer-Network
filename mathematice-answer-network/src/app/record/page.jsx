@@ -48,51 +48,57 @@ class record extends Component {
     };
     componentDidMount = async () => {
         let jwt_uid = await loginOrNot();
-        fetch('./api/record', {
+        let newstate = { ...this.state };
+        let json = await fetch('./api/record', {
             method: 'POST',
             body: JSON.stringify({ uid: jwt_uid }),
         })
             .then((res) => res.json())
-            .then(async (json) => {
-                json = await json;
-                console.log(json);
-                let newstate = { ...this.state };
-                newstate.answer_history = json.question_record.map((question) => {
-                    let timestamp = new Date(question.time).getTime();
 
-                    return {
-                        date: {
-                            month: new Date(timestamp).getMonth() + 1,
-                            day: new Date(timestamp).getDate(),
-                            time: {
-                                hours: new Date(timestamp).getHours(),
-                                minutes: new Date(timestamp).getMinutes(),
-                                seconds: new Date(timestamp).getSeconds(),
-                            },
-                        },
-                        answer_record: {
-                            has_answer: question.answer.answer_status.correct,
-                            total_question: question.answer.answer_status.total,
-                        },
-                        question_bank: question.question_bank,
-                    };
-                });
-                newstate.tree = {
-                    tree_status: json.tree_status[0].status,
-                    tree_grow_up_gap: json.tree_status[0].gap,
-                };
+        newstate.answer_history = json.question_record.map((question) => {
+            let timestamp = new Date(question.time).getTime();
+            return {
+                date: {
+                    month: new Date(timestamp).getMonth() + 1,
+                    day: new Date(timestamp).getDate(),
+                    time: {
+                        hours: new Date(timestamp).getHours(),
+                        minutes: new Date(timestamp).getMinutes(),
+                        seconds: new Date(timestamp).getSeconds(),
+                    },
+                },
+                answer_record: {
+                    has_answer: question.answer.answer_status.correct,
+                    total_question: question.answer.answer_status.total,
+                },
+                question_bank: question.question_bank,
+            };
+        });
+        newstate.tree = {
+            tree_status: json.tree_status[0].status,
+            tree_grow_up_gap: json.tree_status[0].gap,
+        };
+        try {
+            newstate.wrong_question.total_number =
+                json.wrong_question_n[0]?.wrong_question_number;
+        } catch (error) {
+            alert('找不到紀錄');
+            window.location.href = '/';
+            return;
+        }
 
-                try {
-                    newstate.wrong_question.total_number =
-                        json.wrong_question_n[0]?.wrong_question_number;
-                } catch (error) {
-                    alert('找不到紀錄');
-                    window.location.href = '/';
-                    return;
-                }
+        const wrong_question = await fetch("../api/questionToDo", {
+            method: "POST",
+            body: JSON.stringify({ userid: jwt_uid, mode: 3 }
+            )
+        }).then(res => {
+            return res?.json();
+        })
+        const wrong_question_n = wrong_question?.question_record[0].wrong_question_set?.length
 
-                this.setState(newstate);
-            });
+        newstate.wrong_question.total_number = (wrong_question_n ? wrong_question_n : 0)
+        console.log(newstate.wrong_question.total_number)
+        this.setState(newstate)
     };
     tree_status = () => {
         let tree_address;
@@ -165,7 +171,7 @@ class record extends Component {
                                     </span>
                                 </div>
                             </div>
-                            <Link href='/' className='improve_button'>
+                            <Link style={this.state.wrong_question.total_number == 0 ? { display: "none" } : { display: "flex" }} href='/quiz/improve' className='improve_button'>
                                 <span className='improve_button_text'>針對題目進行加強</span>
                             </Link>
                         </div>

@@ -432,7 +432,27 @@ class quiz extends Component {
 
         break;
       case "improve":
+        let data2 = await fetch("../api/questionToDo", {
+          method: "POST",
+          body: JSON.stringify({ userid: jwt_uid, mode: 3 }
+          )
+        }).then(res => {
+          return res?.json();
+        })
 
+        data2 = await data?.question_record[0].wrong_question_set
+
+        if(!data2){
+          alert("沒有題目需要改進");
+          window.location.href = "/";
+          return;
+        }
+        
+
+        json = await fetch("../api/getQuestion", {
+          method: "POST",
+          body: JSON.stringify({ question_id: data2.map(x => x.uid) })
+        }).then(res => res.json())
         break;
       default:
         json = await fetch(`../api/quiz/${quiz_type}`)
