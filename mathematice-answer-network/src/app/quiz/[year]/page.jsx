@@ -49,13 +49,16 @@ class quiz extends Component {
     exit_menu_status: false,
     commit_status: false,
     dark_mode: false,
+    quiz_mode: 1,
     review_mode: false,
+    time_over: false,
+    count_time_or_not: true,
   };
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = async () => {
     let jwt_uid = await loginOrNot();
     function compare_array(a, b) {
-      return a.sort().toString() == b.sort().toString();
+      return a?.sort().toString() == b?.sort().toString();
     }
     this.state.timeCount_display = this.spend_time_toString(
       this.state.time_limit
@@ -64,48 +67,76 @@ class quiz extends Component {
     const { year } = await this.props.params;
 
     let json;
-    if (year == "review") {
-      this.state.review_mode = true;
-      let data = await fetch("../api/score", {
-        method: "POST",
-        body: JSON.stringify({ uid: jwt_uid }),
-      }).then((res) => {
-        return res?.json();
-      });
-      if (Array.isArray(data)) {
-        data = data?.question_record[0].answer_review;
-      }
-
-      let wrong_question = await data.answer_info?.filter(
-        (x) => !compare_array(x.answer, x.right_answer)
-      );
-      if (wrong_question?.length == 0 || !wrong_question) {
-        alert("沒有題目需要複習");
-        window.location.href = "/";
-        return;
-      }
-
-      json = await fetch("../api/getQuestion", {
-        method: "POST",
-        body: JSON.stringify({ question_id: wrong_question.map((x) => x.uid) }),
-      }).then((res) => res.json());
-    } else {
-      json = await fetch(`../api/quiz/${year}`).then((data) => {
-        return data.json();
-      });
-      if (!json?.questions.length) {
-        alert("找不到題目，請重新設定範圍");
-        window.location.href = "/question-bank";
-        return;
-      }
+    let mydata;
+    try {
+      mydata = await this.get_question(year, jwt_uid);
+      json = mydata.json;
+    } catch (error) {
+      alert("發生錯誤");
+      window.location.href = "/";
+      return;
     }
-    let newState = { ...this.state };
-    newState.quiz = await convertdata(json);
-    newState.question_bank = await year;
+    // if (year == "review") {
+    //   this.state.review_mode = true
+    //   let data = await fetch("../api/score", {
+    //     method: "POST",
+    //     body: JSON.stringify({ uid: jwt_uid }
+    //     )
+    //   })
+    //     .then(res => {
+
+    //       return res?.json();
+    //     })
+
+    //   try {
+    //     data = await data?.question_record[0].answer_review
+    //   } catch (error) {
+    //     if (wrong_question?.length == 0 || !wrong_question) {
+    //       alert("發生錯誤");
+    //       window.location.href = "/";
+    //       return;
+    //     }
+    //   }
+
+    //   let wrong_question = await data.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
+
+    //   if (wrong_question?.length == 0 || !wrong_question) {
+    //     alert("沒有題目需要複習");
+    //     window.location.href = "/";
+    //     return;
+    //   }
+
+    //   json = await fetch("../api/getQuestion", {
+    //     method: "POST",
+    //     body: JSON.stringify({ question_id: wrong_question.map(x => x.uid) })
+    //   }).then(res => res.json())
+    // } else {
+    //   json = await fetch(`../api/quiz/${year}`)
+    //     .then((data) => {
+    //       return data.json();
+    //     })
+    //     ;
+    //   if (!(json?.questions.length)) {
+    //     alert("找不到題目，請重新設定範圍");
+    //     window.location.href = "/question-bank";
+    //     return;
+    //   }
+    // }
+    let newState = { ...mydata.newstate };
+    if (year == "random") {
+      newState.quiz = json.questions;
+    } else {
+      newState.quiz = await convertdata(json);
+    }
+    console.log(newState.quiz);
     newState.status = await json.questions.map(() => []);
     newState.id = jwt_uid;
+
     this.setState(newState);
-    this.setMyInterval();
+
+    if (this.state.count_time_or_not) {
+      this.setMyInterval();
+    }
     this.typesetMath();
   };
   componentDidUpdate = () => {
@@ -123,11 +154,15 @@ class quiz extends Component {
     this.state.mytimeid = setInterval(() => {
       this.state.time_count += 1;
       if (this.state.time_count > this.state.time_limit) {
-        alert("時間到");
+        this.state.time_over = true;
+        this.state.timeCount_display = this.spend_time_toString(
+          this.state.time_count - this.state.time_limit
+        );
+      } else {
+        this.state.timeCount_display = this.spend_time_toString(
+          this.state.time_limit - this.state.time_count
+        );
       }
-      this.state.timeCount_display = this.spend_time_toString(
-        this.state.time_limit - this.state.time_count
-      );
       this.setState(this.state);
     }, 1000);
   };
@@ -147,6 +182,7 @@ class quiz extends Component {
     if (!newstate.viewed_question.includes(newstate.index)) {
       newstate.viewed_question.push(newstate.index);
     }
+
     this.setState(newstate);
   };
   sub = (event) => {
@@ -322,310 +358,383 @@ class quiz extends Component {
         ],
         answer_status: { total: 2, correct: 1 },
       };
-      if (this.state.review_mode) {
-        fetch("../api/quizReview", {
-          method: "POST",
-          body: JSON.stringify({
-            userid: this.state.id,
-            cost_time: this.state.time_count,
-            answer: this.export_answer_data(),
-          }),
-        });
-      } else {
-        fetch("../api/quizSubmit", {
-          method: "POST",
-          body: JSON.stringify({
-            userid: this.state.id,
-            cost_time: this.state.time_count,
-            answer: this.export_answer_data(),
-            question_bank: decodeURI(this.state.question_bank),
-          }),
-        });
-      }
+
+      fetch("../api/quizSubmit", {
+        method: "POST",
+        body: JSON.stringify({
+          userid: this.state.id,
+          cost_time: this.state.time_count,
+          answer: this.export_answer_data(),
+          question_bank: decodeURI(this.state.question_bank),
+          status: this.state.quiz_mode,
+        }),
+      });
     }
+  };
+  get_question = async (quiz_type, jwt_uid) => {
+    let json = { questions: [] };
+    let newstate = { ...this.state };
+
+    switch (quiz_type) {
+      case "random":
+        newstate.quiz_mode = 1;
+        newstate.question_bank = "即時產生題庫";
+        const storedQuestions = await JSON.parse(
+          sessionStorage.getItem("questions")
+        );
+        const settings = await JSON.parse(sessionStorage.getItem("settings"));
+
+        if (!storedQuestions || !settings) {
+          alert("❌ 找不到題目或設定，請重新開始");
+          window.location.href = "/";
+          return;
+        }
+        json.questions = storedQuestions ? storedQuestions : [];
+        break;
+      case "review":
+        newstate.review_mode = true;
+        newstate.quiz_mode = 2;
+        newstate.question_bank = quiz_type;
+        let data = await fetch("../api/questionToDo", {
+          method: "POST",
+          body: JSON.stringify({ userid: jwt_uid, mode: 2 }),
+        }).then((res) => {
+          return res?.json();
+        });
+
+        data = await data?.question_record[0].last_review;
+
+        let wrong_question = await data.answer_info.answer_info?.filter(
+          (x) => !compare_array(x.answer, x.right_answer)
+        );
+        if (wrong_question?.length == 0 || !wrong_question) {
+          alert("沒有題目需要複習");
+          window.location.href = "/";
+          return;
+        }
+
+        json = await fetch("../api/getQuestion", {
+          method: "POST",
+          body: JSON.stringify({
+            question_id: wrong_question.map((x) => x.uid),
+          }),
+        }).then((res) => res.json());
+
+        break;
+      case "improve":
+        break;
+      default:
+        json = await fetch(`../api/quiz/${quiz_type}`).then((data) => {
+          return data.json();
+        });
+        if (!json?.questions.length) {
+          alert("找不到題目，請重新設定範圍");
+          window.location.href = "/question-bank";
+          return;
+        }
+        break;
+    }
+
+    return { json: json, newstate: newstate };
   };
   render() {
     return (
       <div className="page_container">
-        <div
-          className={
-            " main " +
-            (this.state.dark_mode
-              ? " main_dark_mode_on "
-              : " main_dark_mode_off ")
-          }
-        >
+        <div className="bg-[url(/img/choseTestBackGround.png)]">
           <div
             className={
-              "leave_menu " +
-              (this.state.exit_menu_status
-                ? "leave_menu_open"
-                : "leave_menu_close")
-            }
-          >
-            <div className="leave_menu_window">
-              <div className="leave_menu_bar"></div>
-              <div className="leave_menu_paragraph">
-                {this.state.commit_status
-                  ? "確定要交卷嗎?"
-                  : "確定要未交卷離開嗎?"}
-              </div>
-              <div className="leave_menu_button_area">
-                <button className="leave_menu_button">
-                  {
-                    <Link
-                      onNavigate={() => {
-                        this.submit_quiz();
-                      }}
-                      href={this.state.commit_status ? "/score" : "/"}
-                    >
-                      {this.state.commit_status ? "確定交卷" : "確定離開"}
-                    </Link>
-                  }
-                </button>
-                <button
-                  className="leave_menu_button"
-                  onClick={
-                    this.state.commit_status
-                      ? () => this.commit_quiz_or_not()
-                      : () => this.show_leave_menu_or_not()
-                  }
-                >
-                  {"取消"}
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            className={
-              "question_overlay_menu " +
-              (this.state.question_menu_status
-                ? " question_overlay_menu_open "
-                : " question_overlay_menu_close ")
+              " main  " +
+              (this.state.dark_mode
+                ? " main_dark_mode_on "
+                : " main_dark_mode_off ")
             }
           >
             <div
               className={
-                "question_overlay_menu_content " +
-                (this.state.question_menu_status
-                  ? " question_overlay_menu_content_open "
-                  : " question_overlay_menu_content_close ")
+                "leave_menu " +
+                (this.state.exit_menu_status
+                  ? "leave_menu_open"
+                  : "leave_menu_close")
               }
             >
-              {this.state.quiz.map((x, idx) => {
-                return (
-                  <button
-                    className={
-                      "menu_content_button " +
-                      (this.state.status[idx].length > 0
-                        ? " menu_content_button_has_answer "
-                        : this.state.viewed_question.includes(idx)
-                          ? " menu_content_button_not_answer "
-                          : " menu_content_button_not_view ")
+              <div className="leave_menu_window">
+                <div className="leave_menu_bar"></div>
+                <div className="leave_menu_paragraph">
+                  {this.state.commit_status
+                    ? "確定要交卷嗎?"
+                    : "確定要未交卷離開嗎?"}
+                </div>
+                <div className="leave_menu_button_area">
+                  <button className="leave_menu_button">
+                    {
+                      <Link
+                        onNavigate={() => {
+                          this.submit_quiz();
+                        }}
+                        href={this.state.commit_status ? "/score" : "/"}
+                      >
+                        {this.state.commit_status ? "確定交卷" : "確定離開"}
+                      </Link>
                     }
-                    key={idx}
-                    onClick={() => {
-                      this.jump_to_question_and_close_tab(idx);
-                    }}
-                  >
-                    <span>{idx + 1 < 10 ? "0" + (idx + 1) : idx + 1}</span>
                   </button>
-                );
-              })}
-            </div>
-            <button
-              className={
-                "question_overlay_menu_button " +
-                (this.state.question_menu_status
-                  ? " question_overlay_menu_button_open "
-                  : " question_overlay_menu_button_close ")
-              }
-              onClick={() => this.switch_question_menu_status()}
-            >
-              <div className="question_overlay_menu_button_img">
-                <span>X</span>
+                  <button
+                    className="leave_menu_button"
+                    onClick={
+                      this.state.commit_status
+                        ? () => this.commit_quiz_or_not()
+                        : () => this.show_leave_menu_or_not()
+                    }
+                  >
+                    {"取消"}
+                  </button>
+                </div>
               </div>
-            </button>
-          </div>
-          <div className="title_area">
-            <div className="title_word_area">
-              <span
+            </div>
+            <div
+              className={
+                "question_overlay_menu " +
+                (this.state.question_menu_status
+                  ? " question_overlay_menu_open "
+                  : " question_overlay_menu_close ")
+              }
+            >
+              <div
                 className={
-                  " title_word " +
-                  (this.state.dark_mode
-                    ? " title_word_dark_mode_on "
-                    : " title_word_dark_mode_off ")
+                  "question_overlay_menu_content " +
+                  (this.state.question_menu_status
+                    ? " question_overlay_menu_content_open "
+                    : " question_overlay_menu_content_close ")
                 }
               >
-                Question{" "}
-                {this.state.index + 1 < 10
-                  ? "0" + (this.state.index + 1)
-                  : this.state.index + 1}
-              </span>
-            </div>
-
-            <button
-              className="leave_button"
-              onClick={() => this.show_leave_menu_or_not()}
-            >
-              <Image
-                className="close_img"
-                src={"../img/close.svg"}
-                width={30}
-                height={30}
-                alt="this is close img"
-              />
-            </button>
-          </div>
-          <div className="topic">
-            <div
-              className={
-                " topic_bar " +
-                (this.state.dark_mode
-                  ? " topic_bar_dark_mode_on "
-                  : " topic_bar_dark_mode_off ")
-              }
-            >
-              {this.state.quiz[this.state.index]?.question_type}
+                {this.state.quiz.map((x, idx) => {
+                  return (
+                    <button
+                      className={
+                        "menu_content_button " +
+                        (this.state.status[idx].length > 0
+                          ? " menu_content_button_has_answer "
+                          : this.state.viewed_question.includes(idx)
+                            ? " menu_content_button_not_answer "
+                            : " menu_content_button_not_view ")
+                      }
+                      key={idx}
+                      onClick={() => {
+                        this.jump_to_question_and_close_tab(idx);
+                      }}
+                    >
+                      <span>{idx + 1 < 10 ? "0" + (idx + 1) : idx + 1}</span>
+                    </button>
+                  );
+                })}
+              </div>
               <button
                 className={
-                  "dark_mode_button " +
-                  (this.state.dark_mode
-                    ? " dark_mode_button_on "
-                    : " dark_mode_button_off ")
+                  "question_overlay_menu_button " +
+                  (this.state.question_menu_status
+                    ? " question_overlay_menu_button_open "
+                    : " question_overlay_menu_button_close ")
                 }
-                onClick={() => this.dark_mode_switch()}
+                onClick={() => this.switch_question_menu_status()}
               >
-                <span
-                  className={
-                    " dark_mode_button_slider " +
-                    (this.state.dark_mode
-                      ? " dark_mode_button_slider_on "
-                      : " dark_mode_button_slider_off ")
-                  }
-                >
-                  <Image
-                    src={
-                      this.state.dark_mode
-                        ? "../img/moon.svg"
-                        : "../img/sun.svg"
-                    }
-                    width={20}
-                    height={20}
-                    alt="this is dark_mode_switch_img"
-                  />
-                </span>
+                <div className="question_overlay_menu_button_img">
+                  <span>X</span>
+                </div>
               </button>
             </div>
-
-            <div
-              className={
-                " topic_word " +
-                (this.state.dark_mode
-                  ? " topic_word_dark_mode_on "
-                  : " topic_word_dark_mode_off ")
-              }
-            >
-              <div className="topic_img_area">{this.show_img()}</div>
-              <span>{this.state.quiz[this.state.index]?.question}</span>
-            </div>
-          </div>
-          <div className="options_area">
-            {this.state.quiz[this.state.index]?.options.map((x, idx) => (
-              <div className="option_area" key={idx}>
-                <button
-                  className="option"
-                  onClick={() => this.question_type_depend(idx + 1)}
+            <div className="title_area">
+              <div className="title_word_area">
+                <span
+                  className={
+                    " title_word " +
+                    (this.state.dark_mode
+                      ? " title_word_dark_mode_on "
+                      : " title_word_dark_mode_off ")
+                  }
                 >
-                  <div
+                  Question{" "}
+                  {this.state.index + 1 < 10
+                    ? "0" + (this.state.index + 1)
+                    : this.state.index + 1}
+                </span>
+              </div>
+
+              <button
+                className="leave_button"
+                onClick={() => this.show_leave_menu_or_not()}
+              >
+                <Image
+                  className="close_img"
+                  src={"../img/close.svg"}
+                  width={30}
+                  height={30}
+                  alt="this is close img"
+                />
+              </button>
+            </div>
+            <div className="topic">
+              <div
+                className={
+                  " topic_bar " +
+                  (this.state.dark_mode
+                    ? " topic_bar_dark_mode_on "
+                    : " topic_bar_dark_mode_off ")
+                }
+              >
+                {this.state.quiz[this.state.index]?.question_type == "mutiple"
+                  ? "多選題"
+                  : "單選題"}
+                <button
+                  className={
+                    "dark_mode_button " +
+                    (this.state.dark_mode
+                      ? " dark_mode_button_on "
+                      : " dark_mode_button_off ")
+                  }
+                  onClick={() => this.dark_mode_switch()}
+                >
+                  <span
                     className={
-                      "option_letter " +
-                      (this.state.status[this.state.index].includes(idx + 1)
-                        ? " option_letter_choosed "
-                        : this.state.dark_mode
-                          ? " option_letter_not_choosed_dark_mode_on "
-                          : " option_letter_not_choosed_dark_mode_off ")
+                      " dark_mode_button_slider " +
+                      (this.state.dark_mode
+                        ? " dark_mode_button_slider_on "
+                        : " dark_mode_button_slider_off ")
                     }
                   >
-                    {idx + 1}
-                  </div>
-                  <div
-                    className={
-                      "option_word_area " +
-                      (this.state.status[this.state.index].includes(idx + 1)
-                        ? " option_word_area_choosed "
-                        : this.state.dark_mode
-                          ? " option_word_area_not_choosed_dark_mode_on "
-                          : " option_word_area_not_choosed_dark_mode_off ")
-                    }
-                  >
-                    <span className="option_word">{x}</span>
-                  </div>
+                    <Image
+                      src={
+                        this.state.dark_mode
+                          ? "../img/moon.svg"
+                          : "../img/sun.svg"
+                      }
+                      width={20}
+                      height={20}
+                      alt="this is dark_mode_switch_img"
+                    />
+                  </span>
                 </button>
               </div>
-            ))}
-          </div>
-          <div className="source">
-            <h3
-              className={
-                this.state.dark_mode
-                  ? " source_text_dark_mode_on "
-                  : " source_text_dark_mode_off "
-              }
-            >
-              Source: {this.state.quiz[this.state.index]?.source}
-            </h3>
-          </div>
-          <div className="switch_button_area">
-            <button
-              className={
-                "switch_button " +
-                (this.state.index == 0 ? "edge" : "notInEdge")
-              }
-              disabled={this.state.index == 0}
-              onClick={this.sub}
-            >
-              Previous
-            </button>
-            <button
-              className={
-                "switch_button " +
-                (this.state.index == this.state.quiz.length - 1
-                  ? "submit"
-                  : "notInEdge")
-              }
-              onClick={this.add}
-            >
-              {this.state.index + 1 == this.state.quiz.length
-                ? "Submit"
-                : "Next"}
-            </button>
-          </div>
-          <div
-            className="progress_bar_area"
-            onClick={() => this.switch_question_menu_status()}
-          >
-            <div className="progress_bar">
-              {this.state.status.map((x, idx) => (
-                <div
-                  key={idx}
-                  className={
-                    x.length === 0
-                      ? this.state.viewed_question.includes(idx)
-                        ? " progress_bar_not_selected_has_viewed "
-                        : " progress_bar_not_selected_not_viewed "
-                      : "progress_bar_has_selected"
-                  }
-                ></div>
+
+              <div
+                className={
+                  " topic_word " +
+                  (this.state.dark_mode
+                    ? " topic_word_dark_mode_on "
+                    : " topic_word_dark_mode_off ")
+                }
+              >
+                <div className="topic_img_area">{this.show_img()}</div>
+                <span>{this.state.quiz[this.state.index]?.question}</span>
+              </div>
+            </div>
+            <div className="options_area">
+              {this.state.quiz[this.state.index]?.options.map((x, idx) => (
+                <div className="option_area" key={idx}>
+                  <button
+                    className="option"
+                    onClick={() => this.question_type_depend(idx + 1)}
+                  >
+                    <div
+                      className={
+                        "option_letter " +
+                        (this.state.status[this.state.index].includes(idx + 1)
+                          ? " option_letter_choosed "
+                          : this.state.dark_mode
+                            ? " option_letter_not_choosed_dark_mode_on "
+                            : " option_letter_not_choosed_dark_mode_off ")
+                      }
+                    >
+                      {idx + 1}
+                    </div>
+                    <div
+                      className={
+                        "option_word_area " +
+                        (this.state.status[this.state.index].includes(idx + 1)
+                          ? " option_word_area_choosed "
+                          : this.state.dark_mode
+                            ? " option_word_area_not_choosed_dark_mode_on "
+                            : " option_word_area_not_choosed_dark_mode_off ")
+                      }
+                    >
+                      <span className="option_word">{x}</span>
+                    </div>
+                  </button>
+                </div>
               ))}
             </div>
-          </div>
-          <div className="time_area">
-            {/* 開始時間: */}
-            {/* <h1>starttime: {this.state.start_time}</h1> */}
-            <span className="time_count_text">
-              {this.state.timeCount_display}
-            </span>
+            <div className="source">
+              <h3
+                className={
+                  this.state.dark_mode
+                    ? " source_text_dark_mode_on "
+                    : " source_text_dark_mode_off "
+                }
+              >
+                來源: {this.state.quiz[this.state.index]?.source}
+              </h3>
+            </div>
+            <div className="switch_button_area">
+              <button
+                className={
+                  "switch_button " +
+                  (this.state.index == 0 ? "edge" : "notInEdge")
+                }
+                disabled={this.state.index == 0}
+                onClick={this.sub}
+              >
+                上一題
+              </button>
+              <button
+                className={
+                  "switch_button " +
+                  (this.state.index == this.state.quiz.length - 1
+                    ? "submit"
+                    : "notInEdge")
+                }
+                onClick={this.add}
+              >
+                {this.state.index + 1 == this.state.quiz.length
+                  ? "提交"
+                  : "下一題"}
+              </button>
+            </div>
+            <div
+              className="progress_bar_area"
+              onClick={() => this.switch_question_menu_status()}
+            >
+              <div className="progress_bar">
+                {this.state.status.map((x, idx) => (
+                  <div
+                    key={idx}
+                    className={
+                      x.length === 0
+                        ? this.state.viewed_question.includes(idx)
+                          ? " progress_bar_not_selected_has_viewed "
+                          : " progress_bar_not_selected_not_viewed "
+                        : "progress_bar_has_selected"
+                    }
+                  ></div>
+                ))}
+              </div>
+            </div>
+            <div
+              style={{
+                display: this.state.count_time_or_not ? "flex" : "none",
+              }}
+              className="time_area"
+            >
+              {/* 開始時間: */}
+              {/* <h1>starttime: {this.state.start_time}</h1> */}
+              <span
+                className={
+                  "time_count_text " +
+                  (this.state.time_over
+                    ? " time_count_over "
+                    : " time_count_not_over ")
+                }
+              >
+                {this.state.timeCount_display}
+              </span>
+            </div>
           </div>
         </div>
         <Footer />
@@ -635,7 +744,9 @@ class quiz extends Component {
 }
 
 export default quiz;
-
+function compare_array(a, b) {
+  return a.sort().toString() == b.sort().toString();
+}
 function convertdata(json) {
   let newjson = json.questions.map((x) => {
     return {

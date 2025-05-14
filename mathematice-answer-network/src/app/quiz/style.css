@@ -2,24 +2,24 @@
   from {
     transform: translateX(-90%);
   }
-  to {
-  }
+
+  to {}
 }
 
 @keyframes dark_mode_switch_slide_to_left {
   from {
     transform: translateX(90%);
   }
-  to {
-  }
+
+  to {}
 }
 
 @keyframes overlay_menu_slide_to_right {
   from {
     transform: translateX(-100%);
   }
-  to {
-  }
+
+  to {}
 }
 
 button.dark_mode_button {
@@ -30,12 +30,15 @@ button.dark_mode_button {
   border-radius: 30px;
   min-width: 50px;
 }
+
 button.dark_mode_button_on {
   background-color: var(--quiz-dark-mode-switch-button-on);
 }
+
 button.dark_mode_button_off {
   background-color: var(--quiz-dark-mode-switch-button-off);
 }
+
 span.dark_mode_button_text {
   font-size: 16px;
   font-weight: bold;
@@ -54,6 +57,7 @@ span.dark_mode_button_slider {
   overflow: hidden;
   object-fit: cover;
 }
+
 span.dark_mode_button_slider_on {
   right: 5px;
   /* -webkit-transition: 1s;
@@ -64,6 +68,7 @@ span.dark_mode_button_slider_on {
   animation-delay: 0s;
   background-color: var(--quiz-dark-mode-switch-button-slider);
 }
+
 span.dark_mode_button_slider_off {
   left: 5px;
   /* -webkit-transition: 1s;
@@ -74,18 +79,25 @@ span.dark_mode_button_slider_off {
   animation-delay: 0s;
   background-color: var(--quiz-dark-mode-switch-button-slider);
 }
+
 div.page_container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   position: relative;
 }
+
 div.main {
   flex: 1;
+  position: relative;
+  max-width: 600px;
+  margin: auto;
 }
+
 div.main_dark_mode_on {
   background-color: var(--quiz-main-dark-mode);
 }
+
 div.main_dark_mode_off {
   background-color: var(--quiz-background);
 }
@@ -94,6 +106,7 @@ div.leave_menu {
   background-color: var(--quiz-overlay-menu-background);
 
   width: 100%;
+  max-width: 600px;
   height: 100%;
   z-index: 9;
 
@@ -120,7 +133,8 @@ div.leave_menu_window {
   position: relative;
   padding-top: 30px;
   border-radius: 15px;
-  width: 100%;
+  min-width: 300px;
+  max-width: 400px;
   height: 30%;
   min-height: 200px;
   max-height: 400px;
@@ -170,7 +184,7 @@ div.question_overlay_menu {
   display: flex;
   flex-direction: row;
   height: 100%;
-
+  max-width: 600px;
   position: fixed;
 
   /* transition: 0.5s; */
@@ -199,7 +213,7 @@ div.question_overlay_menu_content {
   padding-left: 10%;
   padding-top: 10%;
   padding-bottom: 10%;
-
+  
   grid-template-columns: 1fr 1fr 1fr 1fr;
   align-content: flex-start;
   justify-content: space-evenly;
@@ -211,8 +225,7 @@ div.question_overlay_menu_content::-webkit-scrollbar {
   display: none;
 }
 
-div.question_overlay_menu_content_open {
-}
+div.question_overlay_menu_content_open {}
 
 div.question_overlay_menu_content_close {
   display: none;
@@ -232,12 +245,15 @@ button.question_overlay_menu_button {
   height: 50px;
   text-align: center;
 }
+
 button.question_overlay_menu_button_open {
   display: block;
 }
+
 button.question_overlay_menu_button_close {
   display: none;
 }
+
 div.question_overlay_menu_button_img {
   background-color: var(--quiz-overlay-menu-cross-img-background);
   width: 50px;
@@ -264,18 +280,22 @@ button.menu_content_button {
   max-width: 100px;
   min-width: 20%;
 }
+
 button.menu_content_button_has_answer {
   background-color: var(--quiz-menu-content-button-has-answer);
   color: var(--text-btn);
 }
+
 button.menu_content_button_not_answer {
   background-color: var(--quiz-menu-content-button-not-answer);
   color: var(--text-btn);
 }
+
 button.menu_content_button_not_view {
   background-color: var(--quiz-menu-content-button-not-view);
   color: var(--quiz-menu-content-button-not-view-font-color);
 }
+
 div.title_area {
   display: flex;
   padding: 20px;
@@ -303,10 +323,12 @@ span.title_word {
   justify-content: center;
   text-wrap-mode: nowrap;
 }
+
 span.title_word_dark_mode_on {
   background-color: var(--quiz-title-word-dark-mode);
   color: var(--quiz-title-word);
 }
+
 span.title_word_dark_mode_off {
   background-color: var(--quiz-title-word-background);
   color: var(--quiz-title-word);
@@ -326,8 +348,16 @@ span.time_count_text {
   border-radius: 10px;
   font-size: 24px;
   font-weight: bold;
-  background-color: var(--quiz-color-first);
+
   color: var(--headerColor);
+}
+
+span.time_count_over {
+  background-color: var(--red);
+}
+
+span.time_count_not_over {
+  background-color: var(--quiz-color-first);
 }
 
 img.close_img {
@@ -351,18 +381,22 @@ div.topic_bar {
   align-items: center;
   font-weight: bold;
 }
+
 div.topic_bar_dark_mode_on {
   background-color: var(--quiz-dark-mode-color-first);
   color: var(--quiz-dark-mode-text);
 }
+
 div.topic_bar_dark_mode_off {
   background-color: var(--quiz-color-first);
   color: var(--quiz-question-type-text);
   text-shadow: 0px 0px 2px black;
 }
+
 div.topic_img_area {
   background-color: black;
 }
+
 div.topic_word {
   font-size: 20px;
   padding: 10px;
@@ -373,10 +407,12 @@ div.topic_word {
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
+
 div.topic_word_dark_mode_on {
   background-color: var(--quiz-dark-mode-color-second);
   color: var(--quiz-dark-mode-text);
 }
+
 div.topic_word_dark_mode_off {
   background-color: var(--quiz-question-topic-background);
   color: var(--paragraph-text);
@@ -434,6 +470,7 @@ div.option_letter_not_choosed_dark_mode_on {
   background-color: var(--quiz-dark-mode-color-first);
   color: var(--quiz-dark-mode-text);
 }
+
 div.option_letter_not_choosed_dark_mode_off {
   background-color: var(--quiz-color-first);
 }
@@ -454,6 +491,7 @@ div.option_word_area_not_choosed_dark_mode_on {
   background-color: var(--quiz-dark-mode-color-second);
   color: var(--quiz-dark-mode-text);
 }
+
 div.option_word_area_not_choosed_dark_mode_off {
   background-color: var(--background);
 }
@@ -473,8 +511,8 @@ div.source {
 h3.source_text_dark_mode_on {
   color: var(--quiz-dark-mode-text);
 }
-h3.source_text_dark_mode_off {
-}
+
+h3.source_text_dark_mode_off {}
 
 div.switch_button_area {
   display: flex;
@@ -504,12 +542,14 @@ button.notInEdge {
 button.submit {
   background-color: var(--quiz-submit-button);
 }
+
 div.progress_bar_area {
   padding-top: 20px;
   padding-bottom: 10px;
   padding-left: 20px;
   padding-right: 20px;
 }
+
 div.progress_bar {
   height: 10px;
   border-radius: 30px;
@@ -527,6 +567,7 @@ div.progress_bar_not_selected_has_viewed {
   flex-grow: 1;
   background-color: var(--quiz-progress-bar-not-selected-has-viewed);
 }
+
 div.progress_bar_not_selected_not_viewed {
   flex-grow: 1;
   background-color: var(--quiz-progress-bar-not-selected-not-viewed);
