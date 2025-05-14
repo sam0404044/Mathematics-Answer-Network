@@ -12,11 +12,11 @@ class record extends Component {
     state = {
         id: 1,
         tree: {
-            tree_status: 4,
-            tree_grow_up_gap: 5,
+            tree_status: 0,
+            tree_grow_up_gap: null,
         },
         wrong_question: {
-            total_number: 15,
+            total_number: 0,
         },
         answer_history: [
             {
@@ -97,12 +97,15 @@ class record extends Component {
         const wrong_question_n = wrong_question?.question_record[0].wrong_question_set?.length
 
         newstate.wrong_question.total_number = (wrong_question_n ? wrong_question_n : 0)
-        console.log(newstate.wrong_question.total_number)
+
         this.setState(newstate)
     };
     tree_status = () => {
         let tree_address;
         switch (this.state.tree.tree_status) {
+            case 0:
+                tree_address = './img/tree_0.svg';
+                break;
             case 1:
                 tree_address = './img/tree_1.svg';
                 break;

@@ -23,6 +23,7 @@ div.page_container {
   flex-direction: column;
   min-height: 100vh;
   position: relative;
+  align-items: center;
 }
 div.scroll_area{
   position: fixed;
@@ -45,6 +46,85 @@ button.scroll_arrow{
   justify-content: center;
   align-items: center;
   color: var(--score-scroll-area-arrow);
+}
+div.solution_menu {
+
+  background-color: var(--quiz-overlay-menu-background);
+
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  z-index: 9;
+
+  align-items: center;
+  display: grid;
+  padding-top: 20%;
+  padding-bottom: 20%;
+  padding-left: 20%;
+  padding-right: 20%;
+  margin: auto;
+}
+
+div.solution_menu_open {
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  flex-direction: column;
+}
+
+div.solution_menu_close {
+  display: none;
+}
+
+div.solution_menu_window {
+  position: relative;
+  padding-top: 30px;
+  border-radius: 15px;
+  min-width: 300px;
+  max-width: 400px;
+  height: 30%;
+  min-height: 200px;
+  max-height: 400px;
+  background-color: var(--background);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+div.solution_menu_bar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 30px;
+  background-color: var(--quiz-color-first);
+}
+
+div.solution_menu_paragraph {
+  padding: 10px;
+  text-align: center;
+}
+
+div.solution_menu_button_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 90px;
+}
+
+button.solution_menu_button {
+  width: 100%;
+  background-color: var(--background-btn);
+  margin: auto;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 15px;
+  color: var(--text-btn);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 div.main {
   /* width: 412px; */
