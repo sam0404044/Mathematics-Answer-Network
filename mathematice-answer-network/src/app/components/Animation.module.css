@@ -4,11 +4,6 @@
   min-height: 100vh;
   background-color: var(--animation-background);
   z-index: 1000;
-<<<<<<< HEAD
-  animation: fadeOut 2s ease forwards;
-  animation-delay: 3s;
-=======
->>>>>>> origin/main
 }
 
 .animation-triangle-left {
@@ -63,21 +58,6 @@
 .animation-triangle-right,
 .animation-text {
   opacity: 0;
-<<<<<<< HEAD
-  animation: fadeIn 1.5s ease forwards;
-}
-
-.animation-triangle-left {
-  animation-delay: 0.5s;
-}
-
-.animation-triangle-right {
-  animation-delay: 1s;
-}
-
-.animation-text {
-  animation-delay: 1.5s;
-=======
 }
 
 .animation-triangle-left {
@@ -99,5 +79,4 @@
   animation:
     fadeIn 1.5s ease 1s forwards,
     fadeOut 1.5s ease 3s forwards;
->>>>>>> origin/main
 }

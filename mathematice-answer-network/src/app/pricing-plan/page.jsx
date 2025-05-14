@@ -20,11 +20,7 @@ export default function PricingPage() {
         <>
             <NavBar />
 
-<<<<<<< HEAD
-            <div className='pricing-container max-w-[600px] mx-auto'>
-=======
             <div className='pricing-container max-w-[600px] mx-auto shadow-mine'>
->>>>>>> origin/main
                 <h2 className='pricing-title'>Pricing</h2>
 
                 <PlanCard

@@ -23,10 +23,7 @@ div.page_container {
   flex-direction: column;
   min-height: 100vh;
   position: relative;
-<<<<<<< HEAD
   align-items: center;
-=======
->>>>>>> origin/main
 }
 div.scroll_area{
   position: fixed;
@@ -50,7 +47,6 @@ button.scroll_arrow{
   align-items: center;
   color: var(--score-scroll-area-arrow);
 }
-<<<<<<< HEAD
 div.solution_menu {
 
   background-color: var(--quiz-overlay-menu-background);
@@ -130,8 +126,6 @@ button.solution_menu_button {
   padding-top: 5px;
   padding-bottom: 5px;
 }
-=======
->>>>>>> origin/main
 div.main {
   /* width: 412px; */
   background-color: var(--background);

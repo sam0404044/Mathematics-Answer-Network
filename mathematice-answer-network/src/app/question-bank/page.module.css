@@ -5,13 +5,9 @@
   width: 100%;
   position: relative;
   align-items: center;
-<<<<<<< HEAD
-  background-color: var(--warm);
-=======
   /* background-color: var(--warm); */
   background-image: url("/img/choseTestBackGround.png");
   background-size: cover;
->>>>>>> origin/main
 }
 
 .list {

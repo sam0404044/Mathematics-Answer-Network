@@ -27,11 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-<<<<<<< HEAD
-    "src/app/page.tsx"
-=======
     "src/app/page.jsx"
->>>>>>> origin/main
   ],
   "exclude": ["node_modules"]
 }
