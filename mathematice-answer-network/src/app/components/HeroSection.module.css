@@ -1,0 +1,149 @@
+.hero {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  aspect-ratio: 10 / 9;
+}
+
+.img1 {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top;
+  animation: fadeIn 0.5s ease-in 0.5s forwards;
+  opacity: 0;
+}
+.img2 {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top;
+  position: absolute;
+  animation:
+    fadeIn 0.5s ease-in 2.5s forwards,
+    floatUp 2s ease-in-out 7s infinite;
+  opacity: 0;
+}
+.img3 {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top;
+  position: absolute;
+  animation:
+    fadeIn 0.5s ease-in 2s forwards,
+    floatUp 2s ease-in-out 6.5s infinite;
+  opacity: 0;
+}
+.img4 {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top;
+  position: absolute;
+  animation:
+    fadeIn 0.5s ease-in 1.5s forwards,
+    floatUp 2s ease-in-out 6s infinite;
+  opacity: 0;
+}
+.img5 {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top;
+  position: absolute;
+  animation:
+    fadeIn 0.5s ease-in 1s forwards,
+    floatUp 2s ease-in-out 5.5s infinite;
+  opacity: 0;
+}
+
+.img6 {
+  width: 50%;
+  height: auto;
+  object-fit: cover;
+  object-position: bottom;
+  top: 40%;
+  position: absolute;
+  animation: fadeIn 0.5s ease-in 3s forwards;
+  opacity: 0;
+}
+.img7 {
+  top: 50%;
+  left: 5%;
+  width: 20%;
+  height: auto;
+  object-fit: cover;
+  object-position: bottom;
+  position: absolute;
+  animation:
+    fadeIn 0.5s ease-in 3.5s forwards,
+    floatUp 2s ease-in-out 5.5s infinite;
+  opacity: 0;
+}
+.img8 {
+  top: 10%;
+  right: 10%;
+  width: 20%;
+  height: auto;
+  object-fit: cover;
+  object-position: bottom;
+  position: absolute;
+  rotate: 20deg;
+  animation:
+    fadeIn 0.5s ease-in 4s forwards,
+    floatUp 2s ease-in-out 6s infinite;
+  opacity: 0;
+}
+.img9 {
+  top: 15%;
+  left: 25%;
+  width: 20%;
+  height: auto;
+  object-fit: cover;
+  object-position: bottom;
+  position: absolute;
+  animation:
+    fadeIn 0.5s ease-in 4.5s forwards,
+    floatUp 2s ease-in-out 6.5s infinite;
+  opacity: 0;
+}
+.img10 {
+  top: 60%;
+  right: 5%;
+  width: 20%;
+  height: auto;
+  object-fit: cover;
+  object-position: bottom;
+  position: absolute;
+  animation:
+    fadeIn 0.5s ease-in 5s forwards,
+    floatUp 2s ease-in-out 7s infinite;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

@@ -1,0 +1,112 @@
+:root {
+    --background: #f9f9f9;
+    --white: #ffffff;
+    --plan-list: #4caf50;
+    --plan-text: #555;
+    --plan-button: #0070f3;
+    --text-white: #fff;
+}
+
+body {
+    /* background-color: var(--background); */
+    margin: 0;
+    font-family: '微軟正黑體', sans-serif;
+    background-image: url('/img/choseTestBackGround.png'); /* Next.js 正確寫法 */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.pricing-container {
+    padding: 20px;
+    min-height: 100vh;
+    background-color: var(--background);
+}
+
+.pricing-title {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.plan-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 12px;
+    text-align: center;
+    color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.plan-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.plan-subtext {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.plan-price {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+    font-size: 12px;
+    color: var(--plan-text);
+}
+
+.plan-features li {
+    display: flex;
+    justify-content: center; /* ✅ 整段置中 */
+    align-items: center;
+    gap: 8px; /* 點點與文字間距 */
+    margin-bottom: 8px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--plan-list);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.plan-button {
+    background-color: var(--plan-button);
+    color: var(--text-white);
+    padding: 6px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.plan-button.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.plan-card-disabled {
+    filter: grayscale(100%) brightness(0.95);
+    pointer-events: none;
+}
+
+.plan-card-disabled * {
+    color: #999 !important;
+}
+
+/* 讓已啟用卡片的點點變灰色 */
+.plan-card-disabled .dot {
+    background-color: #bbb !important;
+}

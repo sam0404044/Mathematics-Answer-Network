@@ -1,0 +1,25 @@
+.icon {
+  width: 45px;
+  height: 45px;
+  stroke: var(--text-btn);
+  stroke-width: 30px;
+  cursor: pointer;
+}
+
+.active {
+  stroke: var(--white);
+}
+
+.btn {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--ocean-blue);
+  border-radius: 45px;
+}
+
+.disactive {
+  background-color: var(--pagiantion-disactive);
+}

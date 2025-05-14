@@ -1,0 +1,76 @@
+.animation-container {
+  position: absolute;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: var(--animation-background);
+  z-index: 1000;
+  animation: fadeOut 2s ease forwards;
+  animation-delay: 3s;
+}
+
+.animation-triangle-left {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 0;
+  border-top: 33vh solid var(--animation-object);
+  border-right: 100vw solid transparent;
+  z-index: 1001;
+}
+
+.animation-triangle-right {
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  border-bottom: 33vh solid var(--animation-object);
+  border-left: 100vw solid transparent;
+  z-index: 1001;
+}
+
+.animation-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  color: var(--animation-object);
+  font-weight: 800;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.animation-triangle-left,
+.animation-triangle-right,
+.animation-text {
+  opacity: 0;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+.animation-triangle-left {
+  animation-delay: 0.5s;
+}
+
+.animation-triangle-right {
+  animation-delay: 1s;
+}
+
+.animation-text {
+  animation-delay: 1.5s;
+}
