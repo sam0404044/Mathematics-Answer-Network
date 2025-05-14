@@ -57,7 +57,7 @@ export default function ForgotPassword() {
 
     return (
         <>
-            <div className={styles.container}>
+            <div className={styles.pageWrapper}>
                 {/* 關閉按鈕 */}
                 <button className='absolute top-5 right-5'>
                     <Link href={'/'}>
@@ -66,7 +66,7 @@ export default function ForgotPassword() {
                 </button>
 
                 {/* 插圖與標題 */}
-                <div className={styles.head}>
+                <div className={styles.formHeader}>
                     <Image 
                         src='/img/ForgotPwd_cover.svg'
                         alt="忘記密碼頁面"
@@ -76,18 +76,24 @@ export default function ForgotPassword() {
                 </div>
 
                 {/* 表單 */}
-                <div className={styles.myform}>
-                    <form onSubmit={e => e.preventDefault()}>
-                        <span>電子信箱</span><br />
+                <div className={styles.formBody}>
+                    <form className={`space-y-4 p-5 ${styles.form}`} onSubmit={e => e.preventDefault()}>
+                        <div>
+                        <label htmlFor="userEmail">電子郵件:</label>
                         <input 
                             type="email"
                             name="userEmail"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                         />
-                        {errors.userEmail && (<div style={{ color: 'var(--red)' }}>{errors.userEmail}</div>)}
+                        {errors.userEmail && (
+                            <div className="pt-1 text-sm text-[var(--red)]">
+                                {errors.userEmail}
+                            </div>
+                        )}
+                        </div>                          
                         <button 
-                            className={styles.mybtn} 
+                            className={styles.submitBtn} 
                             type="button"
                             onClick={handleSendResetEmail}>
                             發送重設密碼連結

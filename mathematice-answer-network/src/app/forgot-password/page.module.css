@@ -1,54 +1,61 @@
-.container {
-  background-color: var(--background);
-  min-height: 100vh;
-  padding-top: 10px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.pageWrapper {
+    background-color: var(--background);
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.head {
-  color: var(--header-text);
-  font-size: 36px;
-  font-weight: bold;  
-  text-align: center;
-  align-items: center;
-  position: relative;
+.formHeader {
+    color: var(--header-text);
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    padding: 20px 0 20px 0;
 }
 
-.myform {
-  background-color: var(--white);
-  width: 100%;
-  max-width: 372px;
-  padding: 20px;
-  border-radius: 15px;
-  margin: 20px 0 20px 0;
+.formBody {
+    width: 100%;
+    max-width: 372px;
+    margin: 0px auto 0px auto;
 }
 
-.myform span {
-  color: var(--header-text);
-  font-size: 15px;
+.form {
+    width: 100%;
+    background-color: var(--white);
+    border-radius: 12px;
 }
 
-.myform input {
-  border-radius: 10px;
-  border-width: 1.5px;
-  border-style: groove;
-  width: 100%;
-  height: 35px;
-  margin: 5px 0px 5px 0px;
-  padding-left: 5px;
+.form label {
+    display: block;
+    color: var(--header-text);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
-.mybtn,
-.myconfirmbtn {
-  background-color: var(--background-btn);
-  color: var(--text-btn);
-  border-radius: 10px;
-  border-width: 1.5px;
-  border-style: groove;
-  width: 100%;
-  height: 30px;
-  margin: 15px 0px 5px 0px;
+.form input {
+    width: 100%;
+    border: 1px solid var(--header-text);
+    border-radius: 8px;
+    padding: 4px;
+    outline: none;
+}
+
+.form input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--header-text);
+  }
+
+.submitBtn {
+    width: 100%;
+    background-color: var(--sign-up-btn);
+    color: var(--text-btn);
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 8px 0 8px 0;
+    cursor: pointer;
 }

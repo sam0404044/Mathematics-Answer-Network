@@ -15,7 +15,6 @@ export default function Register() {
     const router = useRouter();
     const [errors, setErrors] = useState({});
 
-
     const [formData, setFormData] = useState({
         userName: "",
         userEmail: "",
@@ -25,7 +24,6 @@ export default function Register() {
         userGrade: "",
         userGender: "",
     });
-
 
     const validateField = (name, value) => {
         switch (name) {
@@ -48,8 +46,6 @@ export default function Register() {
         }
     };
 
-
-    
     const handleChange = async (event) => {
         const { name, value } = event.target;
     
@@ -118,7 +114,7 @@ export default function Register() {
 
     return (
         <>
-            <div className={styles.container}>
+            <main className={styles.pageWrapper}>
                 {/* 關閉按鈕 */}
                 <button className='absolute top-5 right-5'>
                     <Link href={'/'}>
@@ -131,7 +127,7 @@ export default function Register() {
                     </Link>
                 </button>
                 {/* 插圖與標題 */}
-                <div className={styles.head}>
+                <div className={styles.formHeader}>
                     <Image
                         src='/img/Register_cover.svg'
                         alt='註冊頁面插圖'
@@ -141,99 +137,113 @@ export default function Register() {
                     <h1>會員註冊</h1>
                 </div>
                 {/* 註冊表單 */}
-                <div className={styles.myform}>
-                    <form onSubmit={submitHandler}> 
-                        <label htmlFor="userName">用戶名</label> <br /> 
-                        <input 
-                            type="text" 
-                            name="userName"
-                            value={formData.userName}  
-                            onChange={handleChange}
-                            onBlur={handleChange}
-                        />
-                        {errors.userName && <div style={{ color: 'var(--red)' }}>{errors.userName}</div>}
-                        <br />
-                        <label htmlFor="userEmail">電子信箱</label> <br />
-                        <input 
-                            type="email" 
-                            name="userEmail" 
-                            value={formData.userEmail} 
-                            onChange={handleChange} 
-                        />
-                        {errors.userEmail && <div style={{ color: 'var(--red)' }}>{errors.userEmail}</div>}
-                        <br />
-                        <label htmlFor="userPwd">密碼</label> <br />
-                        <input 
-                            type="password" 
-                            name="userPwd" 
-                            value={formData.userPwd} 
-                            onChange={handleChange} 
-                        />
-                        {errors.userPwd && <div style={{ color: 'var(--red)' }}>{errors.userPwd}</div>}
-                        <br />
-                        <label htmlFor="userPwdConfirm">確認密碼</label> <br />
-                        <input 
-                            type="password" 
-                            name="userPwdConfirm"
-                            value={formData.userPwdConfirm}  
-                            onChange={handleChange}
-                        />
-                        {errors.userPwdConfirm && <div style={{ color: 'var(--red)' }}>{errors.userPwdConfirm}</div>}
-                        <br />
-                        <label htmlFor="userSchool">就讀學校（非必填）</label> <br />
-                        <input 
-                            type="text" 
-                            name="userSchool"
-                            value={formData.userSchool}  
-                            onChange={handleChange} 
-                        />
-                        <br />
-                        <label htmlFor="userGrade">年級（非必填）</label> <br />
-                        <select 
-                            name="userGrade" 
-                            value={formData.userGrade} 
-                            onChange={handleChange}
-                        >
-                            <option value="">--選擇就讀年級--</option>
-                            <option value="一年級">一年級</option>
-                            <option value="二年級">二年級</option>
-                            <option value="三年級">三年級</option>
-                        </select>
-                        <br />
-                        <label htmlFor="userGender">性別（非必填）</label> <br />
-                        <select 
-                            name="userGender" 
-                            value={formData.userGender} 
-                            onChange={handleChange}
-                        >
-                            <option value="">--選擇性別--</option>
-                            <option value="男性">男性</option>
-                            <option value="女性">女性</option>
-                        </select>
-                        <br />
+                <div className={styles.formBody}>
+                    <form className={`space-y-4 p-5 ${styles.form}`} onSubmit={submitHandler}> 
+                        <div>
+                            <label htmlFor="userName">用戶名:</label>
+                            <input 
+                                type="text" 
+                                name="userName"
+                                value={formData.userName}  
+                                onChange={handleChange}
+                                onBlur={handleChange}
+                            />                            
+                            {errors.userName && (
+                                <div className="pt-1 text-sm text-[var(--red)]">
+                                    {errors.userName}
+                                </div>
+                            )}                        
+                        </div>
+                        <div>
+                            <label htmlFor="userEmail">電子郵件:</label>
+                            <input 
+                                type="email" 
+                                name="userEmail" 
+                                value={formData.userEmail} 
+                                onChange={handleChange} 
+                            />
+                            {errors.userEmail && (
+                                <div className="pt-1 text-sm text-[var(--red)]">
+                                    {errors.userEmail}
+                                </div>
+                            )}                          </div>
+                        <div>
+                            <label htmlFor="userPwd">密碼:</label>
+                            <input 
+                                type="password" 
+                                name="userPwd" 
+                                value={formData.userPwd} 
+                                onChange={handleChange} 
+                            />
+                            {errors.userPwd && (
+                                <div className="pt-1 text-sm text-[var(--red)]">
+                                    {errors.userPwd}
+                                </div>
+                            )}                          </div>
+                        <div>
+                            <label htmlFor="userPwdConfirm">確認密碼:</label>
+                            <input 
+                                type="password" 
+                                name="userPwdConfirm"
+                                value={formData.userPwdConfirm}  
+                                onChange={handleChange}
+                            />
+                            {errors.userPwdConfirm && (
+                                <div className="pt-1 text-sm text-[var(--red)]">
+                                    {errors.userPwdConfirm}
+                                </div>
+                            )}  
+                        </div>
+                        <div>
+                            <label htmlFor="userSchool">就讀學校:（非必填）</label>
+                            <input 
+                                type="text" 
+                                name="userSchool"
+                                value={formData.userSchool}  
+                                onChange={handleChange} 
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="userGrade">年級:（非必填）</label>
+                            <select 
+                                name="userGrade" 
+                                value={formData.userGrade} 
+                                onChange={handleChange}
+                            >
+                                <option value="">--選擇就讀年級--</option>
+                                <option value="一年級">一年級</option>
+                                <option value="二年級">二年級</option>
+                                <option value="三年級">三年級</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor="userGender">性別:（非必填）</label>
+                            <select 
+                                name="userGender" 
+                                value={formData.userGender} 
+                                onChange={handleChange}
+                            >
+                                <option value="">--選擇性別--</option>
+                                <option value="男性">男性</option>
+                                <option value="女性">女性</option>
+                            </select>
+                        </div>
                         {/* 確認按鈕 */}
                         <button 
-                            className={styles.mybtn} 
+                            className={styles.submitBtn} 
                             type="submit">
                             確認註冊
                         </button>
                     </form>
                 </div>
-            </div>
-            {/* 彈窗 */}
-            {/* 有條件渲染的彈窗 */}
-            <Notice 
-                // show={showModal} 
-                // onClose={() => { 
-                //     setShowModal(false) 
-                //     setTimeout(() => {
-                //         router.push('/')
-                //     }, 1000);
-                // }} message={'註冊成功'} 
+                {/* 彈窗 */}
+                {/* 有條件渲染的彈窗 */}
+                <Notice 
                 show={showModal}
                 onClose={() => setShowModal(false)}
                 message="註冊成功"
-            />                        
+                /> 
+            </main>                       
             <Footer />
         </> 
     );

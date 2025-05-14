@@ -88,7 +88,7 @@ export default function ResetPassword() {
 
     return (
         <>
-            <div className={styles.container}>
+            <div className={styles.pageWrapper}>
                 {/* 關閉按鈕 */}
                 <button className='absolute top-5 right-5'>
                     <Link href={'/'}>
@@ -101,7 +101,7 @@ export default function ResetPassword() {
                     </Link>
                 </button>
                 {/* 插圖與標題 */}
-                <div className={styles.head}>
+                <div className={styles.formHeader}>
                     <Image 
                         src='/img/ResetPwd_cover.svg'
                         alt='重設密碼頁面' 
@@ -111,9 +111,10 @@ export default function ResetPassword() {
                     <h1>重新設定密碼</h1>       
                 </div>
                 {/* 重設密碼表單 */}
-                <div className={styles.myform}>
-                    <form onSubmit={submitHandler}>
-                        <span>請重新輸入密碼</span><br />
+                <div className={styles.formBody}>
+                    <form className={`space-y-4 p-5 ${styles.form}`} onSubmit={submitHandler}>
+                        <div>
+                        <label htmlFor="newPassword">請重新輸入密碼:</label>
                         <input 
                             type="password"     
                             name="newPassword" 
@@ -122,9 +123,14 @@ export default function ResetPassword() {
                             onChange={handleChange}
                             onBlur={handleChange}              
                         />
-                        {errors.newPassword && <div style={{ color: 'var(--red)' }}>{errors.newPassword}</div>}
-                        <br />
-                        <span>再次確認密碼</span><br />
+                        {errors.newPassword && (
+                            <div className="pt-1 text-sm text-[var(--red)]">
+                                {errors.newPassword}
+                            </div>
+                        )} 
+                        </div>
+                        <div>
+                        <label htmlFor="confirmPassword">再次確認密碼:</label>
                         <input 
                             type="password" 
                             name="confirmPassword"  
@@ -133,11 +139,15 @@ export default function ResetPassword() {
                             onChange={handleChange}
                             onBlur={handleChange}                        
                         />
-                        {errors.confirmPassword && <div style={{ color: 'var(--red)' }}>{errors.confirmPassword}</div>}
-                        <br />
+                        {errors.confirmPassword && (
+                            <div className="pt-1 text-sm text-[var(--red)]">
+                                {errors.confirmPassword}
+                            </div>
+                        )} 
+                        </div>
                         {/* 確認按鈕 */}
                         <button 
-                            className={styles.mybtn}
+                            className={styles.submitBtn}
                             type="submit">
                             重設密碼
                         </button>
