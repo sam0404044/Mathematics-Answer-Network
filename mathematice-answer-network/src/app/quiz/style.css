@@ -91,6 +91,7 @@ div.main {
   flex: 1;
   position: relative;
   max-width: 600px;
+  min-width: 370px;
   margin: auto;
 }
 

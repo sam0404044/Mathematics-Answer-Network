@@ -16,7 +16,7 @@ class score extends Component {
         {
           "localIndex": 1,
           "uid": 1,
-          "question": "設數線上有一點 P 滿足 P 到 1 的距離加上 P 到 4 的距離等於 4。試問這樣的 P 有幾個？",
+          "question": "",
           "options": [
             "0 個",
             "1 個",
@@ -96,13 +96,16 @@ class score extends Component {
         }
         let data = await json.question_record[0]
         let newState = { ...this.state }
-
+        if(!data.score_now){
+          window.location.href = "/";
+        }
           let question_fetch = await fetch("./api/getQuestion", {
             method: "POST",
-            body: JSON.stringify({ question_id: data.score_now.answer_info.answer_info?.map(x => x.uid) }
+            body: JSON.stringify({ question_id: data.score_now.answer_info?.answer_info?.map(x => x.uid) }
             )
           })
             .then(res => res.json())
+            
           newState.id =jwt_uid
           newState.time_spent = data.score_now.cost_time
           newState.questionbank.questions = question_fetch.questions
@@ -186,6 +189,10 @@ class score extends Component {
   }
 
   calculateScore = () => {
+
+    if(this.state.id == 1){
+      return "?"
+    }
     const correctN = this.state.questionbank.questions.filter((x, idx) => (this.compare_answer(x.answer, this.state.answer_status[idx]))).length
     return Math.floor(correctN / this.state.questionbank.questions.length * 100)
     // return 80
