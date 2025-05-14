@@ -49,6 +49,7 @@ class quiz extends Component {
     exit_menu_status: false,
     commit_status: false,
     dark_mode: false,
+    quiz_mode: 1,
     review_mode: false,
     time_over: false,
     count_time_or_not: true,
@@ -57,7 +58,7 @@ class quiz extends Component {
   componentDidMount = async () => {
     let jwt_uid = await loginOrNot()
     function compare_array(a, b) {
-      return a.sort().toString() == b.sort().toString()
+      return a?.sort().toString() == b?.sort().toString()
     }
     this.state.timeCount_display = this.spend_time_toString(
       this.state.time_limit
@@ -67,62 +68,79 @@ class quiz extends Component {
     const { year } = await this.props.params;
 
     let json
-    if (year == "review") {
-      this.state.review_mode = true
-      let data = await fetch("../api/score", {
-        method: "POST",
-        body: JSON.stringify({ uid: jwt_uid }
-        )
-      })
-        .then(res => {
-
-          return res?.json();
-        })
-
-      try {
-        data = await data?.question_record[0].answer_review
-      } catch (error) {
-        if (wrong_question?.length == 0 || !wrong_question) {
-          alert("發生錯誤");
-          window.location.href = "/";
-          return;
-        }
-      }
-
-
-
-
-
-      let wrong_question = await data.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
-
-      if (wrong_question?.length == 0 || !wrong_question) {
-        alert("沒有題目需要複習");
-        window.location.href = "/";
-        return;
-      }
-
-      json = await fetch("../api/getQuestion", {
-        method: "POST",
-        body: JSON.stringify({ question_id: wrong_question.map(x => x.uid) })
-      }).then(res => res.json())
-    } else {
-      json = await fetch(`../api/quiz/${year}`)
-        .then((data) => {
-          return data.json();
-        })
-        ;
-      if (!(json?.questions.length)) {
-        alert("找不到題目，請重新設定範圍");
-        window.location.href = "/question-bank";
-        return;
-      }
+    let mydata
+    try {
+      mydata = await this.get_question(year, jwt_uid)
+      json = mydata.json
     }
-    let newState = { ...this.state };
-    newState.quiz = await convertdata(json);
-    newState.question_bank = await year
+    
+    catch (error) {
+      alert("發生錯誤");
+      window.location.href = "/";
+      return;
+    }
+    // if (year == "review") {
+    //   this.state.review_mode = true
+    //   let data = await fetch("../api/score", {
+    //     method: "POST",
+    //     body: JSON.stringify({ uid: jwt_uid }
+    //     )
+    //   })
+    //     .then(res => {
+
+    //       return res?.json();
+    //     })
+
+    //   try {
+    //     data = await data?.question_record[0].answer_review
+    //   } catch (error) {
+    //     if (wrong_question?.length == 0 || !wrong_question) {
+    //       alert("發生錯誤");
+    //       window.location.href = "/";
+    //       return;
+    //     }
+    //   }
+
+
+
+
+
+    //   let wrong_question = await data.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
+
+    //   if (wrong_question?.length == 0 || !wrong_question) {
+    //     alert("沒有題目需要複習");
+    //     window.location.href = "/";
+    //     return;
+    //   }
+
+    //   json = await fetch("../api/getQuestion", {
+    //     method: "POST",
+    //     body: JSON.stringify({ question_id: wrong_question.map(x => x.uid) })
+    //   }).then(res => res.json())
+    // } else {
+    //   json = await fetch(`../api/quiz/${year}`)
+    //     .then((data) => {
+    //       return data.json();
+    //     })
+    //     ;
+    //   if (!(json?.questions.length)) {
+    //     alert("找不到題目，請重新設定範圍");
+    //     window.location.href = "/question-bank";
+    //     return;
+    //   }
+    // }
+    let newState = { ...mydata.newstate };
+    if (year == "random") {
+      newState.quiz = json.questions;
+    } else {
+      newState.quiz = await convertdata(json);
+    }
+    console.log(newState.quiz)
     newState.status = await json.questions.map(() => []);
     newState.id = jwt_uid
+    
     this.setState(newState);
+    
     if (this.state.count_time_or_not) {
       this.setMyInterval();
     }
@@ -145,9 +163,9 @@ class quiz extends Component {
       if (this.state.time_count > this.state.time_limit) {
         this.state.time_over = true
         this.state.timeCount_display = this.spend_time_toString(
-           this.state.time_count - this.state.time_limit
+          this.state.time_count - this.state.time_limit
         );
-      }else{
+      } else {
         this.state.timeCount_display = this.spend_time_toString(
           this.state.time_limit - this.state.time_count
         );
@@ -171,6 +189,7 @@ class quiz extends Component {
     if (!newstate.viewed_question.includes(newstate.index)) {
       newstate.viewed_question.push(newstate.index);
     }
+
     this.setState(newstate);
   };
   sub = (event) => {
@@ -347,29 +366,90 @@ class quiz extends Component {
           ], "answer_status":
           { "total": 2, "correct": 1 }
       }
-      if (this.state.review_mode) {
-        fetch("../api/quizReview", {
-          method: "POST",
-          body: JSON.stringify({
-            userid: this.state.id,
-            cost_time: this.state.time_count,
-            answer: this.export_answer_data(),
-          }
-          )
-        })
-      } else {
-        fetch("../api/quizSubmit", {
-          method: "POST",
-          body: JSON.stringify({
-            userid: this.state.id,
-            cost_time: this.state.time_count,
-            answer: this.export_answer_data(),
-            question_bank: decodeURI(this.state.question_bank)
-          }
-          )
-        })
-      }
+
+      fetch("../api/quizSubmit", {
+        method: "POST",
+        body: JSON.stringify({
+          userid: this.state.id,
+          cost_time: this.state.time_count,
+          answer: this.export_answer_data(),
+          question_bank: decodeURI(this.state.question_bank),
+          status: this.state.quiz_mode
+        }
+        )
+      })
+
     }
+  }
+  get_question = async (quiz_type, jwt_uid) => {
+    let json = { questions: [] }
+    let newstate = { ...this.state }
+
+    switch (quiz_type) {
+      case "random":
+        newstate.quiz_mode = 1
+        newstate.question_bank = "即時產生題庫"
+        const storedQuestions = await JSON.parse(sessionStorage.getItem("questions"));
+        const settings = await JSON.parse(sessionStorage.getItem("settings"));
+
+        if (!storedQuestions || !settings) {
+          alert("❌ 找不到題目或設定，請重新開始");
+          window.location.href = "/";
+          return;
+        }
+        json.questions = storedQuestions ? storedQuestions : [];
+        break
+      case "review":
+        
+
+        newstate.review_mode = true
+        newstate.quiz_mode = 2
+        newstate.question_bank = quiz_type
+        let data = await fetch("../api/questionToDo", {
+          method: "POST",
+          body: JSON.stringify({ userid: jwt_uid, mode: 2 }
+          )
+        }).then(res => {
+          return res?.json();
+        })
+
+        data = await data?.question_record[0].last_review
+
+
+        let wrong_question = await data.answer_info.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
+        if (wrong_question?.length == 0 || !wrong_question) {
+          alert("沒有題目需要複習");
+          window.location.href = "/";
+          return;
+        }
+
+        json = await fetch("../api/getQuestion", {
+          method: "POST",
+          body: JSON.stringify({ question_id: wrong_question.map(x => x.uid) })
+        }).then(res => res.json())
+
+
+
+        break;
+      case "improve":
+
+        break;
+      default:
+        json = await fetch(`../api/quiz/${quiz_type}`)
+          .then((data) => {
+            return data.json();
+          })
+          ;
+        if (!(json?.questions.length)) {
+          alert("找不到題目，請重新設定範圍");
+          window.location.href = "/question-bank";
+          return;
+        }
+        break;
+    }
+
+
+    return ({"json":json,"newstate":newstate})
   }
   render() {
     return (
@@ -641,7 +721,7 @@ class quiz extends Component {
               ))}
             </div>
           </div>
-          <div style={{display:this.state.count_time_or_not ? "flex" :"none"}} className="time_area">
+          <div style={{ display: this.state.count_time_or_not ? "flex" : "none" }} className="time_area">
             {/* 開始時間: */}
             {/* <h1>starttime: {this.state.start_time}</h1> */}
             <span className={"time_count_text " + (this.state.time_over ? " time_count_over " : " time_count_not_over ")}>
@@ -656,7 +736,9 @@ class quiz extends Component {
 }
 
 export default quiz;
-
+function compare_array(a, b) {
+  return a.sort().toString() == b.sort().toString()
+}
 function convertdata(json) {
 
   let newjson = json.questions.map(x => {

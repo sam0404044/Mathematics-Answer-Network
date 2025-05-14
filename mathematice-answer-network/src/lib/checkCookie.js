@@ -6,7 +6,7 @@ export async function loginOrNot() {
     const loginData = cookieStore.get("login_data");
     if (!loginData) {
         alert("需要登入");
-        window.location.href = "/";
+        window.location.href = "/login";
         return;
     } else {
         return loginData.value
