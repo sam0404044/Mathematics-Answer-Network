@@ -12,36 +12,16 @@ export async function POST(
 
 
 
-  const { userid, mode } = await req.json()
-
-
+  const { userid} = await req.json()
 
   try {
 
 
-    let quiz_status
-    switch (mode) {
-      case 1:
-        quiz_status = "last_quiz"
-        break;
-
-      case 2:
-        quiz_status = "last_review"
-        break;
-
-      case 3:
-        quiz_status = "wrong_question_set"
-        break;
-
-      default:
-        quiz_status = "last_quiz"
-        break;
-    }
-    
+  
 
     
     const [records] = await db.query(
-      `SELECT ${quiz_status} from user_score_status WHERE userid = ?`,
+      `SELECT * from user_info WHERE id = ?`,
       [jwt.decode(userid).uid]
     );
 
