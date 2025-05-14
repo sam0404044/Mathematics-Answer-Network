@@ -15,7 +15,7 @@ export async function POST(
   try {
     
     const [records] = await db.query(
-      "SELECT * from user_answer_record WHERE user_answer_record.userid = ? ORDER BY user_answer_record.time DESC LIMIT 1",
+      "SELECT status,score_now from user_score_status WHERE userid = ?",
       [jwt.decode(uid).uid]
     );
     

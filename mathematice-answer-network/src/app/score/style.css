@@ -51,6 +51,8 @@ div.main {
   background-color: var(--background);
   /* padding: 10px; */
   flex: 1;
+  max-width: 600px;
+  margin: auto;
 }
 div.score_display_area {
   position: relative;
