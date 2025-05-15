@@ -21,12 +21,12 @@ export async function POST(
 
     let quiz_status
     switch (mode) {
-      case 1:
-        quiz_status = "last_quiz"
-        break;
+      // case 1:
+      //   quiz_status = "last_quiz"
+      //   break;
 
       case 2:
-        quiz_status = "last_review"
+        quiz_status = "score_now"
         break;
 
       case 3:
@@ -34,7 +34,7 @@ export async function POST(
         break;
 
       default:
-        quiz_status = "last_quiz"
+        quiz_status = "score_now"
         break;
     }
     

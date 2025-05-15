@@ -406,21 +406,23 @@ class quiz extends Component {
         newstate.review_mode = true
         newstate.quiz_mode = 2
         newstate.question_bank = quiz_type
-        let data = await fetch("../api/questionToDo", {
+        const data = await fetch("../api/questionToDo", {
           method: "POST",
           body: JSON.stringify({ userid: jwt_uid, mode: 2 }
           )
         }).then(res => {
           return res?.json();
         })
-
-        data = await data?.question_record[0].last_review
-
-
-        let wrong_question = await data.answer_info.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
+        console.log(data.question_record[0].score_now)
+        const data3 = await data.question_record[0].score_now
+        
+        
+        let wrong_question = await data3?.answer_info.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
+        // console.log(wrong_question)
+        
         if (wrong_question?.length == 0 || !wrong_question) {
           alert("沒有題目需要複習");
-          window.location.href = "/";
+          // window.location.href = "/";
           return;
         }
 
@@ -433,6 +435,7 @@ class quiz extends Component {
 
         break;
       case "improve":
+        newstate.quiz_mode = 3
         let improve_data = await fetch("../api/questionToDo", {
           method: "POST",
           body: JSON.stringify({ userid: jwt_uid, mode: 3 }
@@ -461,6 +464,7 @@ class quiz extends Component {
             return data.json();
           })
           ;
+        newstate.question_bank = quiz_type
         if (!(json?.questions.length)) {
           alert("找不到題目，請重新設定範圍");
           window.location.href = "/question-bank";

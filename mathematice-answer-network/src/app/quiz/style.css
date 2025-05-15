@@ -92,6 +92,7 @@ div.main {
   position: relative;
   max-width: 600px;
   min-width: 370px;
+  width: 100%;
   margin: auto;
 }
 
@@ -110,7 +111,7 @@ div.leave_menu {
   max-width: 600px;
   height: 100%;
   z-index: 9;
-
+  margin: auto;
   align-items: center;
   display: grid;
   padding-top: 20%;
