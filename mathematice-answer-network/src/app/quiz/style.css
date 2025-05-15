@@ -87,7 +87,7 @@ div.page_container {
   position: relative;
 }
 
-div.main {
+div.main_quiz {
   flex: 1;
   position: relative;
   max-width: 600px;
@@ -123,6 +123,7 @@ div.leave_menu {
 div.leave_menu_open {
   display: flex;
   position: fixed;
+  
   justify-content: center;
   flex-direction: column;
 }
@@ -298,7 +299,7 @@ button.menu_content_button_not_view {
   color: var(--quiz-menu-content-button-not-view-font-color);
 }
 
-div.title_area {
+div.quiz_title_area {
   display: flex;
   padding: 20px;
   /* padding-left: 20px;
