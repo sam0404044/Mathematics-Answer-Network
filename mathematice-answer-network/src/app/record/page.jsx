@@ -14,6 +14,7 @@ class record extends Component {
         tree: {
             tree_status: 0,
             tree_grow_up_gap: null,
+            tree_n:null
         },
         wrong_question: {
             total_number: 0,
@@ -53,6 +54,7 @@ class record extends Component {
         newstate.tree = {
             tree_status: json.tree_status[0].status,
             tree_grow_up_gap: json.tree_status[0].gap,
+            tree_n: json.tree_status[0].total_tree
         };
         try {
             newstate.wrong_question.total_number =
@@ -113,6 +115,10 @@ class record extends Component {
                             <div className='tree_status_text_area'>
                                 <span className='tree_status_text'>
                                     再答題 {this.state.tree.tree_grow_up_gap} 次後成長
+                                </span>
+                                
+                                <span className='tree_status_text'>
+                                    已經種了 {this.state.tree.tree_n} 棵樹 
                                 </span>
                             </div>
                             <div className='tree_status_img_area'>
