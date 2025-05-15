@@ -8,19 +8,21 @@ import NavBar from '../components/NavBar';
 import Link from 'next/link';
 import '../../lib/checkCookie';
 import { loginOrNot } from '../../lib/checkCookie';
+import { redirect } from 'next/navigation'
+
 class record extends Component {
     state = {
         id: 1,
         tree: {
             tree_status: 0,
             tree_grow_up_gap: null,
-            tree_n:null
+            tree_n: null
         },
         wrong_question: {
             total_number: 0,
         },
         answer_history: [
-            
+
         ],
     };
     componentDidMount = async () => {
@@ -61,8 +63,8 @@ class record extends Component {
                 json.wrong_question_n[0]?.wrong_question_number;
         } catch (error) {
             alert('找不到紀錄');
-            window.location.href = '/';
-            return;
+            redirect("/")
+
         }
 
         const wrong_question = await fetch("../api/questionToDo", {
@@ -116,9 +118,9 @@ class record extends Component {
                                 <span className='tree_status_text'>
                                     再答題 {this.state.tree.tree_grow_up_gap} 次後成長
                                 </span>
-                                
+
                                 <span className='tree_status_text'>
-                                    已經種了 {this.state.tree.tree_n} 棵樹 
+                                    已經種了 {this.state.tree.tree_n} 棵樹
                                 </span>
                             </div>
                             <div className='tree_status_img_area'>
