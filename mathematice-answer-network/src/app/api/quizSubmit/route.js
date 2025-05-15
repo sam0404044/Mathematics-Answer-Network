@@ -21,32 +21,37 @@ export async function POST(
     answer_info: answer,
     cost_time: cost_time
   }
-  function add_wrong(records) { 
+  function add_wrong(records) {
     return records.filter(x => !wrong_question_uid_array.includes(x.uid)).concat(wrong_question)
   }
   function sub_correct(records) {
     return records.filter(x => !right_question_uid_array.includes(x.uid))
 
-   }
+  }
   try {
+    
+    const [records] = await db.query(
+      "SELECT wrong_question_set from user_score_status WHERE user_score_status.userid = ?",
+      [jwt.decode(userid).uid]
+    );
 
-
-
-
+    let myrecord = records?.length ? records :[]
+    let new_record = myrecord[0].wrong_question_set
+    try {
+      new_record = await add_wrong(sub_correct(new_record))
+    } catch (err) {
+      new_record = wrong_question
+    }
+    await db.query("INSERT INTO user_score_status (userid,wrong_question_set) values(?,?) ON DUPLICATE KEY UPDATE wrong_question_set = ?",
+          [jwt.decode(userid).uid, JSON.stringify(answer.answer_info), JSON.stringify(new_record)]
+        )
     switch (status) {
+
       case 1:
-        const [records] = await db.query(
-          "SELECT wrong_question_set from user_score_status WHERE user_score_status.userid = ?",
-          [jwt.decode(userid).uid]
-        );
-        let new_record = records[0].wrong_question_set
-        try{
-          new_record = await add_wrong(sub_correct(new_record))
-        }catch(err){
-          new_record = wrong_question
-        }
-        await db.query("INSERT INTO user_score_status (userid,last_quiz,last_review,wrong_question_set,status) values(?,?,?,?,?) ON DUPLICATE KEY UPDATE last_quiz = ? , last_review = ?, wrong_question_set = ?,status = ?",
-          [jwt.decode(userid).uid, JSON.stringify(answer_info), JSON.stringify(answer_info), JSON.stringify(answer.answer_info), status, JSON.stringify(answer_info), JSON.stringify(answer_info),JSON.stringify(new_record), status]
+
+
+        await db.query("INSERT INTO user_score_status (userid,last_quiz,last_review,wrong_question_set,status) values(?,?,?,?,?) ON DUPLICATE KEY UPDATE last_quiz = ? , last_review = ?,status = ?",
+          [jwt.decode(userid).uid, JSON.stringify(answer_info), JSON.stringify(answer_info), JSON.stringify(answer.answer_info), status, JSON.stringify(answer_info), JSON.stringify(answer_info), status]
         )
         await db.query("INSERT INTO user_tree_status (userid,complete_test) values(?,1) ON DUPLICATE KEY UPDATE `complete_test`= (`complete_test` + 1)",
           [jwt.decode(userid).uid]
@@ -66,8 +71,8 @@ export async function POST(
 
       case 3:
 
-        await db.query("INSERT INTO user_score_status (userid,wrong_question_set,status) values(?,?,?) ON DUPLICATE KEY UPDATE wrong_question_set = ?,status = ?",
-          [jwt.decode(userid).uid, JSON.stringify(answer_info), status, JSON.stringify(answer_info.answer_info), status]
+        await db.query("INSERT INTO user_score_status (userid,last_set,status) values(?,?,?) ON DUPLICATE KEY UPDATE last_set = ?,status = ?",
+          [jwt.decode(userid).uid, JSON.stringify(answer_info), status, JSON.stringify(answer_info), status]
         )
         break;
 
