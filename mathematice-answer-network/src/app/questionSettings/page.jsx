@@ -38,6 +38,7 @@ export default function QuestionSettings() {
             sessionStorage.setItem('questions', JSON.stringify(data.questions));
             sessionStorage.setItem('settings', JSON.stringify({ questionCount, timerEnabled }));
 
+
             setStatus('done');
         } catch (err) {
             console.error(err);
@@ -57,7 +58,7 @@ export default function QuestionSettings() {
 
     useEffect(() => {
         if (status === 'done' && countdown <= 0) {
-            router.push('/quiz');
+            router.push('/quiz/random');
         }
     }, [countdown, status]);
 
