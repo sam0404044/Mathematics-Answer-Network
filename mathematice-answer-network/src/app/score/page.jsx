@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import "../../lib/checkCookie"
 import { loginOrNot } from '../../lib/checkCookie';
 import { redirect } from 'next/navigation'
+import { div } from 'framer-motion/client';
 class score extends Component {
   state = {
     id: 1,
@@ -31,13 +32,13 @@ class score extends Component {
         }
       ]
     },
-    to_get_solution_status:false,
-    menber_data: {plan_status:0,point:0},
+    to_get_solution_status: false,
+    menber_data: { plan_status: 0, point: 0 },
     answer_status: [[1], [2], [3], [4]],
     show_status: [false],
     time_spent: 629,
     explanation: [],
-    now_solution:{uid:0,index:0},
+    now_solution: { uid: 0, index: 0 },
     star_setting: [
       {
         width: 67,
@@ -90,28 +91,28 @@ class score extends Component {
         return data.json();
       }).then(async (json) => {
 
-        if (!Array.isArray(await json.question_record) ) {
+        if (!Array.isArray(await json.question_record)) {
           alert("找不到紀錄");
           redirect("/")
         }
         let data = await json.question_record[0]
         let newState = { ...this.state }
-        if(!data.score_now){
+        if (!data.score_now) {
           redirect("/")
         }
-          let question_fetch = await fetch("./api/getQuestion", {
-            method: "POST",
-            body: JSON.stringify({ question_id: data.score_now.answer_info?.answer_info?.map(x => x.uid) }
-            )
-          })
-            .then(res => res.json())
-            
-          newState.id =jwt_uid
-          newState.time_spent = data.score_now.cost_time
-          newState.questionbank.questions = question_fetch.questions
-          newState.answer_status = data.score_now.answer_info.answer_info.map((x, index) => x.answer)
-          newState.explanation = newState.answer_status.map(x => "")
-       
+        let question_fetch = await fetch("./api/getQuestion", {
+          method: "POST",
+          body: JSON.stringify({ question_id: data.score_now.answer_info?.answer_info?.map(x => x.uid) }
+          )
+        })
+          .then(res => res.json())
+
+        newState.id = jwt_uid
+        newState.time_spent = data.score_now.cost_time
+        newState.questionbank.questions = question_fetch.questions
+        newState.answer_status = data.score_now.answer_info.answer_info.map((x, index) => x.answer)
+        newState.explanation = newState.answer_status.map(x => "")
+
         newState.questionbank.questions.forEach(x => {
           function translate_letter_to_number(letter) {
             if (Array.isArray(letter)) {
@@ -190,7 +191,7 @@ class score extends Component {
 
   calculateScore = () => {
 
-    if(this.state.id == 1){
+    if (this.state.id == 1) {
       return "?"
     }
     const correctN = this.state.questionbank.questions.filter((x, idx) => (this.compare_answer(x.answer, this.state.answer_status[idx]))).length
@@ -203,32 +204,32 @@ class score extends Component {
     let time_seconds = ("0" + time % 60).substr(-2, 2)
     return `${time_minutes}:${time_seconds}`
   }
-  show_solution_menu = async(id,idx) =>{
-    let newstate = {...this.state}
+  show_solution_menu = async (id, idx) => {
+    let newstate = { ...this.state }
     const userdata = await fetch("./api/getUser", {
       method: "POST",
       body: JSON.stringify({ userid: this.state.id }
       )
-    }).then(res =>res.json())
-    newstate.now_solution = {uid:id,index:idx}
-    newstate.menber_data = {plan_status:userdata.question_record[0].plan_status,point:userdata.question_record[0].points}
+    }).then(res => res.json())
+    newstate.now_solution = { uid: id, index: idx }
+    newstate.menber_data = { plan_status: userdata.question_record[0].plan_status, point: userdata.question_record[0].points }
     newstate.to_get_solution_status = true
     this.setState(newstate)
   }
-  not_show_solution_menu = () =>{
-    let newstate = {...this.state}
+  not_show_solution_menu = () => {
+    let newstate = { ...this.state }
     newstate.to_get_solution_status = false
     this.setState(newstate)
   }
-  solution_get = async() => {
+  solution_get = async () => {
 
-    let newstate = {...this.state}
+    let newstate = { ...this.state }
     let data = await fetch("./api/getSolution", {
       method: "POST",
-      body: JSON.stringify({ userid: this.state.id,questionId:this.state.now_solution.uid }
+      body: JSON.stringify({ userid: this.state.id, questionId: this.state.now_solution.uid }
       )
-    }).then(res =>res.json())
-    if(data){
+    }).then(res => res.json())
+    if (data) {
       newstate.explanation[this.state.now_solution.index] = data.status.solution[0].explanation
     }
     console.log(data.status.solution[0])
@@ -282,16 +283,57 @@ class score extends Component {
       this.state.questionbank.questions[qidx].options[opidx - 1]
     )
   }
+
+  get_solution_paragrath = () => {
+    if (this.state.menber_data.plan_status !== 2 && this.state.menber_data.point <= 0) {
+      return (
+        <React.Fragment>
+          <div className="solution_menu_paragraph">
+             {"點數不足"}
+          </div>
+          <div className="solution_menu_button_area">
+            <button
+              className="solution_menu_button"
+              onClick={() => { this.not_show_solution_menu() }}
+            >
+              {"返回"}
+            </button>
+          </div>
+        </React.Fragment>
+      )
+    }
+    else {
+      return (
+        <React.Fragment>
+          <div className="solution_menu_paragraph">
+            {this.state.menber_data.plan_status == 2 ? "確定要看詳解嗎" :"確定要花費1點看詳解嗎"} <br />
+            {"方案:"} {this.state.menber_data.plan_status} {"點數:"}  {this.state.menber_data.point}
+          </div>
+          <div className="solution_menu_button_area">
+            <button  className="solution_menu_button" onClick={() => { this.solution_get() }}>
+              {"確定"}
+            </button>
+            <button
+              className="solution_menu_button"
+              onClick={() => { this.not_show_solution_menu() }}
+            >
+              {"取消"}
+            </button>
+          </div>
+        </React.Fragment>
+      )
+    }
+  }
   render() {
     return (
       <div className='page_container'>
         <div className='bg-[url(/img/choseTestBackGround.png)]'>
-        <div className='scroll_area'>
-          <button className='scroll_arrow' onClick={() => window.scrollTo(0, (this.state.scorll_switch ? 0 : document.body.scrollHeight))}>
-            {(this.state.scorll_switch) ? "↑" : "↓"}
-          </button>
-        </div>
-        <div
+          <div className='scroll_area'>
+            <button className='scroll_arrow' onClick={() => window.scrollTo(0, (this.state.scorll_switch ? 0 : document.body.scrollHeight))}>
+              {(this.state.scorll_switch) ? "↑" : "↓"}
+            </button>
+          </div>
+          <div
             className={
               "solution_menu " +
               (this.state.to_get_solution_status
@@ -301,103 +343,89 @@ class score extends Component {
           >
             <div className="solution_menu_window">
               <div className="solution_menu_bar"></div>
-              <div className="solution_menu_paragraph">
-                {"確定要花費1點看詳解嗎"}<br/>
-                {` 方案: ${this.state.menber_data.plan_status} 點數:  ${this.state.menber_data.point}`}
-              </div>
-              <div className="solution_menu_button_area">
-                <button className="solution_menu_button" onClick={() => {this.solution_get()}}>
-                  {"確定"}
-                </button>
-                <button
-                  className="solution_menu_button"
-                  onClick={() => {this.not_show_solution_menu()}}
-                >
-                  {"取消"}
-                </button>
-              </div>
+              {this.get_solution_paragrath()}
             </div>
           </div>
-        <div className='main'>
-          <div className='score_display_area' style={{ backgroundColor: this.chooseScoreBackgroundColor() }}>
-            <Image
-              className='score_display_img'
-              src={this.chooseScoreBackgroundImg()}
-              width={412}
-              height={412}
-              alt='this is background'
-              priority={true}
-            />
-            <div className='star_display_area'>
-              {(this.calculateScore() > 80) ? this.star_display() : ""}
-            </div>
-
-            <div className='score_display_text'>
-              <div className='scoreYouGet_text'>你的得分</div>
-              <div className='score_get'>
-                <span className='your_score'>{this.calculateScore()}</span>
-                <span className='total_score'>/100</span>
+          <div className='main'>
+            <div className='score_display_area' style={{ backgroundColor: this.chooseScoreBackgroundColor() }}>
+              <Image
+                className='score_display_img'
+                src={this.chooseScoreBackgroundImg()}
+                width={412}
+                height={412}
+                alt='this is background'
+                priority={true}
+              />
+              <div className='star_display_area'>
+                {(this.calculateScore() > 80) ? this.star_display() : ""}
               </div>
-              <div className='answer_status'>
-                <span className='total_questions'>總答題數：{this.state.questionbank.questions.length}</span>
-                <span className='correct_answer_questions'>　你答對的題數：{this.state.questionbank.questions.filter((x, idx) => this.compare_answer(x.answer, this.state.answer_status[idx])).length}</span>
+
+              <div className='score_display_text'>
+                <div className='scoreYouGet_text'>你的得分</div>
+                <div className='score_get'>
+                  <span className='your_score'>{this.calculateScore()}</span>
+                  <span className='total_score'>/100</span>
+                </div>
+                <div className='answer_status'>
+                  <span className='total_questions'>總答題數：{this.state.questionbank.questions.length}</span>
+                  <span className='correct_answer_questions'>　你答對的題數：{this.state.questionbank.questions.filter((x, idx) => this.compare_answer(x.answer, this.state.answer_status[idx])).length}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div className='questions_area'>
-            {this.question_sort_start_wrong_to_correct().map(
-              (x, idx) => {
-                return (
-                  <div key={idx} className={"question_area " + (this.state.answer_status[x.localIndex] == x.answer ? " question_answer_correct " : " question_answer_wrong ") + (this.state.show_status[idx] ? " question_choosed " : " question_not_choosed ")}>
-                    <div className={'question_topic ' + (this.state.show_status[idx] ? "topic_choosed" : "topic_not_choosed")} onClick={() => { this.showContent(idx) }}>
-                      <span className={'question_topic_head ' + (this.state.show_status[idx] ? "question_topic_head_choosed" : "question_topic_head_not_choosed")}>
-                        <Image
-                          className='right_or_false_img'
-                          src={this.compare_answer(this.state.answer_status[x.localIndex], x.answer) ? "./img/right.svg" : "./img/false.svg"}
-                          width={20}
-                          height={20}
-                          alt='right or false'
-                        />
-                        <span className={"next_img_text " + (this.state.show_status[idx] ? " next_img_text_choosed " : " next_img_text_not_choosed ")}>{(this.compare_answer(this.state.answer_status[x.localIndex], x.answer)) ? "答對了" : " 答錯了"}</span>
-                      </span>
+            <div className='questions_area'>
+              {this.question_sort_start_wrong_to_correct().map(
+                (x, idx) => {
+                  return (
+                    <div key={idx} className={"question_area " + (this.state.answer_status[x.localIndex] == x.answer ? " question_answer_correct " : " question_answer_wrong ") + (this.state.show_status[idx] ? " question_choosed " : " question_not_choosed ")}>
+                      <div className={'question_topic ' + (this.state.show_status[idx] ? "topic_choosed" : "topic_not_choosed")} onClick={() => { this.showContent(idx) }}>
+                        <span className={'question_topic_head ' + (this.state.show_status[idx] ? "question_topic_head_choosed" : "question_topic_head_not_choosed")}>
+                          <Image
+                            className='right_or_false_img'
+                            src={this.compare_answer(this.state.answer_status[x.localIndex], x.answer) ? "./img/right.svg" : "./img/false.svg"}
+                            width={20}
+                            height={20}
+                            alt='right or false'
+                          />
+                          <span className={"next_img_text " + (this.state.show_status[idx] ? " next_img_text_choosed " : " next_img_text_not_choosed ")}>{(this.compare_answer(this.state.answer_status[x.localIndex], x.answer)) ? "答對了" : " 答錯了"}</span>
+                        </span>
 
-                      <span className={'question_topic_text ' + (this.state.show_status[idx] ? "topic_text_choosed" : "topic_text_not_choosed")}>{x.localIndex + 1}. {x.question}</span>
-                    </div>
-                    <div className={'dropDown_content ' + (this.state.show_status[idx] ? "dropDown_content_visible" : "dropDown_content_disable")}>
-                      <div className='answer_row right_answer'>正確答案:<br />{x.answer.map(y => <div>{`(${y}) ` + this.display_option(x.localIndex, y)} <br /></div>)}</div>
-                      <br />
-                      <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[x.localIndex].length == 0 ? "未作答" : this.state.answer_status[x.localIndex].map(y => <div> {`(${y}) ` + this.display_option(x.localIndex, y)}<br /></div>)}</div>
-                      <br /><br />
-                      <div className='solution_area'>
-                        <button disabled={this.state.explanation[idx] ? true: false} className='solution_link' onClick={() => { this.show_solution_menu(x.uid,idx)}}>
-                          詳細解答
-                        </button>
-                        <div>↓</div><br />
-                        <div>{this.state.explanation[idx]}</div>
+                        <span className={'question_topic_text ' + (this.state.show_status[idx] ? "topic_text_choosed" : "topic_text_not_choosed")}>{x.localIndex + 1}. {x.question}</span>
+                      </div>
+                      <div className={'dropDown_content ' + (this.state.show_status[idx] ? "dropDown_content_visible" : "dropDown_content_disable")}>
+                        <div className='answer_row right_answer'>正確答案:<br />{x.answer.map(y => <div>{`(${y}) ` + this.display_option(x.localIndex, y)} <br /></div>)}</div>
+                        <br />
+                        <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[x.localIndex].length == 0 ? "未作答" : this.state.answer_status[x.localIndex].map(y => <div> {`(${y}) ` + this.display_option(x.localIndex, y)}<br /></div>)}</div>
+                        <br /><br />
+                        <div className='solution_area'>
+                          <button disabled={this.state.explanation[idx] ? true : false} className='solution_link' onClick={() => { this.show_solution_menu(x.uid, idx) }}>
+                            詳細解答
+                          </button>
+                          <div>↓</div><br />
+                          <div>{this.state.explanation[idx]}</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-              }
-            )}
-          </div>
-          <div className='menu_area'>
-            <div className='time_area'>
-              <span>答題時間</span>
-              <span>{this.spend_time_toString(this.state.time_spent)}</span>
+                  )
+                }
+              )}
             </div>
-            <div className='achievement_link menu_area_link'>
-              <Link className='link_button' href="/record">觀看成就</Link>
-            </div>
-            <div style={this.calculateScore() == 100 ? { display: "none" } : {}} className='practice_link menu_area_link'>
-              <Link className='link_button' href="/quiz/review">錯題練習</Link>
-            </div>
-            <div className='main_page_link menu_area_link'>
-              <Link className='link_button' href="/">回到首頁</Link>
-            </div>
+            <div className='menu_area'>
+              <div className='time_area'>
+                <span>答題時間</span>
+                <span>{this.spend_time_toString(this.state.time_spent)}</span>
+              </div>
+              <div className='achievement_link menu_area_link'>
+                <Link className='link_button' href="/record">觀看成就</Link>
+              </div>
+              <div style={this.calculateScore() == 100 ? { display: "none" } : {}} className='practice_link menu_area_link'>
+                <Link className='link_button' href="/quiz/review">錯題練習</Link>
+              </div>
+              <div className='main_page_link menu_area_link'>
+                <Link className='link_button' href="/">回到首頁</Link>
+              </div>
 
+            </div>
           </div>
-        </div>
         </div>
         <Footer />
       </div>

@@ -610,7 +610,7 @@ class quiz extends Component {
                   : ' topic_bar_dark_mode_off ')
               }
             >
-              {this.state.quiz[this.state.index]?.question_type == 'mutiple'
+              {this.state.quiz[this.state.index]?.question_type == 'multiple'
                 ? '多選題'
                 : '單選題'}
               <button
