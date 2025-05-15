@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Footer from '../components/Footer';
 import "../../lib/checkCookie"
 import { loginOrNot } from '../../lib/checkCookie';
+import { redirect } from 'next/navigation'
 class score extends Component {
   state = {
     id: 1,
@@ -91,13 +92,12 @@ class score extends Component {
 
         if (!Array.isArray(await json.question_record) ) {
           alert("找不到紀錄");
-          window.location.href = "/";
-          return;
+          redirect("/")
         }
         let data = await json.question_record[0]
         let newState = { ...this.state }
         if(!data.score_now){
-          window.location.href = "/";
+          redirect("/")
         }
           let question_fetch = await fetch("./api/getQuestion", {
             method: "POST",

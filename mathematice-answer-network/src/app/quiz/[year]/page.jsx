@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Footer from '@/app/components/Footer';
 import { loginOrNot } from '../../../lib/checkCookie';
-import jwt from 'jsonwebtoken';
+import { redirect } from 'next/navigation'
 class quiz extends Component {
   state = {
     id: 1,
@@ -395,8 +395,7 @@ class quiz extends Component {
 
         if (!storedQuestions || !settings) {
           alert("❌ 找不到題目或設定，請重新開始");
-          window.location.href = "/";
-          return;
+          redirect("/")
         }
         json.questions = storedQuestions ? storedQuestions : [];
         break
@@ -422,8 +421,7 @@ class quiz extends Component {
         
         if (wrong_question?.length == 0 || !wrong_question) {
           alert("沒有題目需要複習");
-          // window.location.href = "/";
-          return;
+          redirect("/")
         }
 
         json = await fetch("../api/getQuestion", {
@@ -448,8 +446,8 @@ class quiz extends Component {
 
         if (!data2) {
           alert("沒有題目需要改進");
-          window.location.href = "/";
-          return;
+          redirect("/")
+
         }
 
 
@@ -467,7 +465,7 @@ class quiz extends Component {
         newstate.question_bank = quiz_type
         if (!(json?.questions.length)) {
           alert("找不到題目，請重新設定範圍");
-          window.location.href = "/question-bank";
+          redirect("/question-bank")
           return;
         }
         break;
