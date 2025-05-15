@@ -479,7 +479,7 @@ class quiz extends Component {
       <div className="page_container">
         <div
           className={
-            " main  " +
+            " main_quiz  " +
             (this.state.dark_mode
               ? " main_dark_mode_on "
               : " main_dark_mode_off ")
@@ -570,7 +570,7 @@ class quiz extends Component {
               </div>
             </button>
           </div>
-          <div className="title_area">
+          <div className="quiz_title_area">
             <div className="title_word_area">
               <span
                 className={
