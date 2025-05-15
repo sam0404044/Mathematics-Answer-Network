@@ -392,7 +392,7 @@ class quiz extends Component {
         newstate.question_bank = "即時產生題庫"
         const storedQuestions = await JSON.parse(sessionStorage.getItem("questions"));
         const settings = await JSON.parse(sessionStorage.getItem("settings"));
-
+        newstate.count_time_or_not = settings.timerEnabled
         if (!storedQuestions || !settings) {
           alert("❌ 找不到題目或設定，請重新開始");
           redirect("/")

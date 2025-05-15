@@ -9,8 +9,10 @@ import Link from 'next/link';
 import '../../lib/checkCookie';
 import { loginOrNot } from '../../lib/checkCookie';
 import { redirect } from 'next/navigation'
+import { AuthContext} from "../context/AuthContext";
 
-class record extends Component {
+class record  extends Component{
+    static contextType = AuthContext
     state = {
         id: 1,
         tree: {
@@ -26,6 +28,8 @@ class record extends Component {
         ],
     };
     componentDidMount = async () => {
+        console.log(this.context)
+        
         let jwt_uid = await loginOrNot();
         let newstate = { ...this.state };
         let json = await fetch('./api/record', {
