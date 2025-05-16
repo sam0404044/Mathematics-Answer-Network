@@ -39,6 +39,7 @@ class score extends Component {
     time_spent: 629,
     explanation: [],
     now_solution: { uid: 0, index: 0 },
+    mount_status:false,
     star_setting: [
       {
         width: 67,
@@ -147,8 +148,7 @@ class score extends Component {
           x.answer = translate_letter_to_number(x.answer)
           x.options = [x.option_a, x.option_b, x.option_c, x.option_d, x.option_e]
         })
-        console.log(newState)
-        console.log(newState.answer_status)
+        newState.mount_status = true
 
         this.setState(newState);
         this.typesetMath()
@@ -192,7 +192,7 @@ class score extends Component {
   calculateScore = () => {
 
     if (this.state.id == 1) {
-      return "?"
+      return 0
     }
     const correctN = this.state.questionbank.questions.filter((x, idx) => (this.compare_answer(x.answer, this.state.answer_status[idx]))).length
     return Math.floor(correctN / this.state.questionbank.questions.length * 100)
@@ -360,7 +360,7 @@ class score extends Component {
                 {(this.calculateScore() > 80) ? this.star_display() : ""}
               </div>
 
-              <div className='score_display_text'>
+              <div style={{display:(this.state.mount_status ? "flex":"none")}} className='score_display_text'>
                 <div className='scoreYouGet_text'>你的得分</div>
                 <div className='score_get'>
                   <span className='your_score'>{this.calculateScore()}</span>
@@ -397,7 +397,7 @@ class score extends Component {
                         <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[x.localIndex].length == 0 ? "未作答" : this.state.answer_status[x.localIndex].map(y => <div> {`(${y}) ` + this.display_option(x.localIndex, y)}<br /></div>)}</div>
                         <br /><br />
                         <div className='solution_area'>
-                          <button disabled={this.state.explanation[idx] ? true : false} className='solution_link' onClick={() => { this.show_solution_menu(x.uid, idx) }}>
+                          <button style={{display:(this.state.explanation[idx] ? "none" : "inline-block" )}} className='solution_link' onClick={() => { this.show_solution_menu(x.uid, idx) }}>
                             詳細解答
                           </button>
                           <div>↓</div><br />
