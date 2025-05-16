@@ -62,14 +62,7 @@ class record  extends Component{
             tree_grow_up_gap: json.tree_status[0].gap,
             tree_n: json.tree_status[0].total_tree
         };
-        try {
-            newstate.wrong_question.total_number =
-                json.wrong_question_n[0]?.wrong_question_number;
-        } catch (error) {
-            alert('找不到紀錄');
-            redirect("/")
-
-        }
+        
 
         const wrong_question = await fetch("../api/questionToDo", {
             method: "POST",
