@@ -28,15 +28,9 @@ export async function POST(
       "SELECT * FROM user_tree_status WHERE userid = ?",
       [decode_uid]
     );
-    await db.query(
-      "INSERT IGNORE INTO user_wrong_question (userid) values(?)",
-      [decode_uid]
-    );
-    const [wrong_question_n] = await db.query(
-      "SELECT user_wrong_question.wrong_question_number from user_wrong_question WHERE user_wrong_question.userid = ? limit 1",
-      [decode_uid]
-    );
-    return NextResponse.json({ question_record: records, tree_status: tree_status, wrong_question_n: wrong_question_n });
+    
+    
+    return NextResponse.json({ question_record: records, tree_status: tree_status});
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Database error" }, { status: 500 });
