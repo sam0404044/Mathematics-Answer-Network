@@ -13,31 +13,47 @@ export default function Page() {
   const auth = useContext(AuthContext);
   if (!auth) return null;
   const { isLogin } = auth;
-  const [isLoading, setIsLoading] = useState(true);
+
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [blockRender, setBlockRender] = useState(true);
 
   useEffect(function () {
-    const fadeOutTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 5000);
-
-    return () => clearTimeout(fadeOutTimer);
+    const visited = sessionStorage.getItem("visited");
+    if (!visited) {
+      sessionStorage.setItem("visited", "true");
+      setShowAnimation(true);
+      const fadeOut = setTimeout(() => {
+        setShowAnimation(false);
+      }, 5000);
+      return () => clearTimeout(fadeOut);
+    }
   }, []);
+
+  useEffect(
+    function () {
+      setBlockRender(false);
+    },
+    [showAnimation]
+  );
+
+  if (blockRender) return;
+
+  if (showAnimation)
+    return (
+      <div className={styles.container}>
+        <Animation />
+      </div>
+    );
 
   return (
     <div className={styles.container}>
-      {isLoading ? (
-        <Animation />
-      ) : (
-        <>
-          <NavBar />
-          <div className={styles.content}>
-            <HeroSection />
-            <StartBtn isLogin={isLogin}>開始答題</StartBtn>
-            <About />
-          </div>
-          <Footer />
-        </>
-      )}
+      <NavBar />
+      <div className={styles.content}>
+        <HeroSection />
+        <StartBtn isLogin={isLogin}>開始答題</StartBtn>
+        <About />
+      </div>
+      <Footer />
     </div>
   );
 }

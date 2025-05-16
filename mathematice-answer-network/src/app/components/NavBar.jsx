@@ -7,7 +7,7 @@ import Link from "next/link";
 import QuestionBankIcon from "./icon/QuestionBankIcon-";
 import PlanIcon from "./icon/PlanIcon";
 import StudyGuidesIcon from "./icon/StudyGuidesIcon";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function NavBar() {
@@ -23,7 +23,7 @@ export default function NavBar() {
           <MenuIcon setIsActive={setIsActive} isActive={isActive} />
           <Logo setIsActive={setIsActive} />
         </div>
-        {isLogin === "loading" ? null : isLogin ? (
+        {isLogin === "loading" ? null : isLogin  ? (
           <div className={styles.navbarcomponent}>
             {!isActive && (
               <>

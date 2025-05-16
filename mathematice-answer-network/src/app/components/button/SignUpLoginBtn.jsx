@@ -12,7 +12,6 @@ export default function SignUpLogin({
   const logout = async function () {
     const res = await fetch("/api/logout");
     if (res.ok) {
-      window.location.href = "/";
       setIsLogin(false);
     }
   };
