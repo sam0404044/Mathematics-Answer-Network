@@ -7,7 +7,7 @@ import Link from "next/link";
 import QuestionBankIcon from "./icon/QuestionBankIcon-";
 import PlanIcon from "./icon/PlanIcon";
 import StudyGuidesIcon from "./icon/StudyGuidesIcon";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function NavBar() {
@@ -23,19 +23,12 @@ export default function NavBar() {
           <MenuIcon setIsActive={setIsActive} isActive={isActive} />
           <Logo setIsActive={setIsActive} />
         </div>
-        {isLogin === "loading" ? null : isLogin  ? (
+        {isLogin === "loading" ? null : isLogin ? (
           <div className={styles.navbarcomponent}>
             {!isActive && (
               <>
-                <h1 className={styles.username}>
-                  歡迎回來: {user.username ? user.username : user.email}
-                </h1>
-                <SignUpLoginBtn
-                  type={"log-in"}
-                  isActive={isActive}
-                  isLogin={isLogin}
-                  setIsLogin={setIsLogin}
-                >
+                <h1 className={styles.username}>歡迎回來: {user.username ? user.username : user.email}</h1>
+                <SignUpLoginBtn type={"log-in"} isActive={isActive} isLogin={isLogin} setIsLogin={setIsLogin}>
                   登出
                 </SignUpLoginBtn>
               </>
@@ -43,18 +36,10 @@ export default function NavBar() {
           </div>
         ) : (
           <div className={styles.navbarcomponent}>
-            <SignUpLoginBtn
-              type={"sign-up"}
-              route={"/register"}
-              isActive={isActive}
-            >
+            <SignUpLoginBtn type={"sign-up"} route={"/register"} isActive={isActive}>
               註冊
             </SignUpLoginBtn>
-            <SignUpLoginBtn
-              type={"log-in"}
-              route={"/login"}
-              isActive={isActive}
-            >
+            <SignUpLoginBtn type={"log-in"} route={"/login"} isActive={isActive}>
               登入
             </SignUpLoginBtn>
           </div>
@@ -65,10 +50,7 @@ export default function NavBar() {
           <div className={styles["menu-box"]}>
             <h1 className={styles.h1}>學生專區</h1>
             <div className={styles.option}>
-              <Link
-                href={`${isLogin ? "/question-bank" : "/login"}`}
-                className={styles.link}
-              >
+              <Link href={`${isLogin ? "/question-bank" : "/login"}`} className={styles.link}>
                 <QuestionBankIcon />
                 <button className={styles.btn}>歷年考古題</button>
               </Link>
@@ -76,19 +58,13 @@ export default function NavBar() {
                 <PlanIcon />
                 <button className={styles.btn}>我的方案</button>
               </Link>
-              <Link
-                href={`${isLogin ? "/record" : "/login"}`}
-                className={styles.link}
-              >
+              <Link href={`${isLogin ? "/record" : "/login"}`} className={styles.link}>
                 <StudyGuidesIcon />
                 <button className={styles.btn}>個人紀錄</button>
               </Link>
             </div>
           </div>
-          <div
-            className={styles.overlay}
-            onClick={() => setIsActive((isActive) => !isActive)}
-          ></div>
+          <div className={styles.overlay} onClick={() => setIsActive((isActive) => !isActive)}></div>
         </>
       ) : (
         ""
