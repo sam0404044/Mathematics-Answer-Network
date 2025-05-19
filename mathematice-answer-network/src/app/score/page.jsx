@@ -36,7 +36,7 @@ class score extends Component {
     menber_data: { plan_status: 0, point: 0 },
     answer_status: [[1], [2], [3], [4]],
     show_status: [false],
-    time_spent: 629,
+    time_spent: 0,
     explanation: [],
     now_solution: { uid: 0, index: 0 },
     mount_status:false,
@@ -202,6 +202,7 @@ class score extends Component {
   spend_time_toString = (time) => {
     let time_minutes = ("0" + Math.floor(time / 60)).substr(-2, 2)
     let time_seconds = ("0" + time % 60).substr(-2, 2)
+
     return `${time_minutes}:${time_seconds}`
   }
   show_solution_menu = async (id, idx) => {
@@ -410,7 +411,7 @@ class score extends Component {
               )}
             </div>
             <div className='menu_area'>
-              <div className='time_area'>
+              <div style={this.state.time_spent == 0 ?{display:"none"}:{}} className='time_area'>
                 <span>答題時間</span>
                 <span>{this.spend_time_toString(this.state.time_spent)}</span>
               </div>
