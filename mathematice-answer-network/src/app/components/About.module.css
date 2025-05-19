@@ -5,6 +5,13 @@
   justify-content: center;
 }
 
+.container {
+  position: relative;
+  aspect-ratio: 10 / 7;
+  height: auto;
+  width: 100%;
+}
+
 .img {
   width: 100%;
   object-fit: cover;

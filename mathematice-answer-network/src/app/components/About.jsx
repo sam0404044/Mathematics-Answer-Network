@@ -3,7 +3,9 @@ import styles from "./About.module.css";
 export default function About() {
   return (
     <article className={styles.about}>
-      <img src="/img/hero-img.png" className={styles.img} />
+      <div className={ styles.container}>
+        <img src="/img/hero-img.png" className={styles.img} />
+      </div>
       <h1 className={styles.h1}>關於我們</h1>
       <p className={styles.p}>
         數學答題王是一個專為國高中生設計的數學答題網站，無論你是在學校、家中都能隨時打開網站，進行即時答題、錯題複習！
