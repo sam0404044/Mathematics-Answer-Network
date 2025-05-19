@@ -140,11 +140,12 @@ class quiz extends Component {
     newState.status = await json.questions.map(() => []);
     newState.id = jwt_uid
 
-    this.setState(newState);
+    
+    if (newState.count_time_or_not) {
 
-    if (this.state.count_time_or_not) {
       this.setMyInterval();
     }
+    this.setState(newState);
     this.typesetMath();
   };
   componentDidUpdate = () => {
