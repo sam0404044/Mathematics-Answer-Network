@@ -123,7 +123,7 @@ div.leave_menu {
 div.leave_menu_open {
   display: flex;
   position: fixed;
-  
+
   justify-content: center;
   flex-direction: column;
 }
@@ -216,12 +216,12 @@ div.question_overlay_menu_content {
   padding-left: 10%;
   padding-top: 10%;
   padding-bottom: 10%;
-  
+
   grid-template-columns: 1fr 1fr 1fr 1fr;
   align-content: flex-start;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  overflow-block: scroll;
+  overflow: scroll;
 }
 
 div.question_overlay_menu_content::-webkit-scrollbar {
@@ -404,7 +404,7 @@ div.topic_word {
   font-size: 20px;
   padding: 10px;
   background-color: var(--quiz-question-topic-background);
-  overflow-block: scroll;
+  overflow: scroll;
   height: 134px;
   color: var(--paragraph-text);
   border-bottom-left-radius: 20px;
@@ -434,7 +434,7 @@ div.options_area {
   padding-left: 10px;
   padding-right: 10px;
   align-items: center;
-  overflow-block: scroll;
+  overflow: scroll;
   justify-content: space-evenly;
 }
 
@@ -445,24 +445,29 @@ div.options_area::-webkit-scrollbar {
 div.option_area {
   width: 100%;
   padding: 10px;
+
 }
 
 button.option {
   width: 100%;
-  display: flex;
-  height: min-content;
+  display: grid;
+  grid-template-columns: 15fr 85fr;
+  gap: 0px;
   border-radius: 15px;
   padding: 0;
   overflow: hidden;
+  height: 100%;
+  align-items: center;
 }
 
 div.option_letter {
-  width: 15.6%;
+
   font-size: 32px;
-  height: auto;
-  align-items: center;
+  padding: auto;
+  height: 100%;
+
   justify-items: center;
-  align-content: center;
+  align-content: center; 
 }
 
 div.option_letter_choosed {
@@ -480,7 +485,7 @@ div.option_letter_not_choosed_dark_mode_off {
 
 div.option_word_area {
   display: flex;
-  width: 84.4%;
+
   align-items: center;
   justify-content: center;
   padding: 10px;
