@@ -4,10 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 import Notice from "@/app/components/Notice";
 import Footer from "@/app/components/Footer";
-import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
   const [userInfo, setUserInfo] = useState({
@@ -49,7 +47,7 @@ export default function Login() {
     <>
       <main className="relative flex flex-col items-center bg-[var(--background)] h-full p-10 min-h-screen">
         {/* 關閉按鈕 */}
-        <button className="absolute top-5 right-5">
+        <button className="absolute top-5 right-5 z-50">
           <Link href={"/"}>
             <Image
               src={"/img/close.svg"}
