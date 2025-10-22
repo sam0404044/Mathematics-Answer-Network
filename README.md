@@ -1,4 +1,4 @@
-```markdown
+
 # 數學答題王 | Mathematics Answer Network
 
 ![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat&logo=react&logoColor=black)
@@ -920,4 +920,4 @@ app.use(cors({
 - ✅ **持續優化** - 根據使用者反饋迭代改進
 
 **這是一個從規劃、開發到上線的完整專案經驗，展現了全方位的技術與管理能力！**
-```
+
