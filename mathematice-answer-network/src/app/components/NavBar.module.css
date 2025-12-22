@@ -61,22 +61,25 @@
   flex-direction: column;
   gap: 15px;
   padding: 0 100px;
+  overflow-y: auto;
+  max-height: 250px;
 }
 
 .btn {
   font-size: 16px;
   text-align: center;
-  color: var(--text-btn);
+  color: #ffffff;
   padding: 10px 0;
   cursor: pointer;
   display: flex;
   gap: 15px;
+  font-weight: 500;
 }
 
 .overlay {
   left: 0;
-  top: 270px;
-  height: calc(100vh - 270px);
+  top: 370px;
+  height: calc(100vh - 370px);
   width: 100%;
   position: fixed;
   background-color: var(--bar-overlay);
@@ -88,10 +91,21 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  min-height: 200px;
+  min-height: 300px;
   padding: 20px;
   background-color: var(--menu-background);
   position: fixed;
   top: 70px;
   z-index: 999;
+}
+
+/* 上傳考卷圖標改為白色 */
+.uploadLink svg {
+  stroke: #ffffff;
+  color: #ffffff;
+}
+
+.uploadLink:hover svg {
+  stroke: var(--icon-hover);
+  color: var(--icon-hover);
 }

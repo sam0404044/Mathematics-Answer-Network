@@ -8,7 +8,6 @@ import Footer from '../components/Footer';
 import "../../lib/checkCookie"
 import { loginOrNot } from '../../lib/checkCookie';
 import { redirect } from 'next/navigation'
-import { div } from 'framer-motion/client';
 class score extends Component {
   state = {
     id: 1,
@@ -328,7 +327,7 @@ class score extends Component {
   render() {
     return (
       <div className='page_container'>
-        <div className='bg-[url(/img/choseTestBackGround.png)]'>
+        <div>
           <div className='scroll_area'>
             <button className='scroll_arrow' onClick={() => window.scrollTo(0, (this.state.scorll_switch ? 0 : document.body.scrollHeight))}>
               {(this.state.scorll_switch) ? "↑" : "↓"}

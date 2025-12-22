@@ -4,10 +4,7 @@
   min-height: 100vh;
   position: relative;
   align-items: center;
-  background-image: url("/img/choseTestBackGround.png"); /* Next.js 正確寫法 */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  width: 100%;
 }
 
 .content {

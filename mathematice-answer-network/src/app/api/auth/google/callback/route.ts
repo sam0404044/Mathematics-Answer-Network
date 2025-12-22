@@ -7,7 +7,24 @@ export async function GET(req: Request) {
     // 取得網址
     const url = new URL(req.url);
     // 取得網址中code=後續部分
-    const code = url.searchParams.get('code')!;
+    const code = url.searchParams.get('code');
+
+    // 檢查是否有 code
+    if (!code) {
+        return NextResponse.json(
+            { error: '缺少授權碼', message: 'Google 授權失敗，請重新嘗試' },
+            { status: 400 }
+        );
+    }
+
+    // 檢查環境變數
+    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET || !process.env.GOOGLE_REDIRECT_URI) {
+        console.error('缺少 Google OAuth 環境變數');
+        return NextResponse.json(
+            { error: '伺服器配置錯誤', message: 'Google 登入功能未正確配置' },
+            { status: 500 }
+        );
+    }
 
     // 給ResultSetHeader換個名字
     type ExecResult = ResultSetHeader;
@@ -33,7 +50,9 @@ export async function GET(req: Request) {
 
         // 如果交換token失敗，就中止後續程序執行
         if (!tokenResponse.ok) {
-            throw new Error('交換token失敗');
+            const errorData = await tokenResponse.json().catch(() => ({}));
+            console.error('Token exchange failed:', errorData);
+            throw new Error(`交換token失敗: ${errorData.error || tokenResponse.statusText}`);
         }
 
         // 取得access token
@@ -49,7 +68,9 @@ export async function GET(req: Request) {
 
         // 如果獲取使用者資訊失敗，就中止後續程序執行
         if (!userResponse.ok) {
-            throw new Error('獲取使用者資訊失敗');
+            const errorData = await userResponse.json().catch(() => ({}));
+            console.error('User info fetch failed:', errorData);
+            throw new Error(`獲取使用者資訊失敗: ${errorData.error || userResponse.statusText}`);
         }
 
         // 取得email跟googleId

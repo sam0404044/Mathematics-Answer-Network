@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import styles from "./page.module.css";
 import Footer from "../components/Footer";
 import Notice from "../components/Notice";
 
-export default function ResetPassword() {
+function ResetPasswordForm() {
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -87,8 +87,8 @@ export default function ResetPassword() {
   };
 
   return (
-    <>
-      <div className={styles.pageWrapper}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div className={styles.pageWrapper} style={{ flex: 1 }}>
         {/* 關閉按鈕 */}
         <button className="absolute top-5 right-5 z-50">
           <Link href={"/"}>
@@ -168,6 +168,14 @@ export default function ResetPassword() {
         message="註冊成功"
       />
       <Footer />
-    </>
+    </div>
+  );
+}
+
+export default function ResetPassword() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

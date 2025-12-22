@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import db from "@/lib/db";
 import jwt from "jsonwebtoken"
 
@@ -39,7 +39,7 @@ export async function POST(
     let new_record = myrecord[0].wrong_question_set
     try {
       new_record = await add_wrong(sub_correct(new_record))
-    } catch (err) {
+    } catch {
       new_record = wrong_question
     }
     await db.query("INSERT INTO user_score_status (userid,wrong_question_set) values(?,?) ON DUPLICATE KEY UPDATE wrong_question_set = ?",

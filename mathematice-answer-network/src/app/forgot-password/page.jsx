@@ -54,8 +54,8 @@ export default function ForgotPassword() {
   };
 
   return (
-    <>
-      <div className={styles.pageWrapper}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div className={styles.pageWrapper} style={{ flex: 1 }}>
         {/* 關閉按鈕 */}
         <button className="absolute top-5 right-5 z-50">
           <Link href={"/"}>
@@ -111,6 +111,6 @@ export default function ForgotPassword() {
         message={"已寄出連結，請至信箱查看"}
       />
       <Footer />
-    </>
+    </div>
   );
 }

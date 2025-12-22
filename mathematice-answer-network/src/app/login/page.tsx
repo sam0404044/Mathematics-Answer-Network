@@ -44,8 +44,8 @@ export default function Login() {
   };
 
   return (
-    <>
-      <main className="relative flex flex-col items-center bg-[var(--background)] h-full p-10 min-h-screen">
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <main className="relative flex flex-col items-center p-10" style={{ flex: 1 }}>
         {/* 關閉按鈕 */}
         <button className="absolute top-5 right-5 z-50">
           <Link href={"/"}>
@@ -176,6 +176,6 @@ export default function Login() {
       </main>
       {/* footer */}
       <Footer />
-    </>
+    </div>
   );
 }

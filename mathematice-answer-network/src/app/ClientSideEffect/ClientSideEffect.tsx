@@ -38,5 +38,5 @@ export default function ClientSideEffect({
     return () => window.removeEventListener("resize", setMobileVh);
   }, []);
 
-  return <>{children}</>;
+  return <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: '100vh' }}>{children}</div>;
 }

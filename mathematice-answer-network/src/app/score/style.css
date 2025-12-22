@@ -33,13 +33,16 @@ img.star_img {
 }
 
 div.page_container {
-
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   position: relative;
   align-items: center;
+}
 
+div.page_container > div:first-of-type {
+  flex: 1;
+  width: 100%;
 }
 
 div.scroll_area {

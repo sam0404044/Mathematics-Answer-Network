@@ -9,6 +9,11 @@ div.page_container {
     min-height: 100vh;
     position: relative;
 }
+
+div.page_container > div:first-of-type {
+    flex: 1;
+    width: 100%;
+}
 div.area_default {
     background-color: var(--white);
     margin-top: 25px;

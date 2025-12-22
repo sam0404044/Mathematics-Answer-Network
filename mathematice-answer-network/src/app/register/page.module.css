@@ -1,11 +1,10 @@
 .pageWrapper {
-    background-color: var(--background);
-    min-height: 100vh;
     padding: 20px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .formHeader {

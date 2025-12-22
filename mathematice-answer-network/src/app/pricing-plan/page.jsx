@@ -17,10 +17,10 @@ export default function PricingPage() {
     const isCreditsActive = points > 0;
 
     return (
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <NavBar />
 
-            <div className='pricing-container max-w-[600px] mx-auto shadow-mine'>
+            <div className='pricing-container max-w-[600px] mx-auto shadow-mine' style={{ flex: 1 }}>
                 <h2 className='pricing-title'>Pricing</h2>
 
                 <PlanCard
@@ -57,6 +57,6 @@ export default function PricingPage() {
             </div>
 
             <Footer />
-        </>
+        </div>
     );
 }

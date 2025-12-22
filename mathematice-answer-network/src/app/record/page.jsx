@@ -105,7 +105,7 @@ class record  extends Component{
         return (
             <div className='page_container'>
                 <NavBar />
-                <div className='bg-[url(/img/choseTestBackGround.png)]'>
+                <div>
                     <div className='main max-w-[600px] mx-auto'>
                         <div className='title_area'>
                             <span className='title_text'>個人紀錄與學習建議</span>

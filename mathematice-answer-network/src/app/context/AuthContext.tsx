@@ -12,7 +12,6 @@ type AuthContextType = {
   setIsLogin: React.Dispatch<React.SetStateAction<string | boolean>>;
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  uid: User | null;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);

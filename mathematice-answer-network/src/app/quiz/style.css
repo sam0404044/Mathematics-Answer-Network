@@ -87,6 +87,11 @@ div.page_container {
   position: relative;
 }
 
+div.page_container > div:first-of-type {
+  flex: 1;
+  width: 100%;
+}
+
 div.main_quiz {
   flex: 1;
   position: relative;

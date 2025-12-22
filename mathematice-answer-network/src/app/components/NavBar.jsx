@@ -7,6 +7,7 @@ import Link from "next/link";
 import QuestionBankIcon from "./icon/QuestionBankIcon-";
 import PlanIcon from "./icon/PlanIcon";
 import StudyGuidesIcon from "./icon/StudyGuidesIcon";
+import UploadIcon from "./icon/UploadIcon";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -61,6 +62,10 @@ export default function NavBar() {
               <Link href={`${isLogin ? "/record" : "/login"}`} className={styles.link}>
                 <StudyGuidesIcon />
                 <button className={styles.btn}>個人紀錄</button>
+              </Link>
+              <Link href={`${isLogin ? "/upload-exam" : "/login"}`} className={`${styles.link} ${styles.uploadLink}`}>
+                <UploadIcon />
+                <button className={styles.btn}>上傳考卷</button>
               </Link>
             </div>
           </div>
