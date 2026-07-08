@@ -5,7 +5,7 @@ export default function BtnRight({ isLastPage, goToPage, curPage }) {
     <button
       className={`${styles.btn} ${isLastPage ? styles.disactive : ""}`}
       onClick={() => {
-        !isLastPage && goToPage(curPage + 1);
+        if (!isLastPage) goToPage(curPage + 1);
       }}
     >
       <svg xmlns="http://www.w3.org/2000/svg" className={styles.icon} viewBox="0 0 512 512">

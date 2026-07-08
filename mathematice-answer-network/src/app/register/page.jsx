@@ -62,7 +62,7 @@ export default function Register() {
         if (data.exists) {
           errorMessage = "此 Email 已被註冊過";
         }
-      } catch (err) {
+      } catch {
         errorMessage = "Email 驗證失敗，請稍後再試";
       }
     }
@@ -115,7 +115,7 @@ export default function Register() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main className={styles.pageWrapper} style={{ flex: 1 }}>
         {/* 關閉按鈕 */}
-        <button className="absolute top-5 right-5 z-50">
+        <button className={styles.closeBtn}>
           <Link href="/">
             <Image src="/img/close.svg" alt="LoginImg" width={30} height={30} />
           </Link>
@@ -127,6 +127,7 @@ export default function Register() {
             alt="註冊頁面插圖"
             width={372}
             height={283}
+            priority
           />
           <h1>會員註冊</h1>
         </div>

@@ -12,60 +12,114 @@ body {
     font-family: '微軟正黑體', sans-serif;
 }
 
-.pricing-container {
-    padding: 20px;
+.pricing-page {
+    display: flex;
     min-height: 100vh;
+    flex-direction: column;
+}
+
+.pricing-container {
+    display: grid;
+    width: min(1180px, calc(100% - 40px));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    flex: 1;
+    margin: 36px auto;
+    padding: clamp(22px, 4vw, 42px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.68);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(18px);
+}
+
+.pricing-heading {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+.pricing-eyebrow {
+    margin: 0 0 4px;
+    color: var(--brand);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .14em;
 }
 
 .pricing-title {
-    text-align: center;
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: clamp(28px, 4vw, 42px);
+    margin: 0;
+    color: var(--ink);
+    font-weight: 850;
+    letter-spacing: -.03em;
+}
+
+.pricing-description {
+    max-width: 620px;
+    margin: 8px auto 0;
+    color: var(--muted);
+    font-size: 15px;
 }
 
 .plan-card {
-    background-color: var(--white);
-    border-radius: 12px;
-    padding: 16px;
-    margin: 12px;
+    display: flex;
+    min-height: 430px;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    margin: 0;
     text-align: center;
     color: #333;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.plan-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
 }
 
 .plan-title {
     font-weight: bold;
-    font-size: 18px;
-    margin-top: 10px;
+    font-size: 22px;
+    margin-top: 4px;
+    line-height: 1.45;
+    text-wrap: balance;
 }
 
 .plan-subtext {
-    font-size: 12px;
+    font-size: 14px;
     color: #666;
-    margin-bottom: 10px;
+    min-height: 44px;
+    margin: 6px 0 12px;
 }
 
 .plan-price {
     font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 10px;
+    font-size: clamp(18px, 2vw, 22px);
+    margin-bottom: 18px;
+    line-height: 1.45;
+    text-wrap: balance;
 }
 
 .plan-features {
     list-style: none;
     padding: 0;
     margin: 0 0 15px 0;
-    font-size: 12px;
+    flex: 1;
+    font-size: 14px;
     color: var(--plan-text);
 }
 
 .plan-features li {
     display: flex;
-    justify-content: center; /* ✅ 整段置中 */
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 8px; /* 點點與文字間距 */
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    text-align: left;
 }
 
 .dot {
@@ -74,16 +128,35 @@ body {
     background-color: var(--plan-list);
     border-radius: 50%;
     flex-shrink: 0;
+    margin-top: .5em;
 }
 
 .plan-button {
-    background-color: var(--plan-button);
+    min-height: 46px;
+    background: linear-gradient(135deg, #5273d4, var(--brand));
     color: var(--text-white);
-    padding: 6px 20px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 20px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 14px;
+}
+
+@media (max-width: 880px) {
+    .pricing-container {
+        grid-template-columns: minmax(0, 1fr);
+        width: min(620px, calc(100% - 24px));
+        margin: 18px auto 28px;
+        padding: 18px;
+    }
+
+    .plan-card {
+        min-height: 0;
+    }
+
+    .plan-subtext {
+        min-height: 0;
+    }
 }
 
 .plan-button.disabled {

@@ -14,6 +14,55 @@
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
+/* Responsive card overrides */
+.question-settings {
+  width: min(560px, calc(100% - 24px));
+  height: auto;
+  min-height: min(620px, calc(100dvh - 48px));
+  justify-content: center;
+  gap: 28px;
+  margin: 24px auto;
+  padding: clamp(26px, 6vw, 48px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.question-settings > label {
+  color: var(--ink);
+  font-size: clamp(20px, 4vw, 26px);
+  font-weight: 800;
+}
+
+select#question-count {
+  min-height: 48px;
+  border-color: #cbd5e1;
+}
+
+.setting-row {
+  min-height: 54px;
+  padding: 0 2px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.start-button {
+  min-height: 50px;
+  background: linear-gradient(135deg, #5273d4, var(--brand));
+  box-shadow: 0 10px 22px rgba(54, 89, 184, 0.2);
+}
+
+@media (max-width: 520px) {
+  .question-settings {
+    min-height: calc(100dvh - 32px);
+    gap: 24px;
+    margin: 16px auto;
+    padding: 26px 20px;
+    border-radius: 20px;
+  }
+}
+
 select#question-count {
   padding: 10px;
   font-size: 16px;
@@ -218,5 +267,30 @@ select#question-count {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Keep this final so it wins over the legacy repeated declarations above. */
+.question-settings {
+  width: min(560px, calc(100% - 24px));
+  height: auto;
+  min-height: min(620px, calc(100dvh - 48px));
+  justify-content: center;
+  gap: 28px;
+  margin: 24px auto;
+  padding: clamp(26px, 6vw, 48px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 520px) {
+  .question-settings {
+    min-height: calc(100dvh - 32px);
+    gap: 24px;
+    margin: 16px auto;
+    padding: 26px 20px;
+    border-radius: 20px;
   }
 }

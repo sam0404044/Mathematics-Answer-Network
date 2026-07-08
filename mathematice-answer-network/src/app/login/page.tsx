@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Notice from "@/app/components/Notice";
 import Footer from "@/app/components/Footer";
+import styles from "./page.module.css";
 
 export default function Login() {
   const [showModal, setShowModal] = useState(false);
@@ -28,10 +29,8 @@ export default function Login() {
     // res.json(): 取得後端回傳的資料
     if (!res.ok) {
       const err = await res.json();
-      console.log(err);
       setMessage(err.message || "伺服器錯誤");
       setShowModal(true);
-      console.log(err);
       return;
     } else {
       setMessage("登入成功，三秒後將跳轉到首頁");
@@ -44,10 +43,10 @@ export default function Login() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <main className="relative flex flex-col items-center p-10" style={{ flex: 1 }}>
+    <div className={styles.page}>
+      <main className={styles.main}>
         {/* 關閉按鈕 */}
-        <button className="absolute top-5 right-5 z-50">
+        <button className={styles.closeBtn}>
           <Link href={"/"}>
             <Image
               src={"/img/close.svg"}
@@ -64,26 +63,27 @@ export default function Login() {
           alt="LoginImg"
           width={372}
           height={283}
+          className={styles.cover}
         ></Image>
 
         {/* 標題 */}
-        <h1 className="text-4xl text-center font-bold py-5">登入</h1>
+        <h1 className={styles.title}>登入</h1>
 
         {/* 登入表單 */}
-        <div className="w-full max-w-[372px] mx-auto">
-          <form className="bg-(--white) rounded-xl w-full  space-y-4 p-5 ">
+        <div className={styles.formBody}>
+          <form className={styles.form}>
             {/* email */}
-            <div>
+            <div className={styles.field}>
               <label
                 htmlFor=""
-                className="block text-sm text-[var(--header-text)] mb-2 font-bold"
+                className={styles.label}
               >
                 電子郵件:
               </label>
 
               <input
                 type="text"
-                className="w-full  focus:ring-2 focus:ring-[var(--header-text)] border border-[var(--header-text)] rounded-lg focus:outline-none py-1 px-1"
+                className={styles.input}
                 value={userInfo.email}
                 onChange={(e) =>
                   setUserInfo({ ...userInfo, email: e.target.value })
@@ -91,16 +91,16 @@ export default function Login() {
               />
             </div>
             {/* password */}
-            <div>
+            <div className={styles.field}>
               <label
                 htmlFor=""
-                className="block text-sm text-[var(--header-text)] mb-2 font-bold"
+                className={styles.label}
               >
                 密碼:
               </label>
               <input
                 type="password"
-                className="w-full  focus:ring-2 focus:ring-[var(--header-text)] border border-[var(--header-text)] rounded-lg focus:outline-none py-1 px-1"
+                className={styles.input}
                 value={userInfo.password}
                 onChange={(e) =>
                   setUserInfo({ ...userInfo, password: e.target.value })
@@ -108,26 +108,26 @@ export default function Login() {
               />
             </div>
             {/* 記住我、忘記密碼? */}
-            <div className="flex items-center justify-between text-sm ">
-              <label className="flex items-center space-x-2">
+            <div className={styles.options}>
+              <label className={styles.remember}>
                 <input
                   type="checkbox"
-                  className="w-4 h-4 border-[var(--header-text)]"
+                  className={styles.checkbox}
                   checked={userInfo.rememberMe}
                   onChange={(e) =>
                     setUserInfo({ ...userInfo, rememberMe: e.target.checked })
                   }
                 />
-                <span className="text-[var(--header-text)] font-bold">
+                <span>
                   記住我
                 </span>
               </label>
-              <Link href="/forgot-password" className="text-[var(--subtitle)]">
+              <Link href="/forgot-password" className={styles.forgot}>
                 忘記密碼?
               </Link>
             </div>
             <button
-              className="w-full bg-(--sign-up-btn) text-white py-2 rounded-lg font-bold"
+              className={styles.submit}
               onClick={login}
               type="button"
             >
@@ -135,7 +135,7 @@ export default function Login() {
             </button>
             <Link
               href={"/api/auth/google"}
-              className="w-full bg-[var(--log-in-btn)] text-[var(--text-btn)] py-2 rounded-lg font-bold flex items-center justify-center space-x-2"
+              className={styles.google}
             >
               <svg
                 width="20"
@@ -152,14 +152,14 @@ export default function Login() {
         </div>
 
         {/* 註冊? */}
-        <div className="max-w-[372px] mx-auto w-full">
-          <div className="flex items-center justify-between my-5">
-            <label htmlFor="" className="text-[var(--subtitle)]">
+        <div className={styles.signup}>
+          <div className={styles.signupInner}>
+            <span className={styles.muted}>
               還沒有帳號?
-            </label>
+            </span>
             <Link
               href={"/register"}
-              className="font-bold text-[var(--header-text)]"
+              className={styles.signupLink}
             >
               註冊
             </Link>

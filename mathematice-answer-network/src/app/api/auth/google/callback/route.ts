@@ -1,127 +1,103 @@
-import { NextResponse } from 'next/server';
-import pool from '@/lib/db';
-import type { ResultSetHeader } from 'mysql2';
-import jwt from 'jsonwebtoken';
+import { timingSafeEqual } from "crypto";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import pool from "@/lib/db";
+import type { ResultSetHeader } from "mysql2";
+import {
+  createSessionToken,
+  SESSION_COOKIE,
+  sessionCookieOptions,
+} from "@/lib/auth";
+import { cleanEmail } from "@/lib/validation";
+
+function equalState(left: string, right: string): boolean {
+  const leftBuffer = Buffer.from(left);
+  const rightBuffer = Buffer.from(right);
+  return (
+    leftBuffer.length === rightBuffer.length &&
+    timingSafeEqual(leftBuffer, rightBuffer)
+  );
+}
 
 export async function GET(req: Request) {
-    // 取得網址
-    const url = new URL(req.url);
-    // 取得網址中code=後續部分
-    const code = url.searchParams.get('code');
+  const requestUrl = new URL(req.url);
+  const code = requestUrl.searchParams.get("code");
+  const state = requestUrl.searchParams.get("state");
+  const savedState = (await cookies()).get("google_oauth_state")?.value;
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI;
 
-    // 檢查是否有 code
-    if (!code) {
-        return NextResponse.json(
-            { error: '缺少授權碼', message: 'Google 授權失敗，請重新嘗試' },
-            { status: 400 }
-        );
+  if (!code || !state || !savedState || !equalState(state, savedState)) {
+    return NextResponse.json({ error: "Google 授權狀態無效" }, { status: 400 });
+  }
+  if (!clientId || !clientSecret || !redirectUri) {
+    return NextResponse.json(
+      { error: "Google 登入尚未設定" },
+      { status: 503 },
+    );
+  }
+
+  try {
+    const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        code,
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uri: redirectUri,
+        grant_type: "authorization_code",
+      }),
+      cache: "no-store",
+    });
+    if (!tokenResponse.ok) throw new Error("Google token exchange failed");
+
+    const tokenData = await tokenResponse.json();
+    if (typeof tokenData.access_token !== "string") {
+      throw new Error("Google access token missing");
     }
 
-    // 檢查環境變數
-    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET || !process.env.GOOGLE_REDIRECT_URI) {
-        console.error('缺少 Google OAuth 環境變數');
-        return NextResponse.json(
-            { error: '伺服器配置錯誤', message: 'Google 登入功能未正確配置' },
-            { status: 500 }
-        );
-    }
+    const userResponse = await fetch(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+        cache: "no-store",
+      },
+    );
+    if (!userResponse.ok) throw new Error("Google user lookup failed");
 
-    // 給ResultSetHeader換個名字
-    type ExecResult = ResultSetHeader;
+    const userData = await userResponse.json();
+    const email = cleanEmail(userData.email);
+    const googleId =
+      typeof userData.sub === "string" && userData.sub.length <= 255
+        ? userData.sub
+        : null;
+    if (!email || !googleId) throw new Error("Invalid Google user data");
 
-    try {
-        // 交換token
-        // fetch google提供的端點
-        const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
-            method: 'POST',
-            // headers為google要求格式
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            // 將包含code在內的相關資訊POST給google
-            body: new URLSearchParams({
-                code,
-                client_id: process.env.GOOGLE_CLIENT_ID!,
-                client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-                redirect_uri: process.env.GOOGLE_REDIRECT_URI!,
-                grant_type: 'authorization_code',
-            }),
-        });
+    const [result] = await pool.execute<ResultSetHeader>(
+      `INSERT INTO user_info (email, google_id, last_login)
+       VALUES (?, ?, NOW())
+       ON DUPLICATE KEY UPDATE
+         google_id = VALUES(google_id),
+         last_login = NOW(),
+         id = LAST_INSERT_ID(id)`,
+      [email, googleId],
+    );
 
-        // 如果交換token失敗，就中止後續程序執行
-        if (!tokenResponse.ok) {
-            const errorData = await tokenResponse.json().catch(() => ({}));
-            console.error('Token exchange failed:', errorData);
-            throw new Error(`交換token失敗: ${errorData.error || tokenResponse.statusText}`);
-        }
-
-        // 取得access token
-        const tokenData = await tokenResponse.json();
-        const accessToken = tokenData.access_token;
-
-        // 跟google使用access token，獲取使用者資訊
-        const userResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
-
-        // 如果獲取使用者資訊失敗，就中止後續程序執行
-        if (!userResponse.ok) {
-            const errorData = await userResponse.json().catch(() => ({}));
-            console.error('User info fetch failed:', errorData);
-            throw new Error(`獲取使用者資訊失敗: ${errorData.error || userResponse.statusText}`);
-        }
-
-        // 取得email跟googleId
-        const userData = await userResponse.json();
-        const email = userData.email;
-        const googleId = userData.sub;
-
-        const nowTime = new Date(Date.now());
-
-        const [result] = await pool.execute<ExecResult>(
-            `
-            INSERT INTO user_info (email, google_id, last_login)
-            VALUES (?, ?, ?)
-            ON DUPLICATE KEY UPDATE
-              google_id  = VALUES(google_id),
-              last_login = VALUES(last_login),
-              id = LAST_INSERT_ID(id)
-            `,
-            [email, googleId, nowTime]
-        );
-
-        // 得到被修改的那筆資料的流水號id
-        const uid = result.insertId;
-
-        // 導到首頁
-        // cookie設定
-        const res = NextResponse.redirect(new URL('/', req.url));
-        // 加密
-        const token = jwt.sign({ method: 'google', uid }, process.env.JWT_SECRET!, {
-            expiresIn: '1h',
-        });
-
-        // cookie設定
-        res.cookies.set({
-            name: 'login_data', // Cookie 名稱
-            value: token, // 把uid轉成字串
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            path: '/', // 全域生效
-        });
-
-        return res;
-
-        // 如果驗證失敗
-    } catch (error) {
-        console.error('登入失敗:', error);
-        return NextResponse.json(
-            // typescript中error默認為unknown，需要轉換
-            { error: '失敗', message: (error as Error).message },
-            { status: 400 }
-        );
-    }
+    const response = NextResponse.redirect(new URL("/", req.url), 303);
+    response.cookies.set(
+      SESSION_COOKIE,
+      createSessionToken({ method: "google", uid: result.insertId }),
+      sessionCookieOptions(),
+    );
+    response.cookies.set("google_oauth_state", "", { path: "/", maxAge: 0 });
+    return response;
+  } catch (error) {
+    console.error("[Google Login Error]", error);
+    return NextResponse.json(
+      { error: "Google 登入失敗，請稍後再試" },
+      { status: 502 },
+    );
+  }
 }

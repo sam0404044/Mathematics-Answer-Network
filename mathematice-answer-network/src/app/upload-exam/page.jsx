@@ -78,7 +78,7 @@ export default function UploadExam() {
         setMessage(result.error || "上傳失敗，請稍後再試");
         setShowModal(true);
       }
-    } catch (error) {
+    } catch {
       setMessage("上傳失敗，請稍後再試");
       setShowModal(true);
     } finally {

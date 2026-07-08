@@ -1,12 +1,19 @@
 .btn {
-  background-color: var(--answering-background-btn);
-  color: var(--answering-text-btn);
+  background: linear-gradient(135deg, #ffd258, #ffbd1f);
+  color: #17213a;
   text-align: center;
   width: 100%;
-  min-height: 40px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 16px;
-  padding: 10px 0;
+  min-height: 54px;
+  border-radius: 14px;
+  box-shadow: 0 10px 22px rgba(220, 160, 0, 0.22);
+  font-weight: 800;
+  font-size: 17px;
+  padding: 12px 20px;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(220, 160, 0, 0.28);
 }

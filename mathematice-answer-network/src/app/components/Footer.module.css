@@ -1,9 +1,10 @@
 .footer {
-  background-color: var(--footer-background);
-  color: var(--footer-text);
+  background: #071226;
+  color: #aeb9ce;
   text-align: center;
-  padding: 10px 0;
+  padding: 18px 20px;
   font-size: 12px;
+  letter-spacing: 0.02em;
   width: 100%;
   margin-top: auto;
   flex-shrink: 0;

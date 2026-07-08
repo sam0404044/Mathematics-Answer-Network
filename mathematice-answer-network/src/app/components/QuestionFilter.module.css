@@ -3,26 +3,32 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 220px;
-  background-color: var(--question-filter);
+  height: auto;
+  max-height: min(78dvh, 580px);
+  overflow-y: auto;
+  background: rgba(247, 249, 255, 0.98);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
   z-index: 999;
 }
 
 .overlay {
   left: 0;
-  top: 220px;
-  height: calc(100vh - 220px);
+  top: 0;
+  height: 100dvh;
   width: 100%;
   position: fixed;
   background-color: var(--bar-overlay);
-  z-index: 999;
+  z-index: 998;
 }
 
 .checkboxContainer {
-  height: 150px;
+  height: auto;
+  min-height: 120px;
   margin-top: 30px;
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
+  justify-content: center;
   gap: 10px;
   align-items: center;
 }
@@ -30,12 +36,25 @@
 .btn {
   background-color: var(--background-btn);
   color: var(--text-btn);
-  width: calc(100vw - 40px);
-  border-radius: 10px;
-  min-height: 40px;
+  width: min(560px, calc(100vw - 32px));
+  border-radius: 12px;
+  min-height: 46px;
 
   cursor: pointer;
   margin: 10px auto 30px auto;
+}
+
+@media (max-width: 520px) {
+  .checkboxContainer {
+    align-items: flex-start;
+    padding: 0 18px;
+    justify-content: flex-start;
+  }
+
+  .checkbox {
+    min-width: calc(50% - 10px);
+    font-size: 14px;
+  }
 }
 
 .checkbox {

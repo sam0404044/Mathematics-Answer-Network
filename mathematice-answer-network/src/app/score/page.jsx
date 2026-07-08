@@ -110,8 +110,8 @@ class score extends Component {
         newState.id = jwt_uid
         newState.time_spent = data.score_now.cost_time
         newState.questionbank.questions = question_fetch.questions
-        newState.answer_status = data.score_now.answer_info.answer_info.map((x, index) => x.answer)
-        newState.explanation = newState.answer_status.map(x => "")
+        newState.answer_status = data.score_now.answer_info.answer_info.map((x) => x.answer)
+        newState.explanation = newState.answer_status.map(() => "")
 
         newState.questionbank.questions.forEach(x => {
           function translate_letter_to_number(letter) {
@@ -162,24 +162,14 @@ class score extends Component {
       window.MathJax.typesetPromise();
     }
   }
-  chooseScoreBackgroundImg = () => {
-    let getScore = this.calculateScore()
+  chooseScoreBackground = () => {
+    const getScore = this.calculateScore()
     if (getScore < 50) {
-      return "./img/score_area_background_yellow.svg"
+      return "radial-gradient(circle at 24% 18%, rgba(255,255,255,.3), transparent 30%), linear-gradient(145deg, #f6b73c 0%, #e88924 52%, #c8682b 100%)"
     } else if (50 <= getScore && getScore <= 80) {
-      return "./img/score_area_background_green.svg"
+      return "radial-gradient(circle at 22% 16%, rgba(255,255,255,.28), transparent 30%), linear-gradient(145deg, #34c88a 0%, #169f78 52%, #08776f 100%)"
     } else {
-      return "./img/score_area_background_blue.svg"
-    }
-  }
-  chooseScoreBackgroundColor = () => {
-    let getScore = this.calculateScore()
-    if (getScore < 50) {
-      return "#D5981E"
-    } else if (50 <= getScore && getScore <= 80) {
-      return "#26A25F"
-    } else {
-      return "#0A7EDC"
+      return "radial-gradient(circle at 22% 16%, rgba(255,255,255,.3), transparent 30%), linear-gradient(145deg, #5b8cff 0%, #3868dc 48%, #5548bd 100%)"
     }
   }
   showContent = (index) => {
@@ -232,7 +222,6 @@ class score extends Component {
     if (data) {
       newstate.explanation[this.state.now_solution.index] = data.status.solution[0].explanation
     }
-    console.log(data.status.solution[0])
     newstate.to_get_solution_status = false
     this.setState(newstate)
   }
@@ -245,6 +234,7 @@ class score extends Component {
               className='star_img'
               key={idx}
               src={"./img/star.svg"}
+              alt=""
               width={star.width}
               height={star.height}
               style={{ left: star.left, top: star.top, animationDelay: star.animation_delay }}
@@ -278,7 +268,6 @@ class score extends Component {
     this.setState(newstate)
   }
   display_option = (qidx, opidx) => {
-    console.log()
     return (
       this.state.questionbank.questions[qidx].options[opidx - 1]
     )
@@ -347,15 +336,7 @@ class score extends Component {
             </div>
           </div>
           <div className='main'>
-            <div className='score_display_area' style={{ backgroundColor: this.chooseScoreBackgroundColor() }}>
-              <Image
-                className='score_display_img'
-                src={this.chooseScoreBackgroundImg()}
-                width={412}
-                height={412}
-                alt='this is background'
-                priority={true}
-              />
+            <div className='score_display_area' style={{ background: this.chooseScoreBackground() }}>
               <div className='star_display_area'>
                 {(this.calculateScore() > 80) ? this.star_display() : ""}
               </div>
@@ -392,9 +373,9 @@ class score extends Component {
                         <span className={'question_topic_text ' + (this.state.show_status[idx] ? "topic_text_choosed" : "topic_text_not_choosed")}>{x.localIndex + 1}. {x.question}</span>
                       </div>
                       <div className={'dropDown_content ' + (this.state.show_status[idx] ? "dropDown_content_visible" : "dropDown_content_disable")}>
-                        <div className='answer_row right_answer'>正確答案:<br />{x.answer.map(y => <div>{`(${y}) ` + this.display_option(x.localIndex, y)} <br /></div>)}</div>
+                        <div className='answer_row right_answer'>正確答案:<br />{x.answer.map(y => <div key={y}>{`(${y}) ` + this.display_option(x.localIndex, y)} <br /></div>)}</div>
                         <br />
-                        <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[x.localIndex].length == 0 ? "未作答" : this.state.answer_status[x.localIndex].map(y => <div> {`(${y}) ` + this.display_option(x.localIndex, y)}<br /></div>)}</div>
+                        <div className='answer_row your_answer'>你的答案:<br />{this.state.answer_status[x.localIndex].length == 0 ? "未作答" : this.state.answer_status[x.localIndex].map(y => <div key={y}> {`(${y}) ` + this.display_option(x.localIndex, y)}<br /></div>)}</div>
                         <br /><br />
                         <div className='solution_area'>
                           <button style={{display:(this.state.explanation[idx] ? "none" : "inline-block" )}} className='solution_link' onClick={() => { this.show_solution_menu(x.uid, idx) }}>

@@ -1,45 +1,46 @@
-import pool from '@/lib/db';
-import { NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import type { RowDataPacket } from 'mysql2';
+import pool from "@/lib/db";
+import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import { cleanEmail, cleanText, positiveInteger, validPassword } from "@/lib/validation";
+import { isRateLimited } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
-    const {
-        userName,
-        userEmail,
-        userPwd,
-        userSchool,
-        userGrade,
-        userGender,
-    } = await req.json();
+  if (isRateLimited(req, "register", 5, 60 * 60 * 1000)) {
+    return NextResponse.json({ error: "註冊嘗試過於頻繁" }, { status: 429 });
+  }
 
-    try {
-        const [rows] = await pool.query<RowDataPacket[]>(
-            'SELECT id FROM user_info WHERE email = ?',
-            [userEmail]
-        );
+  const body = await req.json().catch(() => null);
+  const username = cleanText(body?.userName, { min: 2, max: 50 });
+  const email = cleanEmail(body?.userEmail);
+  const password = body?.userPwd;
+  const school = cleanText(body?.userSchool, { max: 100 });
+  const grade = positiveInteger(body?.userGrade, 12);
+  const gender = cleanText(body?.userGender, { max: 20 });
+  if (!username || !email || !validPassword(password) || !school || !grade || !gender) {
+    return NextResponse.json(
+      { error: "請完整填寫資料；密碼需為 8–128 字元並包含英文及數字" },
+      { status: 400 },
+    );
+  }
 
-        if (rows.length > 0) {
-            return NextResponse.json({ error: '此 Email 已存在' }, { status: 400 });
-        }
-
-        const passwordHash = await bcrypt.hash(userPwd, 10);
-
-        await pool.query(
-            `INSERT INTO user_info 
-            (username, email, password_hash, grade, school, gender, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [userName, userEmail, passwordHash, userGrade, userSchool, userGender, 'pending']
-        );
-
-        return NextResponse.json({ message: '註冊成功' });
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            console.error('[Register Error]', err.message);
-        } else {
-            console.error('[Register Unknown Error]', err);
-        }
-        
-    return NextResponse.json({ error: '伺服器錯誤' }, { status: 500 });
+  try {
+    const passwordHash = await bcrypt.hash(password, 12);
+    await pool.query(
+      `INSERT INTO user_info
+         (username, email, password_hash, grade, school, gender, status)
+       VALUES (?, ?, ?, ?, ?, ?, 'active')`,
+      [username, email, passwordHash, grade, school, gender],
+    );
+    return NextResponse.json({ message: "註冊成功" }, { status: 201 });
+  } catch (error: unknown) {
+    const code =
+      typeof error === "object" && error && "code" in error
+        ? String(error.code)
+        : "";
+    if (code === "ER_DUP_ENTRY") {
+      return NextResponse.json({ error: "此 Email 已註冊" }, { status: 409 });
     }
+    console.error("[Register Error]", error);
+    return NextResponse.json({ error: "註冊服務暫時無法使用" }, { status: 503 });
+  }
 }

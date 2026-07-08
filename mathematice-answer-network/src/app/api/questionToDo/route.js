@@ -1,54 +1,21 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/db";
-import jwt from "jsonwebtoken"
+import { getSessionUser } from "@/lib/auth";
 
+export async function POST(req) {
+  const session = await getSessionUser();
+  if (!session) return NextResponse.json({ error: "未登入" }, { status: 401 });
 
-
-export async function POST(
-  req,
-
-) {
-
-
-
-
-  const { userid, mode } = await req.json()
-
-
-
+  const body = await req.json().catch(() => ({}));
+  const column = Number(body.mode) === 3 ? "wrong_question_set" : "score_now";
   try {
-
-
-    let quiz_status
-    switch (mode) {
-      // case 1:
-      //   quiz_status = "last_quiz"
-      //   break;
-
-      case 2:
-        quiz_status = "score_now"
-        break;
-
-      case 3:
-        quiz_status = "wrong_question_set"
-        break;
-
-      default:
-        quiz_status = "score_now"
-        break;
-    }
-    
-
-    
     const [records] = await db.query(
-      `SELECT ${quiz_status} from user_score_status WHERE userid = ?`,
-      [jwt.decode(userid).uid]
+      `SELECT ${column} FROM user_score_status WHERE userid = ?`,
+      [session.uid],
     );
-
-
     return NextResponse.json({ question_record: records });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Database error" }, { status: 500 });
+  } catch (error) {
+    console.error("[Question To Do Error]", error);
+    return NextResponse.json({ error: "服務暫時無法使用" }, { status: 503 });
   }
 }

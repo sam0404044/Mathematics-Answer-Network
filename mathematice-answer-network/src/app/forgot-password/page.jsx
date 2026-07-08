@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
@@ -12,7 +11,6 @@ export default function ForgotPassword() {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
-  const router = useRouter();
 
   const handleSendResetEmail = async () => {
     let errorMessage = "";
@@ -28,7 +26,7 @@ export default function ForgotPassword() {
       if (!data.exists) {
         errorMessage = "此 Email 尚未註冊過";
       }
-    } catch (err) {
+    } catch {
       errorMessage = "Email 驗證失敗，請稍後再試";
     }
 
@@ -57,7 +55,7 @@ export default function ForgotPassword() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <div className={styles.pageWrapper} style={{ flex: 1 }}>
         {/* 關閉按鈕 */}
-        <button className="absolute top-5 right-5 z-50">
+        <button className={styles.closeBtn}>
           <Link href={"/"}>
             <Image src="/img/close.svg" alt="LoginImg" width={30} height={30} />
           </Link>
@@ -70,6 +68,7 @@ export default function ForgotPassword() {
             alt="忘記密碼頁面"
             width={372}
             height={283}
+            priority
           />
           <h1>忘記密碼</h1>
         </div>

@@ -169,3 +169,140 @@ span.record_answer_status_text {
     font-size: 24px;
     font-weight: bold;
 }
+
+/* Responsive redesign */
+div.main {
+    width: min(900px, calc(100% - 32px));
+    max-width: 900px !important;
+    margin: clamp(20px, 4vw, 44px) auto;
+    padding: clamp(18px, 4vw, 36px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.64);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(16px);
+}
+
+div.title_area,
+div.area_default {
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+}
+
+span.title_text,
+span.text_display_wrong_question_collection,
+span.answer_history_area_title_text {
+    color: var(--ink);
+    font-size: clamp(24px, 4vw, 34px);
+}
+
+div.tree_area {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, .9fr);
+    align-items: center;
+    gap: 24px;
+}
+
+div.tree_status_text_area {
+    border: 0;
+    padding: 20px;
+}
+
+span.tree_status_text,
+div.text_wrong_question_collection,
+div.wrong_question_collection_number,
+span.record_date_text,
+span.record_answer_status_text {
+    color: var(--ink);
+    font-size: clamp(16px, 2.5vw, 22px);
+}
+
+div.tree_status_img_area {
+    min-height: 320px;
+}
+
+div.wrong_answer_record_area {
+    height: auto;
+    min-height: 310px;
+    gap: 24px;
+}
+
+div.wrong_question_collection_area,
+div.answer_history_content {
+    border-color: var(--border);
+    background: var(--surface-muted);
+}
+
+a.improve_button {
+    display: flex;
+    padding: 14px 20px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #5273d4, var(--brand));
+    box-shadow: 0 10px 22px rgba(54, 89, 184, 0.2);
+}
+
+span.improve_button_text {
+    font-size: 18px;
+}
+
+div.answer_history_area {
+    gap: 22px;
+}
+
+div.answer_history_content_record {
+    padding: 18px;
+}
+
+div.record_not_last {
+    border-color: var(--border);
+}
+
+@media (max-width: 700px) {
+    div.main {
+        width: calc(100% - 24px);
+        margin: 14px auto 24px;
+        padding: 12px;
+        border-radius: 20px;
+    }
+
+    div.area_default {
+        margin-block: 14px;
+        padding: 18px 14px;
+        border-radius: 16px;
+    }
+
+    div.tree_area {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    div.tree_status_img_area {
+        min-height: 270px;
+        overflow: hidden;
+    }
+
+    img.tree_status_tree {
+        width: min(240px, 78vw);
+    }
+
+    img.tree_status_flower_pot {
+        width: min(205px, 66vw);
+    }
+
+    div.wrong_question_collection_area {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    div.text_wrong_question_collection,
+    div.wrong_question_collection_number {
+        margin: 10px;
+    }
+
+    div.answer_history_content_record {
+        padding: 16px 10px;
+        text-align: center;
+    }
+}

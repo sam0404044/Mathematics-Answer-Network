@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import '../style.css';
 import Image from 'next/image';
-import Link from 'next/link';
 import Footer from '@/app/components/Footer';
 import { loginOrNot } from '../../../lib/checkCookie';
 import { redirect } from 'next/navigation'
@@ -57,14 +56,6 @@ class quiz extends Component {
   // 這裡fetch題庫資料跟開始計時
   componentDidMount = async () => {
     let jwt_uid = await loginOrNot()
-    function compare_array(a, b) {
-      return a?.sort().toString() == b?.sort().toString()
-    }
-    this.state.timeCount_display = this.spend_time_toString(
-      this.state.time_limit
-    );
-
-
     const { year } = await this.props.params;
 
     let json
@@ -131,12 +122,14 @@ class quiz extends Component {
     //   }
     // }
     let newState = { ...mydata.newstate };
+    newState.timeCount_display = this.spend_time_toString(
+      newState.time_limit
+    );
     if (year == "random") {
       newState.quiz = json.questions;
     } else {
       newState.quiz = await convertdata(json);
     }
-    console.log(newState.quiz)
     newState.status = await json.questions.map(() => []);
     newState.id = jwt_uid
 
@@ -156,33 +149,34 @@ class quiz extends Component {
       window.MathJax.typesetPromise();
     }
   }
-  setMyInterval = (event) => {
+  setMyInterval = () => {
     if (this.state.mytimeid) {
       clearInterval(this.state.mytimeid);
     }
-    this.state.mytimeid = setInterval(() => {
-      this.state.time_count += 1;
-      if (this.state.time_count > this.state.time_limit) {
-        this.state.time_over = true
-        this.state.timeCount_display = this.spend_time_toString(
-          this.state.time_count - this.state.time_limit
-        );
-      } else {
-        this.state.timeCount_display = this.spend_time_toString(
-          this.state.time_limit - this.state.time_count
-        );
-      }
-      this.setState(this.state);
+    const mytimeid = setInterval(() => {
+      this.setState((previous) => {
+        const time_count = previous.time_count + 1;
+        const time_over = time_count > previous.time_limit;
+        return {
+          time_count,
+          time_over,
+          timeCount_display: this.spend_time_toString(
+            time_over
+              ? time_count - previous.time_limit
+              : previous.time_limit - time_count
+          ),
+        };
+      });
     }, 1000);
+    this.setState({ mytimeid });
   };
   spend_time_toString = (time) => {
     let time_minutes = ("0" + Math.floor(time / 60)).substr(-2, 2);
     let time_seconds = ("0" + (time % 60)).substr(-2, 2);
     return `${time_minutes}:${time_seconds}`;
   };
-  add = (event) => {
+  add = () => {
     if (this.state.index == this.state.quiz.length - 1) {
-      console.log("now submit");
       this.commit_quiz_or_not();
       return;
     }
@@ -194,9 +188,8 @@ class quiz extends Component {
 
     this.setState(newstate);
   };
-  sub = (event) => {
+  sub = () => {
     if (this.state.index == 0) {
-      console.log("already top");
       return;
     }
     let newstate = { ...this.state };
@@ -211,7 +204,6 @@ class quiz extends Component {
     let newstate = { ...this.state };
     newstate.status[this.state.index] = [index];
     this.setState(newstate);
-    console.log(newstate.status);
   };
   choose_mutiple = (index) => {
 
@@ -229,7 +221,6 @@ class quiz extends Component {
       }
     }
     this.setState(newstate);
-    console.log(newstate.status);
   };
   question_type_depend = (index) => {
     switch (this.state.quiz[this.state.index].question_type) {
@@ -266,7 +257,6 @@ class quiz extends Component {
     let newstate = { ...this.state };
     newstate.exit_menu_status = newstate.exit_menu_status ? false : true;
     this.setState(newstate);
-    console.log(newstate.exit_menu_status);
   };
   commit_quiz_or_not = () => {
     let newstate = { ...this.state };
@@ -297,82 +287,19 @@ class quiz extends Component {
     return html_element
   }
   export_answer_data = () => {
-    function compare_array(a, b) {
-      return a.sort().toString() == b.sort().toString()
-    }
-    function translate_letter_to_number(letter) {
-      if (Array.isArray(letter)) {
-        return letter
-      }
-      switch (letter) {
-        case "A":
-        case "1":
-        case 1:
-          return [1];
-        case "B":
-        case "2":
-        case 2:
-          return [2];
-        case "C":
-        case "3":
-        case 3:
-          return [3];
-        case "D":
-        case "4":
-        case 4:
-          return [4];
-        case "E":
-        case "5":
-        case 5:
-          return [5];
-        default:
-          return [letter];
-
-      }
-    }
-    let answer = {
-      "answer_info":
-        [{
-          "uid": 1,
-          "answer": [2],
-          "right_answer": [2]
-        },
-        ], "answer_status":
-        { "total": 2, "correct": 1 }
-    }
-    let correct_n = this.state.quiz.filter((question, idx) => {
-      return compare_array(this.state.status[idx], translate_letter_to_number(question.answer))
-    })
-    answer.answer_info = this.state.quiz.map((question, idx) => {
-      return ({
-        "uid": question.id,
-        "answer": this.state.status[idx],
-        "right_answer": translate_letter_to_number(question.answer)
-      })
-    })
-    answer.answer_status = {
-      "total": this.state.quiz.length,
-      "correct": correct_n.length
-    }
-    return answer
+    return {
+      answer_info: this.state.quiz.map((question, idx) => ({
+        uid: question.id,
+        answer: this.state.status[idx],
+      })),
+    };
   }
-  submit_quiz = () => {
+  submit_quiz = async () => {
     if (this.state.commit_status) {
-      let answer = {
-        "answer_info":
-          [{
-            "uid": 1,
-            "answer": [2],
-            "right_answer": [2]
-          },
-          ], "answer_status":
-          { "total": 2, "correct": 1 }
-      }
-
-      fetch("../api/quizSubmit", {
+      const response = await fetch("../api/quizSubmit", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userid: this.state.id,
           cost_time: this.state.time_count,
           answer: this.export_answer_data(),
           question_bank: decodeURI(this.state.question_bank),
@@ -380,7 +307,12 @@ class quiz extends Component {
         }
         )
       })
-
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        alert(data.error || "交卷失敗，請稍後再試");
+        return;
+      }
+      window.location.href = "/score";
     }
   }
   get_question = async (quiz_type, jwt_uid) => {
@@ -413,12 +345,10 @@ class quiz extends Component {
         }).then(res => {
           return res?.json();
         })
-        console.log(data.question_record[0].score_now)
         const data3 = await data.question_record[0].score_now
         
         
         let wrong_question = await data3?.answer_info.answer_info?.filter(x => !compare_array(x.answer, x.right_answer))
-        // console.log(wrong_question)
         
         if (wrong_question?.length == 0 || !wrong_question) {
           alert("沒有題目需要複習");
@@ -502,12 +432,15 @@ class quiz extends Component {
                   : "確定要未交卷離開嗎?"}
               </div>
               <div className="leave_menu_button_area">
-                <button className="leave_menu_button">
-                  {
-                    <Link onNavigate={() => { this.submit_quiz() }} href={this.state.commit_status ? "/score" : "/"}>
-                      {this.state.commit_status ? "確定交卷" : "確定離開"}
-                    </Link>
+                <button
+                  className="leave_menu_button"
+                  onClick={
+                    this.state.commit_status
+                      ? this.submit_quiz
+                      : () => { window.location.href = "/" }
                   }
+                >
+                  {this.state.commit_status ? "確定交卷" : "確定離開"}
                 </button>
                 <button
                   className="leave_menu_button"

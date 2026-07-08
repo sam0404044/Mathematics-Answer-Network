@@ -8,7 +8,6 @@ import NavBar from '../components/NavBar';
 import Link from 'next/link';
 import '../../lib/checkCookie';
 import { loginOrNot } from '../../lib/checkCookie';
-import { redirect } from 'next/navigation'
 import { AuthContext} from "../context/AuthContext";
 
 class record  extends Component{
@@ -28,7 +27,6 @@ class record  extends Component{
         ],
     };
     componentDidMount = async () => {
-        console.log(this.context)
         
         let jwt_uid = await loginOrNot();
         let newstate = { ...this.state };
@@ -127,6 +125,7 @@ class record  extends Component{
                                     width={285}
                                     height={285}
                                     alt='tree'
+                                    priority
                                 />
                                 <Image
                                     className='tree_status_flower_pot'
@@ -134,6 +133,7 @@ class record  extends Component{
                                     width={240}
                                     height={240}
                                     alt='flower_pot'
+                                    priority
                                 />
                             </div>
                         </div>

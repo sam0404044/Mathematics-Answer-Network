@@ -1,10 +1,11 @@
 import styles from "./About.module.css";
+import Image from "next/image";
 
 export default function About() {
   return (
     <article className={styles.about}>
       <div className={styles.container}>
-        <img src="/img/hero-img.png" className={styles.img} />
+        <Image src="/img/hero-img.png" className={styles.img} width={1536} height={1024} alt="數學學習插圖" priority />
       </div>
       <h1 className={styles.h1}>關於我們</h1>
       <p className={styles.p}>

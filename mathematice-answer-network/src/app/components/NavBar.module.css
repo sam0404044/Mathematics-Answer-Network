@@ -1,23 +1,26 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  min-height: 70px;
+  align-items: center;
+  padding: 10px clamp(14px, 4vw, 48px);
+  min-height: 72px;
   position: sticky;
   top: 0;
-  background-color: var(--white);
-  box-shadow: 0 2px 3px rgba(198, 198, 198, 0.758);
-  z-index: 999;
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 8px 28px rgba(24, 51, 117, 0.08);
+  backdrop-filter: blur(18px);
+  z-index: 1001;
   width: 100%;
 }
 .navbarcomponent {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: clamp(8px, 2vw, 16px);
 }
 
 .active {
-  background-color: var(--bar-background);
+  background: rgba(13, 29, 71, 0.96);
 }
 
 /*  */
@@ -29,7 +32,12 @@
 }
 
 .username {
-  font-size: 16px;
+  max-width: min(36vw, 360px);
+  overflow: hidden;
+  color: #2f7a4a;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: center;
   color: var(--plan-list);
   padding: 10px 0;
@@ -60,7 +68,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding: 0 100px;
+  padding: 6px 18px 24px;
   overflow-y: auto;
   max-height: 250px;
 }
@@ -78,25 +86,27 @@
 
 .overlay {
   left: 0;
-  top: 370px;
-  height: calc(100vh - 370px);
+  top: 72px;
+  height: calc(100vh - 72px);
   width: 100%;
   position: fixed;
   background-color: var(--bar-overlay);
-  z-index: 999;
+  z-index: 998;
 }
 
 .menu-box {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
+  width: min(390px, 92vw);
+  height: calc(100dvh - 72px);
   min-height: 300px;
   padding: 20px;
-  background-color: var(--menu-background);
+  background: linear-gradient(160deg, #13295d 0%, #07152f 100%);
   position: fixed;
-  top: 70px;
-  z-index: 999;
+  top: 72px;
+  z-index: 1000;
+  box-shadow: 24px 0 60px rgba(2, 10, 30, 0.32);
 }
 
 /* 上傳考卷圖標改為白色 */
@@ -108,4 +118,35 @@
 .uploadLink:hover svg {
   stroke: var(--icon-hover);
   color: var(--icon-hover);
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    min-height: 64px;
+    padding: 8px 12px;
+  }
+
+  .navbarcomponent {
+    gap: 8px;
+  }
+
+  .username {
+    display: none;
+  }
+
+  .menu-box {
+    top: 64px;
+    width: min(340px, 88vw);
+    height: calc(100dvh - 64px);
+    padding: 14px;
+  }
+
+  .overlay {
+    top: 64px;
+    height: calc(100dvh - 64px);
+  }
+
+  .option {
+    padding-inline: 12px;
+  }
 }

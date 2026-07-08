@@ -90,7 +90,7 @@ function ResetPasswordForm() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <div className={styles.pageWrapper} style={{ flex: 1 }}>
         {/* 關閉按鈕 */}
-        <button className="absolute top-5 right-5 z-50">
+        <button className={styles.closeBtn}>
           <Link href={"/"}>
             <Image src="/img/close.svg" alt="LoginImg" width={30} height={30} />
           </Link>
@@ -102,6 +102,7 @@ function ResetPasswordForm() {
             alt="重設密碼頁面"
             width={372}
             height={283}
+            priority
           />
           <h1>重新設定密碼</h1>
         </div>

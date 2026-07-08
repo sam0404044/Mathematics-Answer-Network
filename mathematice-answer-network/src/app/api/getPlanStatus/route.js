@@ -1,40 +1,27 @@
-// app/api/getPlanStatus/route.js
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import db from "@/lib/db"; // 你自訂的 MySQL 或 SQLite 連線工具
+import db from "@/lib/db";
+import { getSessionUser } from "@/lib/auth";
 
 export async function GET() {
-  const cookieStore = cookies();
-  const userId = cookieStore.get("gooogle session XXXXX")?.value;
-
-  // ✅ 未登入情況
-  if (!userId || GID) {
-    return NextResponse.json({
-      plan_status: 0,
-      points: 0,
-    });
+  const session = await getSessionUser();
+  if (!session) {
+    return NextResponse.json({ plan_status: 0, points: 0 }, { status: 401 });
   }
 
   try {
-    // ✅ 查詢資料庫
     const [rows] = await db.query(
       "SELECT plan_status, points FROM user_info WHERE id = ? LIMIT 1",
-      [userId]
+      [session.uid],
     );
-
-    if (rows.length === 0) {
-      // 找不到會員
-      return NextResponse.json({ plan_status: 0, points: 0 });
+    if (!rows[0]) {
+      return NextResponse.json({ plan_status: 0, points: 0 }, { status: 404 });
     }
-
-    const { plan_status, points } = rows[0];
-
     return NextResponse.json({
-      plan_status,
-      points,
+      plan_status: Number(rows[0].plan_status || 0),
+      points: Number(rows[0].points || 0),
     });
-  } catch (err) {
-    console.error("❌ 查詢失敗：", err);
-    return NextResponse.json({ error: "server error" }, { status: 500 });
+  } catch (error) {
+    console.error("[Plan Status Error]", error);
+    return NextResponse.json({ error: "服務暫時無法使用" }, { status: 503 });
   }
 }

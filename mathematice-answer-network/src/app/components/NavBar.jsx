@@ -28,8 +28,15 @@ export default function NavBar() {
           <div className={styles.navbarcomponent}>
             {!isActive && (
               <>
-                <h1 className={styles.username}>歡迎回來: {user.username ? user.username : user.email}</h1>
-                <SignUpLoginBtn type={"log-in"} isActive={isActive} isLogin={isLogin} setIsLogin={setIsLogin}>
+                <h1 className={styles.username}>
+                  歡迎回來: {user.username ? user.username : user.email}
+                </h1>
+                <SignUpLoginBtn
+                  type={"log-in"}
+                  isActive={isActive}
+                  isLogin={isLogin}
+                  setIsLogin={setIsLogin}
+                >
                   登出
                 </SignUpLoginBtn>
               </>
@@ -37,10 +44,18 @@ export default function NavBar() {
           </div>
         ) : (
           <div className={styles.navbarcomponent}>
-            <SignUpLoginBtn type={"sign-up"} route={"/register"} isActive={isActive}>
+            <SignUpLoginBtn
+              type={"sign-up"}
+              route={"/register"}
+              isActive={isActive}
+            >
               註冊
             </SignUpLoginBtn>
-            <SignUpLoginBtn type={"log-in"} route={"/login"} isActive={isActive}>
+            <SignUpLoginBtn
+              type={"log-in"}
+              route={"/login"}
+              isActive={isActive}
+            >
               登入
             </SignUpLoginBtn>
           </div>
@@ -51,25 +66,37 @@ export default function NavBar() {
           <div className={styles["menu-box"]}>
             <h1 className={styles.h1}>學生專區</h1>
             <div className={styles.option}>
-              <Link href={`${isLogin ? "/question-bank" : "/login"}`} className={styles.link}>
+              <Link
+                href={`${isLogin ? "/question-bank" : "/login"}`}
+                className={styles.link}
+              >
                 <QuestionBankIcon />
-                <button className={styles.btn}>歷年考古題</button>
+                <span className={styles.btn}>歷年考古題</span>
               </Link>
               <Link href="/pricing-plan" className={styles.link}>
                 <PlanIcon />
-                <button className={styles.btn}>我的方案</button>
+                <span className={styles.btn}>我的方案</span>
               </Link>
-              <Link href={`${isLogin ? "/record" : "/login"}`} className={styles.link}>
+              <Link
+                href={`${isLogin ? "/record" : "/login"}`}
+                className={styles.link}
+              >
                 <StudyGuidesIcon />
-                <button className={styles.btn}>個人紀錄</button>
+                <span className={styles.btn}>個人紀錄</span>
               </Link>
-              <Link href={`${isLogin ? "/upload-exam" : "/login"}`} className={`${styles.link} ${styles.uploadLink}`}>
+              <Link
+                href={`${isLogin ? "/upload-exam" : "/login"}`}
+                className={`${styles.link} ${styles.uploadLink}`}
+              >
                 <UploadIcon />
-                <button className={styles.btn}>上傳考卷</button>
+                <span className={styles.btn}>上傳考卷</span>
               </Link>
             </div>
           </div>
-          <div className={styles.overlay} onClick={() => setIsActive((isActive) => !isActive)}></div>
+          <div
+            className={styles.overlay}
+            onClick={() => setIsActive((isActive) => !isActive)}
+          ></div>
         </>
       ) : (
         ""

@@ -1,0 +1,187 @@
+.page {
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+}
+
+.main {
+  position: relative;
+  display: flex;
+  width: min(100%, 520px);
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  padding: clamp(28px, 5vw, 56px) 24px;
+}
+
+.closeBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 50;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(7, 18, 38, 0.84);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.closeBtn:hover {
+  transform: rotate(6deg) scale(1.04);
+}
+
+.cover {
+  width: min(100%, 340px);
+  height: auto;
+  margin-bottom: 4px;
+}
+
+.title {
+  margin: 0 0 18px;
+  color: var(--ink);
+  font-size: clamp(30px, 5vw, 40px);
+  font-weight: 850;
+  letter-spacing: 0.04em;
+}
+
+.formBody,
+.signup {
+  width: min(100%, 400px);
+}
+
+.form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 18px;
+  padding: clamp(22px, 5vw, 30px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.label {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px rgba(54, 89, 184, 0.12);
+}
+
+.options,
+.signupInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 650;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brand);
+}
+
+.forgot,
+.signupLink {
+  color: var(--brand);
+  font-weight: 750;
+}
+
+.submit,
+.google {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit {
+  background: linear-gradient(135deg, #5273d4, var(--brand));
+  box-shadow: 0 9px 18px rgba(54, 89, 184, 0.2);
+}
+
+.google {
+  background: var(--brand-dark);
+}
+
+.submit:hover,
+.google:hover {
+  transform: translateY(-2px);
+}
+
+.signup {
+  padding: 20px 4px 0;
+}
+
+.muted {
+  color: var(--ink-muted);
+}
+
+@media (max-width: 520px) {
+  .main {
+    justify-content: flex-start;
+    padding: 24px 16px 32px;
+  }
+
+  .closeBtn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+  }
+
+  .cover {
+    width: min(78vw, 270px);
+    margin-top: 12px;
+  }
+
+  .title {
+    margin-bottom: 14px;
+  }
+
+  .form {
+    gap: 15px;
+    padding: 20px 18px;
+    border-radius: 18px;
+  }
+}

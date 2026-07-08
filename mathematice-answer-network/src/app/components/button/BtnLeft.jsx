@@ -5,7 +5,7 @@ export default function BtnLeft({ isFirstPage, curPage, goToPage }) {
     <button
       className={`${styles.btn} ${isFirstPage ? styles.disactive : ""} `}
       onClick={() => {
-        !isFirstPage && goToPage(curPage - 1);
+        if (!isFirstPage) goToPage(curPage - 1);
       }}
     >
       <svg xmlns="http://www.w3.org/2000/svg" className={styles.icon} viewBox="0 0 512 512">

@@ -17,11 +17,15 @@ export default function PricingPage() {
     const isCreditsActive = points > 0;
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div className='pricing-page'>
             <NavBar />
 
-            <div className='pricing-container max-w-[600px] mx-auto shadow-mine' style={{ flex: 1 }}>
-                <h2 className='pricing-title'>Pricing</h2>
+            <main className='pricing-container'>
+                <div className='pricing-heading'>
+                    <p className='pricing-eyebrow'>學習方案</p>
+                    <h1 className='pricing-title'>選擇適合你的方案</h1>
+                    <p className='pricing-description'>依照你的練習需求，彈性選擇免費體驗、月費訂閱或點數儲值。</p>
+                </div>
 
                 <PlanCard
                     title='✅ 免費方案（Free）'
@@ -54,7 +58,7 @@ export default function PricingPage() {
                     isActive={isCreditsActive}
                     currentPoints={points} // ✅ 傳入目前點數（例如 350）
                 />
-            </div>
+            </main>
 
             <Footer />
         </div>

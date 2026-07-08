@@ -1,17 +1,14 @@
 "use server"
 import { redirect } from 'next/navigation'
 
-import { cookies } from "next/headers"
+import { getSessionUser } from "./auth"
 
 export async function loginOrNot() {
-    const cookieStore = await cookies();
-    const loginData = cookieStore.get("login_data");
-    if (!loginData) {
+    const user = await getSessionUser();
+    if (!user) {
         // alert("需要登入");
         redirect("/login")
         
-    } else {
-        return loginData.value
     }
-
+    return user.uid
 }

@@ -1,10 +1,10 @@
 .sign-up {
-  background-color: var(--sign-up-btn);
+  background: var(--brand);
   color: var(--white);
   text-align: center;
   min-width: 75px;
   min-height: 40px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 400;
   font-size: 16px;
   padding: 0 10px;
@@ -12,14 +12,36 @@
 }
 
 .log-in {
-  background-color: var(--log-in-btn);
+  background: var(--brand-dark);
   color: var(--white);
   text-align: center;
   min-width: 75px;
   min-height: 40px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: 400;
   font-size: 16px;
   padding: 0 10px;
   cursor: pointer;
+}
+
+.sign-up,
+.log-in {
+  box-shadow: 0 6px 16px rgba(24, 51, 117, 0.16);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.sign-up:hover,
+.log-in:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+  .sign-up,
+  .log-in {
+    min-width: 64px;
+    min-height: 40px;
+    padding-inline: 8px;
+    font-size: 14px;
+  }
 }

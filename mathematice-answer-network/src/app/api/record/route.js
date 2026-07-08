@@ -1,38 +1,36 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/db";
-import jwt from "jsonwebtoken"
+import { getSessionUser } from "@/lib/auth";
 
-export async function POST(
-  req,
-
-) {
-
-
-
-
-  const { uid } = await req.json()
-  let decode_uid = await jwt.decode(uid).uid
+export async function POST() {
+  const session = await getSessionUser();
+  if (!session) return NextResponse.json({ error: "未登入" }, { status: 401 });
 
   try {
-    
     const [records] = await db.query(
-      "SELECT * from user_answer_record WHERE user_answer_record.userid = ? ORDER BY user_answer_record.time DESC LIMIT 5",
-      [decode_uid]
+      `SELECT id, answer, answer_review, cost_time, question_bank, time
+       FROM user_answer_record
+       WHERE userid = ?
+       ORDER BY time DESC
+       LIMIT 5`,
+      [session.uid],
     );
     await db.query(
-      "INSERT IGNORE INTO user_tree_status (userid,complete_test) values(?,0)",
-      [decode_uid]
+      "INSERT IGNORE INTO user_tree_status (userid, complete_test) VALUES (?, 0)",
+      [session.uid],
     );
-
-    const [tree_status] = await db.query(
-      "SELECT * FROM user_tree_status WHERE userid = ?",
-      [decode_uid]
+    const [treeStatus] = await db.query(
+      `SELECT complete_test, status, gap, total_tree
+       FROM user_tree_status
+       WHERE userid = ?`,
+      [session.uid],
     );
-    
-    
-    return NextResponse.json({ question_record: records, tree_status: tree_status});
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Database error" }, { status: 500 });
+    return NextResponse.json({
+      question_record: records,
+      tree_status: treeStatus,
+    });
+  } catch (error) {
+    console.error("[Record Error]", error);
+    return NextResponse.json({ error: "服務暫時無法使用" }, { status: 503 });
   }
 }

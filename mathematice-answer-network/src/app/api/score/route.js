@@ -1,30 +1,22 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/db";
-import jwt from "jsonwebtoken"
- 
-export async function POST(
-  req,
+import { getSessionUser } from "@/lib/auth";
 
-) {
-  
-  
+export async function POST() {
+  const session = await getSessionUser();
+  if (!session) return NextResponse.json({ error: "未登入" }, { status: 401 });
 
-      
-     const {uid} = await req.json()
-    
   try {
-    await db.query(
-          "INSERT IGNORE INTO user_score_status (userid) values(?)",
-          [jwt.decode(uid).uid]
-        );
+    await db.query("INSERT IGNORE INTO user_score_status (userid) VALUES (?)", [
+      session.uid,
+    ]);
     const [records] = await db.query(
-      "SELECT status,score_now from user_score_status WHERE userid = ?",
-      [jwt.decode(uid).uid]
+      "SELECT status, score_now, last_quiz, last_review, last_set FROM user_score_status WHERE userid = ?",
+      [session.uid],
     );
-    
-    return NextResponse.json({ question_record: records});
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Database error" }, { status: 500 });
+    return NextResponse.json({ question_record: records });
+  } catch (error) {
+    console.error("[Score Error]", error);
+    return NextResponse.json({ error: "服務暫時無法使用" }, { status: 503 });
   }
 }

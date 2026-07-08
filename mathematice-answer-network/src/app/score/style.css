@@ -167,13 +167,6 @@ div.score_display_area {
   width: 100%;
 }
 
-img.score_display_img {
-  z-index: 0;
-  object-fit: cover;
-  object-position: center;
-  width: 412px;
-}
-
 div.star_display_area {
   position: absolute;
   width: 100%;
@@ -401,3 +394,219 @@ a.link_button:visited {
 a.link_button:hover {}
 
 a.link_button:active {}
+
+/* Responsive redesign */
+div.main {
+  display: grid;
+  width: min(900px, calc(100% - 32px));
+  max-width: 900px;
+  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+  grid-template-areas:
+    "score menu"
+    "questions questions";
+  gap: 22px;
+  margin: clamp(18px, 4vw, 42px) auto;
+  padding: clamp(18px, 4vw, 32px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, .68);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(16px);
+}
+
+div.score_display_area {
+  grid-area: score;
+  overflow: hidden;
+  border-radius: 22px;
+  box-shadow: var(--shadow-sm);
+  aspect-ratio: 1;
+  isolation: isolate;
+}
+
+div.score_display_area::before,
+div.score_display_area::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+div.score_display_area::before {
+  inset: -35%;
+  z-index: 0;
+  background:
+    repeating-radial-gradient(
+      circle at center,
+      transparent 0 34px,
+      rgba(255, 255, 255, .11) 35px 36px
+    );
+  transform: rotate(-12deg);
+}
+
+div.score_display_area::after {
+  right: -12%;
+  bottom: -16%;
+  z-index: 1;
+  width: 55%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .12);
+  box-shadow:
+    -220px -230px 0 -55px rgba(255, 255, 255, .12),
+    -250px 20px 0 -70px rgba(255, 255, 255, .14);
+}
+
+div.scoreYouGet_text {
+  font-size: clamp(28px, 4vw, 38px);
+}
+
+span.your_score {
+  font-size: clamp(48px, 7vw, 66px);
+}
+
+div.answer_status {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255,255,255,.9);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+
+div.questions_area {
+  grid-area: questions;
+}
+
+div.question_area {
+  margin: 12px 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+div.question_topic {
+  gap: 10px;
+  cursor: pointer;
+}
+
+span.question_topic_head {
+  gap: 8px;
+  padding-bottom: 8px;
+  border-color: var(--border);
+}
+
+span.next_img_text {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+span.question_topic_text {
+  color: var(--ink);
+  font-size: clamp(16px, 2.5vw, 19px);
+  line-height: 1.7;
+}
+
+div.dropDown_content_visible {
+  margin-top: 12px;
+  padding-top: 16px;
+  border-color: var(--border);
+}
+
+button.solution_link {
+  min-height: 42px;
+  padding: 8px 18px;
+  border: 0;
+  background: var(--brand);
+  font-weight: 750;
+}
+
+div.menu_area {
+  grid-area: menu;
+  gap: 14px;
+  margin: 0;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+div.time_area {
+  gap: 4px;
+  color: var(--ink);
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 850;
+}
+
+div.menu_area_link {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #5273d4, var(--brand));
+  box-shadow: 0 8px 18px rgba(54, 89, 184, .2);
+  font-size: 17px;
+  text-shadow: none;
+}
+
+div.solution_menu {
+  inset: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  padding: 20px;
+}
+
+div.solution_menu_window {
+  width: min(400px, calc(100vw - 32px));
+  min-width: 0;
+  height: auto;
+  min-height: 230px;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+div.scroll_area {
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 720px) {
+  div.main {
+    width: calc(100% - 24px);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "score"
+      "menu"
+      "questions";
+    gap: 14px;
+    margin: 14px auto 24px;
+    padding: 12px;
+    border-radius: 20px;
+  }
+
+  div.score_display_area {
+    width: min(100%, 380px);
+  }
+
+  div.menu_area {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  div.question_area {
+    padding: 14px 12px;
+  }
+
+  div.scroll_area {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  button.scroll_arrow {
+    width: 44px;
+    height: 44px;
+  }
+}

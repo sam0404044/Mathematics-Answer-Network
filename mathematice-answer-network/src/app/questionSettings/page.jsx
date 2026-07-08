@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import './style.css';
 
 export default function QuestionSettings() {
@@ -27,7 +26,6 @@ export default function QuestionSettings() {
             });
 
             const data = await res.json();
-            console.log('📦 題目 API 回傳資料：', data);
 
             if (!res.ok || !data.questions) {
                 alert('題目產生失敗');
@@ -60,7 +58,7 @@ export default function QuestionSettings() {
         if (status === 'done' && countdown <= 0) {
             router.push('/quiz/random');
         }
-    }, [countdown, status]);
+    }, [countdown, status, router]);
 
     return (
         <div className='flex justify-center items-center'>

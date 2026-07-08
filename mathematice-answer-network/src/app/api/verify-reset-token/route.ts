@@ -1,43 +1,29 @@
-import { NextResponse } from 'next/server';
-import pool from '@/lib/db';
-import type { RowDataPacket } from 'mysql2';
+import { createHash } from "crypto";
+import { NextResponse } from "next/server";
+import pool from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
 
 export async function POST(req: Request) {
-    const { token } = await req.json();
+  const body = await req.json().catch(() => null);
+  const token = typeof body?.token === "string" ? body.token : "";
+  if (!/^[a-f0-9]{64}$/i.test(token)) {
+    return NextResponse.json({ error: "驗證連結無效" }, { status: 400 });
+  }
+  const tokenHash = createHash("sha256").update(token).digest("hex");
 
-    if (!token) {
-        return NextResponse.json({ error: '缺少驗證 token' }, { status: 400 });
+  try {
+    const [rows] = await pool.query<RowDataPacket[]>(
+      `SELECT expires_at FROM password_resets
+       WHERE token = ? AND expires_at > NOW()
+       ORDER BY created_at DESC LIMIT 1`,
+      [tokenHash],
+    );
+    if (!rows[0]) {
+      return NextResponse.json({ error: "驗證連結無效或已過期" }, { status: 400 });
     }
-
-    try {
-        const [rows] = await pool.query<RowDataPacket[]>(
-            `SELECT * FROM password_resets 
-            WHERE token = ? 
-            ORDER BY created_at DESC 
-            LIMIT 1`,
-            [token]
-        );
-
-        if (rows.length === 0) {
-            return NextResponse.json({ error: '無效的連結' }, { status: 400 });
-        }
-
-        const reset = rows[0];
-        const now = new Date();
-        const expiresAt = new Date(reset.expires_at); 
-
-        if (now > expiresAt) {
-        return NextResponse.json({ error: '連結已過期' }, { status: 400 });
-        }
-
-        return NextResponse.json({ message: 'token 驗證成功' });
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            console.error('[Verify Token Error]', err.message);
-        } else {
-            console.error('[Verify Token Error]', err);
-        }
-
-        return NextResponse.json({ error: '伺服器錯誤' }, { status: 500 });
-    }
+    return NextResponse.json({ message: "驗證成功" });
+  } catch (error) {
+    console.error("[Verify Reset Token Error]", error);
+    return NextResponse.json({ error: "服務暫時無法使用" }, { status: 503 });
+  }
 }

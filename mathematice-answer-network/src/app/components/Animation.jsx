@@ -5,21 +5,18 @@ export default function Animation() {
   const containerRef = useRef(null);
 
   useEffect(function () {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
     const handleAnimationEnd = function (e) {
-      if (e.target !== containerRef.current) return;
-      containerRef.current.style.pointerEvents = "none";
+      if (e.target !== container) return;
+      container.style.pointerEvents = "none";
     };
 
-    containerRef.current.addEventListener("animationend", handleAnimationEnd);
+    container.addEventListener("animationend", handleAnimationEnd);
 
     return () => {
-      if (containerRef.current)
-        containerRef.current.removeEventListener(
-          "animationend",
-          handleAnimationEnd
-        );
+      container.removeEventListener("animationend", handleAnimationEnd);
     };
   }, []);
 

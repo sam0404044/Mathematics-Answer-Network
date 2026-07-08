@@ -6,25 +6,24 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck",
+    "db:seed": "node --env-file=.env.local scripts/import-questions.mjs",
+    "db:setup:local": "node --env-file=.env.local scripts/setup-local-db.mjs",
+    "test:smoke": "node --env-file=.env.local scripts/e2e-smoke.mjs"
   },
   "dependencies": {
-    "@react-email/components": "^0.0.38",
-    "@react-email/render": "^1.1.0",
     "bcryptjs": "^3.0.2",
-    "better-react-mathjax": "^2.3.0",
     "framer-motion": "^12.8.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
-    "next": "15.3.2",
-    "nodemailer": "^7.0.2",
+    "next": "^16.2.10",
+    "nodemailer": "^9.0.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-hot-toast": "^2.5.2",
-    "resend": "^4.5.1"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20",
@@ -32,8 +31,11 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.3.1",
+    "eslint-config-next": "^16.2.10",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "8.5.16"
   }
 }

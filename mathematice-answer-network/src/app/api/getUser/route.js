@@ -1,34 +1,25 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/db";
-import jwt from "jsonwebtoken"
+import { getSessionUser } from "@/lib/auth";
 
-
-
-export async function POST(
-  req,
-
-) {
-
-
-
-
-  const { userid} = await req.json()
+export async function POST() {
+  const session = await getSessionUser();
+  if (!session) {
+    return NextResponse.json({ error: "未登入" }, { status: 401 });
+  }
 
   try {
-
-
-  
-
-    
     const [records] = await db.query(
-      `SELECT * from user_info WHERE id = ?`,
-      [jwt.decode(userid).uid]
+      `SELECT id, username, email, grade, school, gender, status,
+              plan_status, points, last_login
+       FROM user_info
+       WHERE id = ?
+       LIMIT 1`,
+      [session.uid],
     );
-
-
     return NextResponse.json({ question_record: records });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Database error" }, { status: 500 });
+  } catch (error) {
+    console.error("[Get User Error]", error);
+    return NextResponse.json({ error: "服務暫時無法使用" }, { status: 503 });
   }
 }

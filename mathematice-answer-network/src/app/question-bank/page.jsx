@@ -55,9 +55,7 @@ export default function QuestionBank() {
       const uniqueData = [
         ...new Set(reversedData.map((cur) => cur.questionYear)),
       ];
-      setTimeout(function () {
-        dispatch({ type: "setData", payload: uniqueData });
-      }, 3000);
+      dispatch({ type: "setData", payload: uniqueData });
     }
     getData();
   }, []);
