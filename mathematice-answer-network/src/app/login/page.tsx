@@ -9,6 +9,7 @@ import styles from "./page.module.css";
 export default function Login() {
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
@@ -17,28 +18,41 @@ export default function Login() {
 
   // 登入按鈕
   const login = async () => {
-    // 傳送資料給後端
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userInfo),
-      credentials: "include", /// luo
-    });
+    if (isSubmitting) return;
 
-    // 接收後端回傳的資料，!res.ok代表拋出錯誤訊息
-    // res.json(): 取得後端回傳的資料
-    if (!res.ok) {
-      const err = await res.json();
-      setMessage(err.message || "伺服器錯誤");
+    if (!userInfo.email.trim() || !userInfo.password) {
+      setMessage("請輸入 Email 與密碼");
       setShowModal(true);
       return;
-    } else {
+    }
+
+    setIsSubmitting(true);
+    try {
+      // 傳送資料給後端
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userInfo),
+        credentials: "include",
+      });
+
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setMessage(result.message || "登入失敗，請稍後再試");
+        setShowModal(true);
+        return;
+      }
+
       setMessage("登入成功，三秒後將跳轉到首頁");
       setShowModal(true);
       setTimeout(() => {
         window.location.href = "/";
       }, 3000);
-      return;
+    } catch {
+      setMessage("無法連線到登入服務，請稍後再試");
+      setShowModal(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -130,8 +144,9 @@ export default function Login() {
               className={styles.submit}
               onClick={login}
               type="button"
+              disabled={isSubmitting}
             >
-              登入
+              {isSubmitting ? "登入中..." : "登入"}
             </button>
             <Link
               href={"/api/auth/google"}

@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       { method: "local", uid: user.id },
       rememberMe,
     );
-    const response = NextResponse.redirect(new URL("/", req.url), 303);
+    const response = NextResponse.json({ success: true, message: "登入成功" });
     response.cookies.set(
       SESSION_COOKIE,
       token,
