@@ -4,6 +4,23 @@ import bcrypt from "bcryptjs";
 import { cleanEmail, cleanText, positiveInteger, validPassword } from "@/lib/validation";
 import { isRateLimited } from "@/lib/rate-limit";
 
+function optionalText(value: unknown, max: number): string | null {
+  if (typeof value !== "string") return null;
+  const text = value.trim();
+  return text.length > 0 && text.length <= max ? text : null;
+}
+
+function optionalGrade(value: unknown): number | null {
+  if (value === "" || value === null || value === undefined) return null;
+  const gradeMap: Record<string, number> = {
+    一年級: 1,
+    二年級: 2,
+    三年級: 3,
+  };
+  if (typeof value === "string" && value in gradeMap) return gradeMap[value];
+  return positiveInteger(value, 12);
+}
+
 export async function POST(req: Request) {
   if (isRateLimited(req, "register", 5, 60 * 60 * 1000)) {
     return NextResponse.json({ error: "註冊嘗試過於頻繁" }, { status: 429 });
@@ -13,10 +30,10 @@ export async function POST(req: Request) {
   const username = cleanText(body?.userName, { min: 2, max: 50 });
   const email = cleanEmail(body?.userEmail);
   const password = body?.userPwd;
-  const school = cleanText(body?.userSchool, { max: 100 });
-  const grade = positiveInteger(body?.userGrade, 12);
-  const gender = cleanText(body?.userGender, { max: 20 });
-  if (!username || !email || !validPassword(password) || !school || !grade || !gender) {
+  const school = optionalText(body?.userSchool, 100);
+  const grade = optionalGrade(body?.userGrade);
+  const gender = optionalText(body?.userGender, 20);
+  if (!username || !email || !validPassword(password)) {
     return NextResponse.json(
       { error: "請完整填寫資料；密碼需為 8–128 字元並包含英文及數字" },
       { status: 400 },

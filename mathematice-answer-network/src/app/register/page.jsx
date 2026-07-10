@@ -23,7 +23,7 @@ export default function Register() {
     userGender: "",
   });
 
-  const validateField = (name, value) => {
+  const validateField = (name, value, data = formData) => {
     switch (name) {
       case "userName":
         return value.trim() === "" ? "使用者名稱不能留白" : "";
@@ -32,12 +32,12 @@ export default function Register() {
           ? ""
           : "請輸入正確的 Email 格式";
       case "userPwd":
-        const pwdRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,}$/;
+        const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,128}$/;
         return pwdRegex.test(value)
           ? ""
-          : "密碼需包含小寫英文與數字，且至少8碼";
+          : "密碼需為 8–128 字元並包含英文及數字";
       case "userPwdConfirm":
-        return value !== formData.userPwd ? "兩次輸入的密碼不一致" : "";
+        return value !== data.userPwd ? "兩次輸入的密碼不一致" : "";
       default:
         return "";
     }
@@ -45,10 +45,11 @@ export default function Register() {
 
   const handleChange = async (event) => {
     const { name, value } = event.target;
+    const nextFormData = { ...formData, [name]: value };
 
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(nextFormData);
 
-    let errorMessage = validateField(name, value);
+    let errorMessage = validateField(name, value, nextFormData);
 
     if (name === "userEmail" && errorMessage === "") {
       try {
@@ -72,7 +73,8 @@ export default function Register() {
     if (name === "userPwd") {
       const confirmError = validateField(
         "userPwdConfirm",
-        formData.userPwdConfirm
+        nextFormData.userPwdConfirm,
+        nextFormData
       );
       setErrors((prev) => ({ ...prev, userPwdConfirm: confirmError }));
     }
@@ -84,7 +86,7 @@ export default function Register() {
     // 驗證資料
     const newErrors = {};
     Object.entries(formData).forEach(([key, value]) => {
-      const msg = validateField(key, value);
+      const msg = validateField(key, value, formData);
       if (msg) newErrors[key] = msg;
     });
 
@@ -211,9 +213,9 @@ export default function Register() {
                 onChange={handleChange}
               >
                 <option value="">--選擇就讀年級--</option>
-                <option value="一年級">一年級</option>
-                <option value="二年級">二年級</option>
-                <option value="三年級">三年級</option>
+                <option value="1">一年級</option>
+                <option value="2">二年級</option>
+                <option value="3">三年級</option>
               </select>
             </div>
             <div>
